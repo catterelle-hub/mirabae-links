@@ -358,6 +358,28 @@
     .hero .promise { font-size: 1.1rem; }
     .caption { font-size: 1rem; }
     .recog .aside { font-weight: 500; }
+
+    /* ═══ Transformation + display legibility ═══ */
+    h1, h2, .reframe p.big { font-variation-settings: 'opsz' 18; font-weight: 600; }
+    .hero h1 { font-variation-settings: 'opsz' 30; }
+    .quiet { padding: clamp(96px, 13vw, 170px) var(--gutter); border-top: 1px solid rgba(59,13,69,0.15); }
+    .quiet h2 { font-size: clamp(2.6rem, 5.8vw, 5.2rem); line-height: 1; max-width: 16ch; }
+    .quiet h2 em { color: var(--fuchsia-ink); }
+    .quiet-list { list-style: none; margin-top: clamp(48px, 6vw, 80px); max-width: 900px; margin-left: auto; border-top: 1px solid var(--plum); }
+    .quiet-list li {
+      padding: 22px 0 22px 2.2em; position: relative; border-bottom: 1px solid rgba(59,13,69,0.2);
+      font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 500; line-height: 1.4;
+    }
+    .quiet-list li::before {
+      content: ''; position: absolute; left: 0; top: 50%; width: 1.1em; height: 2px;
+      background: var(--fuchsia); transform: translateY(-50%);
+    }
+    .quiet-end {
+      margin-top: clamp(40px, 5vw, 64px); max-width: 900px; margin-left: auto;
+      font-family: var(--serif); font-variation-settings: 'opsz' 18; font-weight: 600;
+      font-size: clamp(1.8rem, 3.6vw, 3rem); line-height: 1.1;
+    }
+    .quiet-end em { color: var(--fuchsia-ink); }
   </style>
 
   <style>
@@ -393,7 +415,7 @@
     <div class="hero-pink">
       <a class="wordmark" href="index.html">Mirabae</a>
       <h1>Your head<br />is <em>loud.</em></h1>
-      <p class="lede">It was never willpower. It is a signal. <strong>The Food Noise App gives you sixty seconds between the urge and the action.</strong></p>
+      <p class="lede">You are not weak, and you are not broken. Your brain is sending a signal, and nobody ever showed you how to answer it. <strong>The Food Noise App gives you sixty seconds between the urge and the action.</strong></p>
       <div class="cta">
         <a class="btn btn-aub" href="#reset">Try the reset now
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2.5v11M3.5 9 8 13.5 12.5 9"/></svg>
@@ -416,33 +438,46 @@
     <!-- ═════════ RECOGNITION ═════════ -->
     <section class="recog" aria-labelledby="recog-title">
       <div class="recog-grid">
-        <h2 id="recog-title">It shows up <em>on time.</em> Every day.</h2>
+        <h2 id="recog-title">We know your day. <em>Maybe better than you do.</em></h2>
         <ol class="moments">
-          <li><time>12:30</time><div><b>Not hungry at all.</b><span>You barely ate this morning. It almost feels like control.</span></div></li>
-          <li><time>16:40</time><div><b>Two bites.</b><span>Just a taste. Then you cannot stop, and you do not even know why.</span></div></li>
-          <li><time>18:10</time><div><b>A yogurt. Then an apple. Then&hellip;</b><span>It started healthy. Then this, then that, then whatever is left in the cupboard.</span></div></li>
-          <li><time>21:05</time><div><b>&ldquo;Did you eat today?&rdquo;</b><span>&ldquo;Yes.&rdquo; You do not say how much.</span></div></li>
-          <li><time>23:14</time><div><b>The 11 PM pantry.</b><span>You should have gone to sleep. Instead: cereal, a few crackers, something sweet. The house is quiet. Your head is not.</span></div></li>
+          <li><time>12:30</time><div><b>Not hungry at all.</b><span>You barely ate this morning. It feels like control. It is actually the beginning of tonight.</span></div></li>
+          <li><time>16:40</time><div><b>Two bites.</b><span>Just a taste. Then you cannot stop, and you cannot explain why. It is not greed. It is a body that ran on coffee all day.</span></div></li>
+          <li><time>18:10</time><div><b>A yogurt. Then an apple. Then&hellip;</b><span>It started healthy. Then this, then that. You were never looking for food. You were looking for the feeling of being done.</span></div></li>
+          <li><time>21:05</time><div><b>&ldquo;Did you eat today?&rdquo;</b><span>&ldquo;Yes.&rdquo; You do not say how much. The secret weighs more than the food.</span></div></li>
+          <li><time>23:14</time><div><b>The 11 PM pantry.</b><span>You should have gone to sleep. Instead: cereal, crackers, something sweet. You were not hungry. You were exhausted, and food was the only off switch you had.</span></div></li>
         </ol>
       </div>
-      <p class="aside">And somewhere in between you start to think something is wrong with your head. <strong>Nothing is wrong with you.</strong></p>
+      <p class="aside">Somewhere in between, you start to believe something is wrong with your head. <strong>Nothing is wrong with you.</strong> You are running on empty, and your brain is doing exactly what it was built to do.</p>
     </section>
 
     <!-- ═════════ REFRAME + MECHANISM ═════════ -->
     <section class="reframe" aria-label="Why it happens">
       <p class="big">It was never <em>willpower.</em> It is a signal.</p>
       <div class="chain">
-        <div><b>Stress rises.</b><span>A long day, a hard meeting, a bad night of sleep. Your body asks for fast comfort.</span></div>
-        <div><b>Energy dips.</b><span>A skipped lunch or a sugary snack sends your energy up and down, and the urge gets louder.</span></div>
-        <div><b>The loop repeats.</b><span>Same time, same place, same craving. A habit that runs on autopilot, until you interrupt it.</span></div>
+        <div><b>The quiet morning.</b><span>Skipping breakfast feels like a win. To your brain, it is not discipline. It is a reason to get loud later.</span></div>
+        <div><b>The long day.</b><span>Stress, decisions, a hundred small demands. By evening your willpower is not gone. It is used up.</span></div>
+        <div><b>The loud night.</b><span>Hunger, tiredness and habit arrive at the same time. That is not a character flaw. It is a pattern, and patterns can be interrupted.</span></div>
       </div>
+    </section>
+
+    <!-- ═════════ TRANSFORMATION ═════════ -->
+    <section class="quiet" aria-labelledby="quiet-title">
+      <h2 id="quiet-title">Imagine forgetting about food <em>until you are hungry.</em></h2>
+      <ul class="quiet-list">
+        <li>You finish dinner, and the kitchen is just a room again.</li>
+        <li>The chocolate is still in the cupboard on Friday. You forgot it was there.</li>
+        <li>You eat breakfast without making a deal with yourself.</li>
+        <li>A hard day ends, and you know what you need. It is not the pantry.</li>
+        <li>Your head has room again. For your work, your people, your own plans.</li>
+      </ul>
+      <p class="quiet-end">That is not a stricter you. <em>That is a quieter you.</em></p>
     </section>
 
     <!-- ═════════ OFFER + WORKING DEMO ═════════ -->
     <section class="offer" id="reset" aria-labelledby="offer-title">
       <div class="offer-head">
         <h2 id="offer-title">Not another diet. <em>A pause button.</em></h2>
-        <p>Regulation, not restriction. The app does not count calories or ban foods. It helps you notice the signal, let it pass, and decide for yourself.</p>
+        <p>No calories. No banned foods. No starting over on Monday. Just sixty seconds that give you back the choice.</p>
       </div>
 
       <div class="feature-row">
@@ -575,7 +610,7 @@
       <h2 id="close-title">Turn the noise <em>down.</em></h2>
       <div class="row">
         <a class="btn btn-aub" href="#" data-app-link>Get the app</a>
-        <p>Another year of the 3 PM hum is the price of waiting. The next loud moment is the best one to start with.</p>
+        <p>There is a version of you who forgets about food until she is hungry. She is not more disciplined. She is just quieter. Your next loud moment is the best time to meet her.</p>
       </div>
       <footer>
         <p>The Food Noise App is a self-reflection tool, not a diagnosis or medical advice.</p>
