@@ -4,420 +4,479 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Food Noise App</title>
-  <meta name="description" content="Your head is loud. The Food Noise App gives you 60 seconds between the urge and the action." />
-  <meta name="theme-color" content="#B0001E" />
+  <meta name="description" content="Your head is loud. It was never willpower. The Food Noise App gives you sixty seconds between the urge and the action." />
+  <meta name="theme-color" content="#E8247F" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cherry:    #B0001E;
-      --cherry-dk: #7A0014;
-      --flash:     #F3F2EF;   /* cool flash-white, not cream */
-      --ink:       #121112;
-      --ink-2:     #55504F;
-      --stamp:     #FF7A1A;   /* camera date-stamp orange */
-      --on-red-2:  #FFD9DE;
+      --fuchsia:   #E8247F;
+      --aubergine: #2A0B3B;
+      --plum:      #3B0D45;
+      --blush:     #F9DCE9;
+      --petal:     #FFC3DD;
+      --on-aub-2:  #D9B8E4;
+      --on-blush-2:#6E4377;
 
-      --font: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+      --serif: 'Bodoni Moda', 'Didot', Georgia, serif;
+      --sans:  'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-      --gutter: clamp(18px, 4.5vw, 64px);
+      --gutter: clamp(20px, 5vw, 72px);
     }
 
     html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
     body {
-      background: var(--flash); color: var(--ink);
-      font-family: var(--font); font-size: 17px; line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      -webkit-tap-highlight-color: transparent;
+      background: var(--blush); color: var(--plum);
+      font-family: var(--sans); font-size: 17px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
     }
-    ::selection { background: var(--ink); color: var(--flash); }
-    .red ::selection { background: var(--flash); color: var(--cherry); }
-    :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-    .red :focus-visible { outline-color: var(--flash); }
+    ::selection { background: var(--fuchsia); color: #fff; }
+    :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
     a { color: inherit; }
     button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
     img { display: block; max-width: 100%; }
 
-    /* Display voice: condensed heavy grotesk, set tight */
-    .display {
-      font-stretch: 62%;
-      font-weight: 900;
-      text-transform: uppercase;
-      line-height: 0.84;
-      letter-spacing: -0.01em;
+    h1, h2, h3, .serif { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; text-wrap: balance; }
+    em { font-style: italic; }
+    p { text-wrap: pretty; }
+
+    /* Duotone print: grayscale photo, fuchsia highlights, aubergine shadows */
+    .duo { position: relative; overflow: hidden; background: var(--fuchsia); isolation: isolate; }
+    .duo img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(1) contrast(1.15) brightness(1.05);
+      mix-blend-mode: multiply;
+    }
+    .duo::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--aubergine); mix-blend-mode: lighten; pointer-events: none;
     }
 
-    /* Camera date stamp */
-    .stamp {
-      position: absolute;
-      font-family: var(--font); font-stretch: 100%; font-weight: 600;
-      font-variant-numeric: tabular-nums;
-      font-size: clamp(0.85rem, 1.6vw, 1.1rem);
-      letter-spacing: 0.06em;
-      color: var(--stamp);
-      text-shadow: 0 0 6px rgba(255,122,26,0.65), 0 0 1px rgba(255,180,120,0.9);
-      pointer-events: none;
-    }
-
-    /* Flash print: a photo as a physical snapshot */
-    .print {
-      position: relative;
-      background: #fff;
-      padding: 10px 10px 38px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.18), 0 18px 40px -12px rgba(0,0,0,0.45);
-    }
-    .print img { width: 100%; height: 100%; object-fit: cover; background: #1b1b1b; }
-    .print .stamp { right: 22px; bottom: 50px; }
-    .print figcaption {
-      position: absolute; left: 12px; right: 12px; bottom: 9px;
-      font-size: 0.78rem; font-weight: 500; color: var(--ink-2);
-    }
-
-    /* Buttons */
+    /* Buttons: rectangular, confident */
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-      min-height: 56px; padding: 0 28px;
-      font-weight: 800; font-stretch: 85%; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.02em;
-      text-decoration: none; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 14px;
+      min-height: 58px; padding: 0 30px;
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; white-space: nowrap;
       transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease;
     }
     .btn:active { transform: scale(0.97); }
-    .btn-white { background: var(--flash); color: var(--cherry); }
-    .btn-red { background: var(--cherry); color: var(--flash); }
-    .btn svg { width: 18px; height: 18px; }
-    .link {
-      font-weight: 700; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px;
-    }
+    .btn-aub { background: var(--aubergine); color: var(--petal); }
+    .btn-fuchsia { background: var(--fuchsia); color: #fff; }
+    .btn-petal { background: var(--petal); color: var(--aubergine); }
+    .btn svg { width: 16px; height: 16px; transition: transform 200ms var(--ease-out); }
     @media (hover: hover) and (pointer: fine) {
-      .btn-white:hover { background: #fff; }
-      .btn-red:hover { background: var(--cherry-dk); }
-      .link:hover { text-decoration-thickness: 4px; }
+      .btn-aub:hover { background: var(--plum); }
+      .btn-fuchsia:hover { background: #F23C8F; }
+      .btn-petal:hover { background: #fff; }
+      .btn:hover svg { transform: translateY(2px); }
     }
 
-    /* ══════════ HERO ══════════ */
-    .red { background: var(--cherry); color: var(--flash); }
+    /* ══════════ HERO: colour block ══════════ */
     .hero {
-      position: relative; overflow: hidden;
+      display: grid; grid-template-columns: 55fr 45fr;
       min-height: 100svh;
-      padding: max(18px, env(safe-area-inset-top)) var(--gutter) 48px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-      grid-template-rows: auto 1fr auto;
-      column-gap: clamp(24px, 4vw, 64px);
     }
-    .top {
-      grid-column: 1 / -1;
-      display: flex; justify-content: space-between; align-items: center;
-      padding-bottom: 18px; border-bottom: 2px solid var(--flash);
+    .hero-pink {
+      background: var(--fuchsia); color: var(--aubergine);
+      padding: max(26px, env(safe-area-inset-top)) var(--gutter) 56px;
+      display: flex; flex-direction: column;
     }
-    .wordmark { font-weight: 900; font-stretch: 100%; font-size: 1.35rem; letter-spacing: -0.02em; text-decoration: none; }
-    .top .link { font-size: 0.95rem; }
-
+    .wordmark {
+      font-family: var(--serif); font-size: 1.05rem; font-weight: 500;
+      letter-spacing: 0.42em; text-transform: uppercase; text-decoration: none;
+    }
     .hero h1 {
-      grid-column: 1; align-self: end;
-      font-size: clamp(5.2rem, 17vw, 15.5rem);
-      margin-top: 40px;
+      margin-top: auto;
+      font-size: clamp(4.2rem, 10.5vw, 10rem);
+      line-height: 0.9;
+      font-variation-settings: 'opsz' 96;
     }
-    .hero-print {
-      grid-column: 2; grid-row: 2 / 4; align-self: center;
-      transform: rotate(2.2deg);
-      margin-top: 40px;
-      aspect-ratio: 3 / 4.35;
-      max-height: 78svh;
+    .hero h1 em { font-weight: 400; }
+    .hero .lede {
+      margin-top: 34px; max-width: 34ch;
+      font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.5;
     }
-    .hero-foot {
-      grid-column: 1;
-      display: grid; grid-template-columns: minmax(0, 30ch) auto; gap: 28px; align-items: end;
-      margin-top: 36px;
-    }
-    .hero-foot p { font-size: clamp(1.05rem, 1.5vw, 1.25rem); color: var(--on-red-2); }
-    .hero-foot p strong { color: var(--flash); font-weight: 700; }
-    .hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+    .hero .lede strong { font-weight: 700; }
+    .hero .cta { margin-top: 34px; }
+    .hero .reassure { margin-top: 14px; font-size: 0.9rem; opacity: 0.85; }
 
-    /* ══════════ THE SCHEDULE ══════════ */
-    .schedule { padding: clamp(80px, 11vw, 150px) var(--gutter); }
-    .schedule h2 { font-size: clamp(3.4rem, 10vw, 9rem); max-width: 9ch; }
-    .schedule .lede { margin-top: 28px; max-width: 46ch; font-size: 1.15rem; color: var(--ink-2); }
-    .times {
-      margin-top: clamp(56px, 8vw, 96px);
-      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 5vw, 80px);
-      max-width: 980px; margin-left: auto;
-      align-items: start;
+    .hero-aub {
+      background: var(--aubergine); color: var(--petal);
+      padding: max(26px, env(safe-area-inset-top)) var(--gutter) 40px;
+      display: flex; flex-direction: column;
     }
-    .times figure:nth-child(1) { transform: rotate(-1.6deg); }
-    .times figure:nth-child(2) { transform: rotate(1.2deg); margin-top: 64px; }
-    .times .print { aspect-ratio: 4 / 5.6; }
-    .times p { margin-top: 18px; font-size: 1rem; color: var(--ink-2); max-width: 28ch; }
-    .times p b { color: var(--ink); font-weight: 800; }
-
-    /* ══════════ THE RESET (working) ══════════ */
-    .reset { background: var(--ink); color: var(--flash); padding: clamp(80px, 11vw, 150px) var(--gutter); }
-    .reset-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; flex-wrap: wrap; }
-    .reset h2 { font-size: clamp(3.4rem, 10vw, 9rem); }
-    .reset h2 span { color: var(--cherry); color: #FF2A45; }
-    .reset-head p { max-width: 34ch; color: #B9B3B2; font-size: 1.05rem; }
-
-    .steps {
-      margin-top: 56px;
-      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-      border-top: 2px solid var(--flash);
+    .hero-aub .top { display: flex; justify-content: flex-end; }
+    .hero-aub .top a { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+    .hero-photo { margin: 36px 0 0; flex: 1; min-height: 360px; }
+    .caption {
+      margin-top: 14px; display: flex; justify-content: space-between; gap: 16px;
+      font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--on-aub-2);
     }
+    .caption b { font-style: normal; font-weight: 500; color: var(--petal); font-variant-numeric: lining-nums tabular-nums; }
+
+    /* ══════════ RECOGNITION ══════════ */
+    .recog { padding: clamp(96px, 13vw, 180px) var(--gutter); }
+    .recog-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+    .recog h2 { font-size: clamp(2.6rem, 5.4vw, 4.8rem); line-height: 1.02; position: sticky; top: 40px; }
+    .recog h2 em { color: var(--fuchsia); }
+    .moments { list-style: none; border-top: 1px solid var(--plum); }
+    .moments li {
+      display: grid; grid-template-columns: 7.2rem 1fr; gap: 20px; align-items: baseline;
+      padding: 30px 0; border-bottom: 1px solid rgba(59,13,69,0.25);
+    }
+    .moments time {
+      font-family: var(--serif); font-size: clamp(2rem, 3.6vw, 2.8rem); line-height: 1;
+      font-variant-numeric: lining-nums tabular-nums; color: var(--fuchsia);
+    }
+    .moments b { display: block; font-family: var(--serif); font-size: 1.45rem; font-weight: 500; line-height: 1.2; }
+    .moments span { display: block; margin-top: 6px; color: var(--on-blush-2); }
+
+    /* ══════════ REFRAME ══════════ */
+    .reframe {
+      background: var(--aubergine); color: var(--petal);
+      padding: clamp(110px, 15vw, 210px) var(--gutter);
+    }
+    .reframe p.big {
+      font-family: var(--serif); font-size: clamp(2.8rem, 7.4vw, 7rem); line-height: 1;
+      letter-spacing: -0.025em; max-width: 14ch;
+    }
+    .reframe p.big em { color: var(--fuchsia); }
+    .chain {
+      margin-top: clamp(64px, 8vw, 110px);
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0;
+      border-top: 1px solid rgba(255,195,221,0.35);
+    }
+    .chain div { padding: 26px 28px 0 0; }
+    .chain div + div { padding-left: 28px; border-left: 1px solid rgba(255,195,221,0.2); }
+    .chain b { display: block; font-family: var(--serif); font-size: 1.6rem; font-weight: 500; color: #fff; }
+    .chain span { display: block; margin-top: 8px; color: var(--on-aub-2); max-width: 30ch; }
+
+    /* ══════════ OFFER + DEMO ══════════ */
+    .offer { padding: clamp(96px, 13vw, 180px) var(--gutter); }
+    .offer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 100px); align-items: end; }
+    .offer h2 { font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 0.98; }
+    .offer h2 em { color: var(--fuchsia); }
+    .offer-head p { color: var(--on-blush-2); max-width: 42ch; font-size: 1.1rem; }
+
+    .feature-row { margin-top: clamp(56px, 7vw, 90px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--plum); }
+    .feature { padding: 26px 30px 0 0; }
+    .feature + .feature { padding-left: 30px; border-left: 1px solid rgba(59,13,69,0.2); }
+    .feature h3 { font-size: 1.75rem; line-height: 1.1; }
+    .feature p { margin-top: 10px; color: var(--on-blush-2); }
+    .feature p i { font-style: normal; color: var(--plum); font-weight: 600; }
+
+    /* the working reset */
+    .device {
+      margin-top: clamp(64px, 8vw, 110px);
+      background: var(--fuchsia); color: var(--aubergine);
+      display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    }
+    .device-side { padding: clamp(28px, 4vw, 56px); border-right: 1px solid rgba(42,11,59,0.25); }
+    .device-side h3 { font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1; }
+    .device-side p { margin-top: 14px; max-width: 30ch; }
+    .steps { margin-top: 32px; list-style: none; }
     .steps li {
-      list-style: none; padding: 14px 12px 0 0;
-      font-weight: 700; font-stretch: 85%; text-transform: uppercase; font-size: 0.95rem;
-      color: #6F6A69; transition: color 200ms ease;
+      padding: 12px 0; border-top: 1px solid rgba(42,11,59,0.25);
+      font-weight: 600; font-size: 0.95rem; opacity: 0.45;
+      transition: opacity 200ms ease;
+      display: flex; justify-content: space-between;
     }
-    .steps li.on { color: var(--flash); }
-    .steps li.done { color: #B9B3B2; }
+    .steps li.on, .steps li.done { opacity: 1; }
+    .steps li.done::after { content: '\2713'; }
 
-    .stage { display: none; padding-top: 48px; min-height: 360px; }
-    .stage.on { display: block; animation: stage-in 380ms var(--ease-out); }
-    @keyframes stage-in { from { opacity: 0; transform: translateY(10px); } }
-    .stage h3 { font-size: clamp(2.2rem, 5vw, 4rem); }
-    .stage .sub { margin-top: 12px; color: #B9B3B2; max-width: 46ch; }
+    .device-main { padding: clamp(28px, 4vw, 56px); min-height: 460px; display: flex; flex-direction: column; }
+    .stage { display: none; flex: 1; flex-direction: column; }
+    .stage.on { display: flex; animation: stage-in 380ms var(--ease-out); }
+    @keyframes stage-in { from { opacity: 0; transform: translateY(8px); filter: blur(3px); } }
+    .stage h4 { font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.02; letter-spacing: -0.02em; }
+    .stage .sub { margin-top: 10px; }
 
-    .chips { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .chips { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; }
     .chip {
-      min-height: 52px; padding: 0 22px;
-      border: 2px solid #3A3637; font-weight: 700; font-size: 1.05rem;
-      transition: transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+      min-height: 48px; padding: 0 20px; border: 1.5px solid var(--aubergine);
+      font-weight: 600; font-size: 1rem;
+      transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease;
     }
     .chip:active { transform: scale(0.97); }
-    @media (hover: hover) and (pointer: fine) { .chip:hover { border-color: var(--flash); } }
-    .chip[aria-pressed="true"] { background: var(--flash); color: var(--ink); border-color: var(--flash); }
+    .chip[aria-pressed="true"] { background: var(--aubergine); color: var(--petal); }
+    @media (hover: hover) and (pointer: fine) { .chip:hover { background: rgba(42,11,59,0.08); } .chip[aria-pressed="true"]:hover { background: var(--aubergine); } }
 
-    .scale10 { margin-top: 36px; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; }
+    .scale10 { margin-top: 28px; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; }
     .scale10 button {
-      aspect-ratio: 1 / 1.25;
-      border: 2px solid #3A3637;
-      font-weight: 900; font-stretch: 62%; font-size: clamp(1.4rem, 4vw, 3rem);
-      font-variant-numeric: tabular-nums;
-      transition: transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+      aspect-ratio: 1 / 1.2; border: 1.5px solid var(--aubergine);
+      font-family: var(--serif); font-size: clamp(1.2rem, 2.6vw, 2rem); font-variant-numeric: lining-nums;
+      transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease;
     }
-    .scale10 button:active { transform: scale(0.95); }
-    @media (hover: hover) and (pointer: fine) { .scale10 button:hover { border-color: var(--flash); } }
-    .scale10 button[aria-checked="true"] { background: #FF2A45; border-color: #FF2A45; color: var(--flash); }
-    .scale-ends { margin-top: 10px; display: flex; justify-content: space-between; font-size: 0.85rem; color: #8d8786; }
+    .scale10 button:active { transform: scale(0.94); }
+    .scale10 button[aria-checked="true"] { background: var(--aubergine); color: var(--petal); }
+    .scale-ends { margin-top: 8px; display: flex; justify-content: space-between; font-size: 0.85rem; }
 
-    .stage-actions { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
-    .btn[disabled] { opacity: 0.3; pointer-events: none; }
+    .stage-actions { margin-top: auto; padding-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+    .btn[disabled] { opacity: 0.35; pointer-events: none; }
+    .textbtn { font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
 
-    /* breath: a bar that fills and drains */
-    .breath-word { font-size: clamp(3rem, 9vw, 7.5rem); }
-    .breath-bar { margin-top: 30px; height: 18px; background: #262324; overflow: hidden; }
-    .breath-bar i {
-      display: block; height: 100%; background: var(--flash);
-      transform-origin: left; transform: scaleX(0.04);
+    .breath { flex: 1; display: grid; place-items: center; position: relative; min-height: 240px; }
+    .orb {
+      width: min(56vw, 220px); aspect-ratio: 1; border-radius: 50%;
+      background: var(--aubergine);
+      transform: scale(0.55);
       transition: transform 4000ms var(--ease-in-out);
     }
-    .breath-bar i.in { transform: scaleX(1); }
-    .breath-clock {
-      margin-top: 18px; font-weight: 600; font-variant-numeric: tabular-nums;
-      color: var(--stamp); text-shadow: 0 0 6px rgba(255,122,26,0.6);
-    }
+    .orb.in { transform: scale(1); }
+    .breath-label { position: absolute; text-align: center; color: var(--petal); font-family: var(--serif); font-style: italic; font-size: 1.4rem; pointer-events: none; }
+    .breath-label small { display: block; margin-top: 2px; font-family: var(--sans); font-style: normal; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; font-variant-numeric: tabular-nums; }
 
-    .shift { display: flex; align-items: baseline; gap: 0.25em; font-size: clamp(6rem, 22vw, 16rem); }
-    .shift .from { color: #4A4546; text-decoration: line-through; text-decoration-thickness: 0.06em; }
-    .shift .to { color: var(--flash); }
-    .verdict { margin-top: 12px; font-size: clamp(1.2rem, 2.4vw, 1.6rem); font-weight: 700; max-width: 30ch; }
+    .shift { font-family: var(--serif); font-size: clamp(5rem, 14vw, 10rem); line-height: 1; display: flex; gap: 0.3em; align-items: baseline; font-variant-numeric: lining-nums; }
+    .shift .from { opacity: 0.4; text-decoration: line-through; text-decoration-thickness: 0.05em; }
 
-    /* ══════════ 23:16 ══════════ */
-    .after {
-      padding: clamp(80px, 11vw, 150px) var(--gutter);
-      display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-      gap: clamp(32px, 6vw, 96px); align-items: center;
+    /* ══════════ FOUNDER (real proof) ══════════ */
+    .founder {
+      background: var(--aubergine); color: var(--petal);
+      display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     }
-    .after .print { aspect-ratio: 4 / 5.6; transform: rotate(-1.8deg); max-width: 460px; }
-    .after h2 { font-size: clamp(3.4rem, 9vw, 8rem); }
-    .after p { margin-top: 26px; max-width: 40ch; font-size: 1.15rem; color: var(--ink-2); }
-    .after p b { color: var(--ink); }
+    .founder .duo { min-height: 520px; }
+    .founder-copy { padding: clamp(64px, 9vw, 130px) var(--gutter); align-self: center; }
+    .founder-copy h2 { font-size: clamp(2.6rem, 5.2vw, 4.6rem); line-height: 1.02; }
+    .founder-copy h2 em { color: var(--fuchsia); }
+    .founder-copy p { margin-top: 24px; max-width: 44ch; color: var(--on-aub-2); font-size: 1.1rem; }
+    .founder-copy p strong { color: #fff; font-weight: 600; }
+
+    /* ══════════ DOUBTS ══════════ */
+    .doubts { padding: clamp(96px, 13vw, 170px) var(--gutter); display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 100px); }
+    .doubts h2 { font-size: clamp(2.4rem, 4.6vw, 4rem); line-height: 1.02; }
+    details { border-bottom: 1px solid rgba(59,13,69,0.25); }
+    details:first-of-type { border-top: 1px solid var(--plum); }
+    summary {
+      list-style: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      padding: 26px 0; font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.2;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: ''; flex: none; width: 14px; height: 14px;
+      background: linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat,
+                  linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat;
+      transition: transform 240ms var(--ease-out);
+    }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { padding: 0 0 28px; max-width: 56ch; color: var(--on-blush-2); }
 
     /* ══════════ CLOSE ══════════ */
-    .close { padding: clamp(80px, 11vw, 140px) var(--gutter) 40px; }
-    .close h2 { font-size: clamp(4rem, 13vw, 12rem); }
-    .close .row { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; }
-    .close .row p { max-width: 44ch; color: var(--on-red-2); }
+    .close { background: var(--fuchsia); color: var(--aubergine); padding: clamp(110px, 15vw, 200px) var(--gutter) 40px; }
+    .close h2 { font-size: clamp(3.4rem, 9vw, 8.4rem); line-height: 0.92; max-width: 11ch; }
+    .close h2 em { font-weight: 400; }
+    .close .row { margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 30px; }
+    .close .row p { max-width: 40ch; }
     footer {
-      margin-top: 90px; padding-top: 18px; border-top: 2px solid var(--flash);
+      margin-top: 110px; padding-top: 20px; border-top: 1px solid rgba(42,11,59,0.35);
       display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-      font-size: 0.8rem; color: var(--on-red-2);
-      padding-bottom: env(safe-area-inset-bottom);
+      font-size: 0.8rem; padding-bottom: env(safe-area-inset-bottom);
     }
     footer p { max-width: 70ch; }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; }
-      .hero h1 { margin-top: 28px; }
-      .hero-print { grid-column: 1; grid-row: 3; width: 78%; justify-self: end; margin-top: 32px; max-height: none; }
-      .hero-foot { grid-row: 4; grid-template-columns: 1fr; }
-      .times { grid-template-columns: 1fr 1fr; }
-      .after { grid-template-columns: 1fr; }
-      .after .print { width: 78%; }
+      .hero { grid-template-columns: 1fr; min-height: 0; }
+      .hero-pink { min-height: 88svh; }
+      .hero-aub .top { display: none; }
+      .hero-photo { margin-top: 0; min-height: 0; aspect-ratio: 4 / 5; }
+      .recog-grid, .offer-head, .doubts { grid-template-columns: 1fr; }
+      .recog h2 { position: static; }
+      .chain, .feature-row { grid-template-columns: 1fr; }
+      .chain div + div, .feature + .feature { padding-left: 0; border-left: 0; border-top: 1px solid rgba(255,195,221,0.2); margin-top: 22px; }
+      .feature + .feature { border-top-color: rgba(59,13,69,0.2); }
+      .device { grid-template-columns: 1fr; }
+      .device-side { border-right: 0; border-bottom: 1px solid rgba(42,11,59,0.25); }
+      .founder { grid-template-columns: 1fr; }
+      .founder .duo { min-height: 0; aspect-ratio: 4 / 5; }
     }
-    @media (max-width: 560px) {
-      .times { grid-template-columns: 1fr; }
-      .times figure:nth-child(n) { width: 86%; margin-top: 12px; }
-      .times figure:nth-child(2) { justify-self: end; }
-      .steps li { font-size: 0.72rem; }
-      .scale10 { gap: 4px; }
+    @media (max-width: 520px) {
+      .moments li { grid-template-columns: 1fr; gap: 8px; }
+      .scale10 { gap: 3px; }
+      .btn { padding: 0 24px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .stage.on { animation: none; }
-      .breath-bar i { transition: none; }
+      .orb, .orb.in { transition: none; transform: scale(0.8); }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═════════ HERO ═════════ -->
-  <header class="hero red">
-    <div class="top">
-      <a class="wordmark" href="index.html">mirabae</a>
-      <a class="link" href="#" data-app-link>Get the app</a>
-    </div>
-
-    <h1 class="display">Your<br />head<br />is loud.</h1>
-
-    <figure class="print hero-print">
-      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3DqzYIAjQDAlapCmaRcEt2G7lNr/hf_20261009_134106_a5bf937e-b8e2-4e4a-905e-6709e5c070f4.png"
-           alt="A hand reaching into an open fridge at night, lit by a harsh camera flash" width="880" height="1168" />
-      <span class="stamp">'26 10 09&nbsp;&nbsp;23:14</span>
-      <figcaption>Not hungry. Just loud.</figcaption>
-    </figure>
-
-    <div class="hero-foot">
-      <p>It was never willpower. It is a signal. <strong>The Food Noise App gives you 60 seconds between the urge and the action.</strong></p>
-      <div class="hero-actions">
-        <a class="btn btn-white" href="#reset">Try the reset
-          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 3v12M4 10l5 5 5-5"/></svg>
+  <!-- ═════════ HOOK ═════════ -->
+  <header class="hero">
+    <div class="hero-pink">
+      <a class="wordmark" href="index.html">Mirabae</a>
+      <h1>Your head<br />is <em>loud.</em></h1>
+      <p class="lede">It was never willpower. It is a signal. <strong>The Food Noise App gives you sixty seconds between the urge and the action.</strong></p>
+      <div class="cta">
+        <a class="btn btn-aub" href="#reset">Try the reset now
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2.5v11M3.5 9 8 13.5 12.5 9"/></svg>
         </a>
+        <p class="reassure">Free, right on this page. No sign-up.</p>
       </div>
+    </div>
+    <div class="hero-aub">
+      <div class="top"><a href="#" data-app-link>Get the app</a></div>
+      <figure class="duo hero-photo">
+        <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3DqzYIAjQDAlapCmaRcEt2G7lNr/hf_20261009_134106_a5bf937e-b8e2-4e4a-905e-6709e5c070f4.png"
+             alt="A hand reaching into an open fridge late at night" width="880" height="1168" />
+      </figure>
+      <p class="caption"><span>Not hungry. Just loud.</span><b>23:14</b></p>
     </div>
   </header>
 
   <main>
-    <!-- ═════════ THE SCHEDULE ═════════ -->
-    <section class="schedule" aria-labelledby="sched-title">
-      <h2 class="display" id="sched-title">The noise keeps a schedule.</h2>
-      <p class="lede">The 3 PM hum. The 11 PM pantry. The meal you finished and were already thinking about the next one. It shows up on time, so the app does too.</p>
-
-      <div class="times">
-        <figure>
-          <div class="print">
-            <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3DqzYIAjQDAlapCmaRcEt2G7lNr/hf_20261009_134105_a67548ef-4084-45b8-bb51-5af937d78af2.png"
-                 alt="A messy office desk with an empty crisp bag and an iced coffee, shot with flash" width="896" height="1120" loading="lazy" />
-            <span class="stamp">15:10</span>
-          </div>
-          <p><b>The 3 PM hum.</b> Not hungry. Tired, bored, and the bag was right there.</p>
-        </figure>
-        <figure>
-          <div class="print">
-            <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3DqzYIAjQDAlapCmaRcEt2G7lNr/hf_20261009_134134_526e0fc0-d9b6-4013-8acd-fd2577d66dba.png"
-                 alt="Two hands holding a phone on a dark kitchen counter at night" width="896" height="1120" loading="lazy" />
-            <span class="stamp">21:40</span>
-          </div>
-          <p><b>After dinner.</b> Full, and somehow already planning the next thing.</p>
-        </figure>
+    <!-- ═════════ RECOGNITION ═════════ -->
+    <section class="recog" aria-labelledby="recog-title">
+      <div class="recog-grid">
+        <h2 id="recog-title">It shows up <em>on time.</em> Every day.</h2>
+        <ol class="moments">
+          <li><time>15:15</time><div><b>The 3 PM hum.</b><span>You are not hungry. You are tired, and the snack drawer is right there.</span></div></li>
+          <li><time>20:30</time><div><b>The meal that never ends.</b><span>You just finished dinner and you are already thinking about the next thing.</span></div></li>
+          <li><time>23:14</time><div><b>The 11 PM pantry.</b><span>The house is quiet. Your head is not.</span></div></li>
+        </ol>
       </div>
     </section>
 
-    <!-- ═════════ THE RESET ═════════ -->
-    <section class="reset" id="reset" aria-labelledby="reset-title">
-      <div class="reset-head">
-        <h2 class="display" id="reset-title">Sixty<br /><span>seconds.</span></h2>
-        <p>The exact flow from the app, working right here. No sign-up. Nothing leaves this page.</p>
+    <!-- ═════════ REFRAME + MECHANISM ═════════ -->
+    <section class="reframe" aria-label="Why it happens">
+      <p class="big">It was never <em>willpower.</em> It is a signal.</p>
+      <div class="chain">
+        <div><b>Stress rises.</b><span>A long day, a hard meeting, a bad night of sleep. Your body asks for fast comfort.</span></div>
+        <div><b>Energy dips.</b><span>A skipped lunch or a sugary snack sends your energy up and down, and the urge gets louder.</span></div>
+        <div><b>The loop repeats.</b><span>Same time, same place, same craving. A habit that runs on autopilot, until you interrupt it.</span></div>
+      </div>
+    </section>
+
+    <!-- ═════════ OFFER + WORKING DEMO ═════════ -->
+    <section class="offer" id="reset" aria-labelledby="offer-title">
+      <div class="offer-head">
+        <h2 id="offer-title">Not another diet. <em>A pause button.</em></h2>
+        <p>Regulation, not restriction. The app does not count calories or ban foods. It helps you notice the signal, let it pass, and decide for yourself.</p>
       </div>
 
-      <ol class="steps" id="steps">
-        <li class="on">Name it</li><li>Rate it</li><li>Breathe</li><li>Re-rate</li>
-      </ol>
+      <div class="feature-row">
+        <div class="feature"><h3>Check in</h3><p>Name what is loud in one tap, <i>which means</i> the urge stops being a mystery and becomes something you can work with.</p></div>
+        <div class="feature"><h3>60-second reset</h3><p>A guided breath, four in and four out, <i>which means</i> the craving has time to peak and pass before you act.</p></div>
+        <div class="feature"><h3>Your pattern</h3><p>Every check-in lands in your log, <i>which means</i> you see when the noise rises and what turns it down.</p></div>
+      </div>
 
-      <div aria-live="polite">
-        <div class="stage on" data-stage="0">
-          <h3 class="display">What is loud?</h3>
-          <div class="chips" role="group" aria-label="What is loud right now">
-            <button class="chip" aria-pressed="false">Stress</button>
-            <button class="chip" aria-pressed="false">Boredom</button>
-            <button class="chip" aria-pressed="false">Tired</button>
-            <button class="chip" aria-pressed="false">Habit</button>
-            <button class="chip" aria-pressed="false">Sad</button>
-            <button class="chip" aria-pressed="false">Saw food</button>
-            <button class="chip" aria-pressed="false" data-hungry>Actually hungry</button>
+      <div class="device">
+        <div class="device-side">
+          <h3>Try it right now.</h3>
+          <p>The exact flow from the app. Nothing you tap leaves this page.</p>
+          <ol class="steps" id="steps">
+            <li class="on">Name it</li><li>Rate it</li><li>Breathe</li><li>Re-rate</li>
+          </ol>
+        </div>
+        <div class="device-main" aria-live="polite">
+          <div class="stage on" data-stage="0">
+            <h4>What is loud right now?</h4>
+            <div class="chips" role="group" aria-label="What is loud right now">
+              <button class="chip" aria-pressed="false">Stress</button>
+              <button class="chip" aria-pressed="false">Boredom</button>
+              <button class="chip" aria-pressed="false">Tired</button>
+              <button class="chip" aria-pressed="false">Habit</button>
+              <button class="chip" aria-pressed="false">Sad</button>
+              <button class="chip" aria-pressed="false">Saw food</button>
+              <button class="chip" aria-pressed="false" data-hungry>Actually hungry</button>
+            </div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toRate" disabled>Next</button></div>
           </div>
-          <div class="stage-actions">
-            <button class="btn btn-white" id="toRate" disabled>Next</button>
+
+          <div class="stage" data-stage="hungry">
+            <h4>Then eat. <em>Hunger is not noise.</em></h4>
+            <p class="sub">Real hunger deserves an answer. Protein, fibre, fat, and something you actually enjoy.</p>
+            <div class="stage-actions"><button class="textbtn" data-restart>Start over</button></div>
           </div>
-        </div>
 
-        <div class="stage" data-stage="hungry">
-          <h3 class="display">Then eat.</h3>
-          <p class="sub">Real hunger is not noise. It is a signal worth answering. Protein, fibre, fat, and something you actually like.</p>
-          <div class="stage-actions"><button class="btn btn-white" data-restart>Start over</button></div>
-        </div>
+          <div class="stage" data-stage="1">
+            <h4>How loud is it?</h4>
+            <p class="sub" id="namedAs"></p>
+            <div class="scale10" role="radiogroup" aria-label="Strength, 1 to 10" id="rateScale"></div>
+            <div class="scale-ends"><span>A whisper</span><span>Deafening</span></div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toBreath" disabled>Start 60 seconds</button></div>
+          </div>
 
-        <div class="stage" data-stage="1">
-          <h3 class="display">How loud?</h3>
-          <p class="sub" id="namedAs"></p>
-          <div class="scale10" role="radiogroup" aria-label="Strength, 1 to 10" id="rateScale"></div>
-          <div class="scale-ends"><span>Barely there</span><span>Deafening</span></div>
-          <div class="stage-actions"><button class="btn btn-white" id="toBreath" disabled>Start 60 seconds</button></div>
-        </div>
+          <div class="stage" data-stage="2">
+            <div class="breath">
+              <div class="orb" id="orb"></div>
+              <p class="breath-label"><span id="breathWord">Breathe in</span><small id="breathClock">60</small></p>
+            </div>
+            <div class="stage-actions" style="justify-content:center"><button class="textbtn" id="skipBreath">Skip to re-rate</button></div>
+          </div>
 
-        <div class="stage" data-stage="2">
-          <p class="breath-word display" id="breathWord">Breathe in</p>
-          <div class="breath-bar" aria-hidden="true"><i id="bar"></i></div>
-          <p class="breath-clock" id="breathClock">0:60</p>
-          <div class="stage-actions"><button class="link" id="skipBreath">Skip to re-rate</button></div>
-        </div>
+          <div class="stage" data-stage="3">
+            <h4>And now?</h4>
+            <div class="scale10" role="radiogroup" aria-label="Strength now, 1 to 10" id="rerateScale"></div>
+            <div class="scale-ends"><span>A whisper</span><span>Deafening</span></div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toResult" disabled>See the shift</button></div>
+          </div>
 
-        <div class="stage" data-stage="3">
-          <h3 class="display">And now?</h3>
-          <div class="scale10" role="radiogroup" aria-label="Strength now, 1 to 10" id="rerateScale"></div>
-          <div class="scale-ends"><span>Barely there</span><span>Deafening</span></div>
-          <div class="stage-actions"><button class="btn btn-white" id="toResult" disabled>See the shift</button></div>
-        </div>
-
-        <div class="stage" data-stage="4">
-          <div class="shift display"><span class="from" id="resFrom">8</span><span class="to" id="resTo">4</span></div>
-          <p class="verdict" id="verdict">The urge moved. You did not have to obey it.</p>
-          <div class="stage-actions">
-            <a class="btn btn-white" href="#" data-app-link>Keep this in the app</a>
-            <button class="link" data-restart>Again</button>
+          <div class="stage" data-stage="4">
+            <div class="shift"><span class="from" id="resFrom">8</span><span id="resTo">4</span></div>
+            <p class="sub serif" id="verdict" style="font-size:1.5rem;font-style:italic">The urge moved. You did not have to obey it.</p>
+            <div class="stage-actions">
+              <a class="btn btn-aub" href="#" data-app-link>Keep this in the app</a>
+              <button class="textbtn" data-restart>Again</button>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═════════ 23:16 ═════════ -->
-    <section class="after" aria-labelledby="after-title">
-      <figure class="print">
+    <!-- ═════════ FOUNDER ═════════ -->
+    <section class="founder" aria-labelledby="founder-title">
+      <figure class="duo">
         <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3DqzYIAjQDAlapCmaRcEt2G7lNr/hf_20261009_134106_9d413c01-4ec5-4f70-a61e-fdebe72f9680.png"
-             alt="A single glass of water on a kitchen counter at night, lit by flash" width="896" height="1120" loading="lazy" />
-        <span class="stamp">'26 10 09&nbsp;&nbsp;23:16</span>
-        <figcaption>Two minutes later.</figcaption>
+             alt="A glass of water on a kitchen counter at night" width="896" height="1120" loading="lazy" />
       </figure>
+      <div class="founder-copy">
+        <h2 id="founder-title">Built by a woman who <em>lived the noise.</em></h2>
+        <p>The 3 PM hum. The 11 PM pantry. Mirabae started as the founder's own attempt to understand why, and to <strong>stop fighting her own brain.</strong> The app is the tool she wished she had at 23:14.</p>
+      </div>
+    </section>
+
+    <!-- ═════════ DOUBTS ═════════ -->
+    <section class="doubts" aria-labelledby="doubts-title">
+      <h2 id="doubts-title">The questions you are already asking.</h2>
       <div>
-        <h2 class="display" id="after-title">Two minutes later, you decide.</h2>
-        <p>Not the noise. <b>You.</b> Maybe it is a glass of water. Maybe it is a real snack. Either way it is a choice now, not a reflex. Every check-in lands in your log, so over a week you see when the volume rises and what turns it down.</p>
+        <details>
+          <summary>I have tried everything. Why would this be different?</summary>
+          <p>Most plans work on what you eat. This works one step earlier, on the moment the urge shows up. That is why the plans that ignored the signal did not hold.</p>
+        </details>
+        <details>
+          <summary>Is this a diet?</summary>
+          <p>No. No calorie counting, no banned foods, no weigh-ins. Regulation, not restriction. If you are actually hungry, the app tells you to eat.</p>
+        </details>
+        <details>
+          <summary>Can sixty seconds really change anything?</summary>
+          <p>Sixty seconds will not fix everything. It gives you a gap between the urge and the action, and in that gap you get to choose. Try it above and see what your number does.</p>
+        </details>
+        <details>
+          <summary>Is this medical treatment?</summary>
+          <p>No. It is a self-reflection tool. If thoughts about food cause you real distress, or you recognise signs of an eating disorder, please talk to a doctor or a qualified professional.</p>
+        </details>
       </div>
     </section>
 
     <!-- ═════════ CLOSE ═════════ -->
-    <section class="close red" aria-labelledby="close-title">
-      <h2 class="display" id="close-title">Regulation.<br />Not restriction.</h2>
+    <section class="close" aria-labelledby="close-title">
+      <h2 id="close-title">Turn the noise <em>down.</em></h2>
       <div class="row">
-        <a class="btn btn-white" href="#" data-app-link>Get the app</a>
-        <p>Want the why behind the noise? The 7-Day Neuro-Reset and the Satiety Plate are in <a class="link" href="https://whop.com/mirabae-0696/the-appetite-recode" target="_blank" rel="noopener">The Appetite Recode</a>.</p>
+        <a class="btn btn-aub" href="#" data-app-link>Get the app</a>
+        <p>Another year of the 3 PM hum is the price of waiting. The next loud moment is the best one to start with.</p>
       </div>
       <footer>
-        <p>The app is a self-reflection tool, not a diagnosis or medical advice. If thoughts about food cause you real distress, or you recognise signs of an eating disorder, please talk to a doctor or a qualified professional.</p>
+        <p>The Food Noise App is a self-reflection tool, not a diagnosis or medical advice.</p>
         <span>© 2026 Mirabae</span>
       </footer>
     </section>
@@ -435,14 +494,10 @@
 
     function go(key) {
       stages.forEach(s => s.classList.toggle('on', s.dataset.stage == key));
-      const i = key === 'hungry' ? 0 : Math.min(Number(key), 4);
-      steps.forEach((s, j) => {
-        s.classList.toggle('on', j === i);
-        s.classList.toggle('done', j < i);
-      });
+      const i = key === 'hungry' ? 0 : Number(key);
+      steps.forEach((s, j) => { s.classList.toggle('on', j === i); s.classList.toggle('done', j < i); });
     }
 
-    // 1. name
     const chips = [...document.querySelectorAll('.chip')];
     const toRate = document.getElementById('toRate');
     chips.forEach(c => c.addEventListener('click', () => {
@@ -456,10 +511,8 @@
       go(1);
     });
 
-    // 1-10 scales
     function buildScale(id, onPick) {
       const el = document.getElementById(id);
-      el.innerHTML = '';
       for (let v = 1; v <= 10; v++) {
         const b = document.createElement('button');
         b.textContent = v; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
@@ -475,29 +528,24 @@
     buildScale('rateScale', v => { before = v; toBreath.disabled = false; });
     buildScale('rerateScale', v => { after = v; toResult.disabled = false; });
 
-    // 2. breathe: 60s, 4 in / 4 out
-    const bar = document.getElementById('bar');
+    const orb = document.getElementById('orb');
     const word = document.getElementById('breathWord');
     const clock = document.getElementById('breathClock');
-    function stopBreath() { clearInterval(timer); timer = null; bar.classList.remove('in'); }
+    function stopBreath() { clearInterval(timer); timer = null; orb.classList.remove('in'); }
     toBreath.addEventListener('click', () => {
       go(2);
       let t = 60;
       const tick = () => {
         const inhale = Math.floor((60 - t) / 4) % 2 === 0;
-        bar.classList.toggle('in', inhale);
+        orb.classList.toggle('in', inhale);
         word.textContent = inhale ? 'Breathe in' : 'Breathe out';
-        clock.textContent = `0:${String(t).padStart(2, '0')}`;
+        clock.textContent = t;
       };
       requestAnimationFrame(tick);
-      timer = setInterval(() => {
-        t -= 1; tick();
-        if (t <= 0) { stopBreath(); go(3); }
-      }, 1000);
+      timer = setInterval(() => { t -= 1; tick(); if (t <= 0) { stopBreath(); go(3); } }, 1000);
     });
     document.getElementById('skipBreath').addEventListener('click', () => { stopBreath(); go(3); });
 
-    // 4. result
     toResult.addEventListener('click', () => {
       document.getElementById('resFrom').textContent = before;
       document.getElementById('resTo').textContent = after;
