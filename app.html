@@ -333,6 +333,31 @@
       .stage.on { animation: none; }
       .orb, .orb.in { transition: none; transform: scale(0.8); }
     }
+
+    /* ═══ Readability pass ═══
+       Bodoni only at display sizes; small headings in the sans.
+       Minimum text size 16px. Pink as text only in deeper ink on light grounds. */
+    :root { --fuchsia-ink: #B5115A; --on-blush-2: #573062; }
+    body { font-size: 18px; line-height: 1.6; }
+    .hero-pink { color: #14041C; }
+    .hero .lede { font-size: clamp(1.1rem, 1.5vw, 1.3rem); }
+    .hero .reassure, .scale-ends, .steps li, .hero-aub .top a { font-size: 1rem; }
+    footer { font-size: 0.9rem; }
+    .recog h2 em, .offer h2 em, .after h2 em, .recog .aside strong { color: var(--fuchsia-ink); }
+    .moments time { color: var(--fuchsia-ink); font-weight: 500; }
+    .moments b, .chain b, .feature h3, .instead s, summary {
+      font-family: var(--sans); font-weight: 700; letter-spacing: -0.01em;
+    }
+    .moments b { font-size: 1.25rem; }
+    .chain b { font-size: 1.3rem; }
+    .feature h3 { font-size: 1.35rem; }
+    .instead s { font-size: 1.15rem; font-weight: 600; text-decoration-thickness: 1px; }
+    summary { font-size: clamp(1.1rem, 1.6vw, 1.25rem); }
+    .moments span, .chain span, .feature p, .instead span, details p { font-size: 1.05rem; }
+    .hero .promise, .caption, .breath-label, #verdict { font-family: var(--sans); font-style: normal; font-weight: 600; }
+    .hero .promise { font-size: 1.1rem; }
+    .caption { font-size: 1rem; }
+    .recog .aside { font-weight: 500; }
   </style>
 </head>
 <body>
@@ -454,7 +479,7 @@
 
           <div class="stage" data-stage="4">
             <div class="shift"><span class="from" id="resFrom">8</span><span id="resTo">4</span></div>
-            <p class="sub serif" id="verdict" style="font-size:1.5rem;font-style:italic">The urge moved. You did not have to obey it.</p>
+            <p class="sub" id="verdict" style="font-size:1.3rem">The urge moved. You did not have to obey it.</p>
             <div class="stage-actions">
               <a class="btn btn-aub" href="#" data-app-link>Keep this in the app</a>
               <button class="textbtn" data-restart>Again</button>
