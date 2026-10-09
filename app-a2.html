@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Food Noise App A2</title>
+  <meta name="description" content="Your head is loud. It was never willpower. The Food Noise App gives you sixty seconds between the urge and the action." />
+  <meta name="theme-color" content="#C8216F" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --fuchsia:   #E8247F;
+      --aubergine: #2A0B3B;
+      --plum:      #3B0D45;
+      --blush:     #F9DCE9;
+      --petal:     #FFC3DD;
+      --on-aub-2:  #D9B8E4;
+      --on-blush-2:#6E4377;
+
+      --serif: 'Bodoni Moda', 'Didot', Georgia, serif;
+      --sans:  'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --gutter: clamp(20px, 5vw, 72px);
+    }
+
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      background: var(--blush); color: var(--plum);
+      font-family: var(--sans); font-size: 17px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+    }
+    ::selection { background: var(--fuchsia); color: #fff; }
+    :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+    a { color: inherit; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    img { display: block; max-width: 100%; }
+
+    h1, h2, h3, .serif { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; text-wrap: balance; }
+    em { font-style: italic; }
+    p { text-wrap: pretty; }
+
+    /* Duotone print: grayscale photo, fuchsia highlights, aubergine shadows */
+    .duo { position: relative; overflow: hidden; background: var(--fuchsia); isolation: isolate; }
+    .duo img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(1) contrast(1.15) brightness(1.05);
+      mix-blend-mode: multiply;
+    }
+    .duo::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--aubergine); mix-blend-mode: lighten; pointer-events: none;
+    }
+
+    /* Buttons: rectangular, confident */
+    .btn {
+      display: inline-flex; align-items: center; gap: 14px;
+      min-height: 58px; padding: 0 30px;
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; white-space: nowrap;
+      transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-aub { background: var(--aubergine); color: var(--petal); }
+    .btn-fuchsia { background: var(--fuchsia); color: #fff; }
+    .btn-petal { background: var(--petal); color: var(--aubergine); }
+    .btn svg { width: 16px; height: 16px; transition: transform 200ms var(--ease-out); }
+    @media (hover: hover) and (pointer: fine) {
+      .btn-aub:hover { background: var(--plum); }
+      .btn-fuchsia:hover { background: #F23C8F; }
+      .btn-petal:hover { background: #fff; }
+      .btn:hover svg { transform: translateY(2px); }
+    }
+
+    /* ══════════ HERO: colour block ══════════ */
+    .hero {
+      display: grid; grid-template-columns: 55fr 45fr;
+      min-height: 100svh;
+    }
+    .hero-pink {
+      background: var(--fuchsia); color: var(--aubergine);
+      padding: max(26px, env(safe-area-inset-top)) var(--gutter) 56px;
+      display: flex; flex-direction: column;
+    }
+    .wordmark {
+      font-family: var(--serif); font-size: 1.05rem; font-weight: 500;
+      letter-spacing: 0.42em; text-transform: uppercase; text-decoration: none;
+    }
+    .hero h1 {
+      margin-top: auto;
+      font-size: clamp(4.2rem, 10.5vw, 10rem);
+      line-height: 0.9;
+      font-variation-settings: 'opsz' 96;
+    }
+    .hero h1 em { font-weight: 400; }
+    .hero .lede {
+      margin-top: 34px; max-width: 34ch;
+      font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.5;
+    }
+    .hero .lede strong { font-weight: 700; }
+    .hero .cta { margin-top: 34px; }
+    .hero .reassure { margin-top: 14px; font-size: 0.9rem; opacity: 0.85; }
+
+    .hero-aub {
+      background: var(--aubergine); color: var(--petal);
+      padding: max(26px, env(safe-area-inset-top)) var(--gutter) 40px;
+      display: flex; flex-direction: column;
+    }
+    .hero-aub .top { display: flex; justify-content: flex-end; }
+    .hero-aub .top a { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+    .hero-photo { margin: 36px 0 0; flex: 1; min-height: 360px; }
+    .caption {
+      margin-top: 14px; display: flex; justify-content: space-between; gap: 16px;
+      font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--on-aub-2);
+    }
+    .caption b { font-style: normal; font-weight: 500; color: var(--petal); font-variant-numeric: lining-nums tabular-nums; }
+
+    /* ══════════ RECOGNITION ══════════ */
+    .recog { padding: clamp(96px, 13vw, 180px) var(--gutter); }
+    .recog-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+    .recog h2 { font-size: clamp(2.6rem, 5.4vw, 4.8rem); line-height: 1.02; position: sticky; top: 40px; }
+    .recog h2 em { color: var(--fuchsia); }
+    .moments { list-style: none; border-top: 1px solid var(--plum); }
+    .moments li {
+      display: grid; grid-template-columns: 7.2rem 1fr; gap: 20px; align-items: baseline;
+      padding: 30px 0; border-bottom: 1px solid rgba(59,13,69,0.25);
+    }
+    .moments time {
+      font-family: var(--serif); font-size: clamp(2rem, 3.6vw, 2.8rem); line-height: 1;
+      font-variant-numeric: lining-nums tabular-nums; color: var(--fuchsia);
+    }
+    .moments b { display: block; font-family: var(--serif); font-size: 1.45rem; font-weight: 500; line-height: 1.2; }
+    .moments span { display: block; margin-top: 6px; color: var(--on-blush-2); }
+
+    /* ══════════ REFRAME ══════════ */
+    .reframe {
+      background: var(--aubergine); color: var(--petal);
+      padding: clamp(110px, 15vw, 210px) var(--gutter);
+    }
+    .reframe p.big {
+      font-family: var(--serif); font-size: clamp(2.8rem, 7.4vw, 7rem); line-height: 1;
+      letter-spacing: -0.025em; max-width: 14ch;
+    }
+    .reframe p.big em { color: var(--fuchsia); }
+    .chain {
+      margin-top: clamp(64px, 8vw, 110px);
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0;
+      border-top: 1px solid rgba(255,195,221,0.35);
+    }
+    .chain div { padding: 26px 28px 0 0; }
+    .chain div + div { padding-left: 28px; border-left: 1px solid rgba(255,195,221,0.2); }
+    .chain b { display: block; font-family: var(--serif); font-size: 1.6rem; font-weight: 500; color: #fff; }
+    .chain span { display: block; margin-top: 8px; color: var(--on-aub-2); max-width: 30ch; }
+
+    /* ══════════ OFFER + DEMO ══════════ */
+    .offer { padding: clamp(96px, 13vw, 180px) var(--gutter); }
+    .offer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 100px); align-items: end; }
+    .offer h2 { font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 0.98; }
+    .offer h2 em { color: var(--fuchsia); }
+    .offer-head p { color: var(--on-blush-2); max-width: 42ch; font-size: 1.1rem; }
+
+    .feature-row { margin-top: clamp(56px, 7vw, 90px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--plum); }
+    .feature { padding: 26px 30px 0 0; }
+    .feature + .feature { padding-left: 30px; border-left: 1px solid rgba(59,13,69,0.2); }
+    .feature h3 { font-size: 1.75rem; line-height: 1.1; }
+    .feature p { margin-top: 10px; color: var(--on-blush-2); }
+    .feature p i { font-style: normal; color: var(--plum); font-weight: 600; }
+
+    /* the working reset */
+    .device {
+      margin-top: clamp(64px, 8vw, 110px);
+      background: var(--fuchsia); color: var(--aubergine);
+      display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    }
+    .device-side { padding: clamp(28px, 4vw, 56px); border-right: 1px solid rgba(42,11,59,0.25); }
+    .device-side h3 { font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1; }
+    .device-side p { margin-top: 14px; max-width: 30ch; }
+    .steps { margin-top: 32px; list-style: none; }
+    .steps li {
+      padding: 12px 0; border-top: 1px solid rgba(42,11,59,0.25);
+      font-weight: 600; font-size: 0.95rem; opacity: 0.45;
+      transition: opacity 200ms ease;
+      display: flex; justify-content: space-between;
+    }
+    .steps li.on, .steps li.done { opacity: 1; }
+    .steps li.done::after { content: '\2713'; }
+
+    .device-main { padding: clamp(28px, 4vw, 56px); min-height: 460px; display: flex; flex-direction: column; }
+    .stage { display: none; flex: 1; flex-direction: column; }
+    .stage.on { display: flex; animation: stage-in 380ms var(--ease-out); }
+    @keyframes stage-in { from { opacity: 0; transform: translateY(8px); filter: blur(3px); } }
+    .stage h4 { font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.02; letter-spacing: -0.02em; }
+    .stage .sub { margin-top: 10px; }
+
+    .chips { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      min-height: 48px; padding: 0 20px; border: 1.5px solid var(--aubergine);
+      font-weight: 600; font-size: 1rem;
+      transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease;
+    }
+    .chip:active { transform: scale(0.97); }
+    .chip[aria-pressed="true"] { background: var(--aubergine); color: var(--petal); }
+    @media (hover: hover) and (pointer: fine) { .chip:hover { background: rgba(42,11,59,0.08); } .chip[aria-pressed="true"]:hover { background: var(--aubergine); } }
+
+    .scale10 { margin-top: 28px; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; }
+    .scale10 button {
+      aspect-ratio: 1 / 1.2; border: 1.5px solid var(--aubergine);
+      font-family: var(--serif); font-size: clamp(1.2rem, 2.6vw, 2rem); font-variant-numeric: lining-nums;
+      transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease;
+    }
+    .scale10 button:active { transform: scale(0.94); }
+    .scale10 button[aria-checked="true"] { background: var(--aubergine); color: var(--petal); }
+    .scale-ends { margin-top: 8px; display: flex; justify-content: space-between; font-size: 0.85rem; }
+
+    .stage-actions { margin-top: auto; padding-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+    .btn[disabled] { opacity: 0.35; pointer-events: none; }
+    .textbtn { font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+
+    .breath { flex: 1; display: grid; place-items: center; position: relative; min-height: 240px; }
+    .orb {
+      width: min(56vw, 220px); aspect-ratio: 1; border-radius: 50%;
+      background: var(--aubergine);
+      transform: scale(0.55);
+      transition: transform 4000ms var(--ease-in-out);
+    }
+    .orb.in { transform: scale(1); }
+    .breath-label { position: absolute; text-align: center; color: var(--petal); font-family: var(--serif); font-style: italic; font-size: 1.4rem; pointer-events: none; }
+    .breath-label small { display: block; margin-top: 2px; font-family: var(--sans); font-style: normal; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; font-variant-numeric: tabular-nums; }
+
+    .shift { font-family: var(--serif); font-size: clamp(5rem, 14vw, 10rem); line-height: 1; display: flex; gap: 0.3em; align-items: baseline; font-variant-numeric: lining-nums; }
+    .shift .from { opacity: 0.4; text-decoration: line-through; text-decoration-thickness: 0.05em; }
+
+    .hero .promise {
+      margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(42,11,59,0.35);
+      font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+      max-width: 30ch;
+    }
+    .recog .aside {
+      margin-top: clamp(48px, 6vw, 80px); max-width: 30ch; margin-left: auto;
+      font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.15;
+    }
+    .recog .aside strong { font-weight: 500; font-style: italic; color: var(--fuchsia); }
+
+    /* ══════════ THE MORNING AFTER ══════════ */
+    .after { background: var(--petal); padding: clamp(96px, 13vw, 170px) var(--gutter); }
+    .after-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+    .after h2 { font-size: clamp(2.8rem, 6vw, 5.2rem); line-height: 0.98; }
+    .after h2 em { color: var(--fuchsia); }
+    .after-lede { margin-top: 24px; max-width: 42ch; font-size: 1.1rem; color: var(--on-blush-2); }
+    .after-lede strong { color: var(--plum); font-weight: 700; }
+    .instead { list-style: none; border-top: 1px solid var(--plum); }
+    .instead li { padding: 26px 0; border-bottom: 1px solid rgba(59,13,69,0.25); }
+    .instead s {
+      display: block; font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.2;
+      color: var(--on-blush-2); text-decoration-color: var(--fuchsia); text-decoration-thickness: 2px;
+    }
+    .instead span { display: block; margin-top: 8px; font-weight: 600; font-size: 1.05rem; }
+
+    /* ══════════ FOUNDER (real proof) ══════════ */
+    .founder {
+      background: var(--aubergine); color: var(--petal);
+      display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+    .founder .duo { min-height: 520px; }
+    .founder-copy { padding: clamp(64px, 9vw, 130px) var(--gutter); align-self: center; }
+    .founder-copy h2 { font-size: clamp(2.6rem, 5.2vw, 4.6rem); line-height: 1.02; }
+    .founder-copy h2 em { color: var(--fuchsia); }
+    .founder-copy p { margin-top: 24px; max-width: 44ch; color: var(--on-aub-2); font-size: 1.1rem; }
+    .founder-copy p strong { color: #fff; font-weight: 600; }
+
+    /* ══════════ DOUBTS ══════════ */
+    .doubts { padding: clamp(96px, 13vw, 170px) var(--gutter); display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 100px); }
+    .doubts h2 { font-size: clamp(2.4rem, 4.6vw, 4rem); line-height: 1.02; }
+    details { border-bottom: 1px solid rgba(59,13,69,0.25); }
+    details:first-of-type { border-top: 1px solid var(--plum); }
+    summary {
+      list-style: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      padding: 26px 0; font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.2;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: ''; flex: none; width: 14px; height: 14px;
+      background: linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat,
+                  linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat;
+      transition: transform 240ms var(--ease-out);
+    }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { padding: 0 0 28px; max-width: 56ch; color: var(--on-blush-2); }
+
+    /* ══════════ CLOSE ══════════ */
+    .close { background: var(--fuchsia); color: var(--aubergine); padding: clamp(110px, 15vw, 200px) var(--gutter) 40px; }
+    .close h2 { font-size: clamp(3.4rem, 9vw, 8.4rem); line-height: 0.92; max-width: 11ch; }
+    .close h2 em { font-weight: 400; }
+    .close .row { margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 30px; }
+    .close .row p { max-width: 40ch; }
+    footer {
+      margin-top: 110px; padding-top: 20px; border-top: 1px solid rgba(42,11,59,0.35);
+      display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      font-size: 0.8rem; padding-bottom: env(safe-area-inset-bottom);
+    }
+    footer p { max-width: 70ch; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: 0; }
+      .hero-pink { min-height: 88svh; }
+      .hero-aub .top { display: none; }
+      .hero-photo { margin-top: 0; min-height: 0; aspect-ratio: 4 / 5; }
+      .recog-grid, .offer-head, .doubts, .after-grid { grid-template-columns: 1fr; }
+      .recog .aside { margin-left: 0; }
+      .recog h2 { position: static; }
+      .chain, .feature-row { grid-template-columns: 1fr; }
+      .chain div + div, .feature + .feature { padding-left: 0; border-left: 0; border-top: 1px solid rgba(255,195,221,0.2); margin-top: 22px; }
+      .feature + .feature { border-top-color: rgba(59,13,69,0.2); }
+      .device { grid-template-columns: 1fr; }
+      .device-side { border-right: 0; border-bottom: 1px solid rgba(42,11,59,0.25); }
+      .founder { grid-template-columns: 1fr; }
+      .founder .duo { min-height: 0; aspect-ratio: 4 / 5; }
+    }
+    @media (max-width: 520px) {
+      .moments li { grid-template-columns: 1fr; gap: 8px; }
+      .scale10 { gap: 3px; }
+      .btn { padding: 0 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .stage.on { animation: none; }
+      .orb, .orb.in { transition: none; transform: scale(0.8); }
+    }
+
+    /* ═══ Readability pass ═══
+       Bodoni only at display sizes; small headings in the sans.
+       Minimum text size 16px. Pink as text only in deeper ink on light grounds. */
+    :root { --fuchsia-ink: #B5115A; --on-blush-2: #573062; }
+    body { font-size: 18px; line-height: 1.6; }
+    .hero-pink { color: #14041C; }
+    .hero .lede { font-size: clamp(1.1rem, 1.5vw, 1.3rem); }
+    .hero .reassure, .scale-ends, .steps li, .hero-aub .top a { font-size: 1rem; }
+    footer { font-size: 0.9rem; }
+    .recog h2 em, .offer h2 em, .after h2 em, .recog .aside strong { color: var(--fuchsia-ink); }
+    .moments time { color: var(--fuchsia-ink); font-weight: 500; }
+    .moments b, .chain b, .feature h3, .instead s, summary {
+      font-family: var(--sans); font-weight: 700; letter-spacing: -0.01em;
+    }
+    .moments b { font-size: 1.25rem; }
+    .chain b { font-size: 1.3rem; }
+    .feature h3 { font-size: 1.35rem; }
+    .instead s { font-size: 1.15rem; font-weight: 600; text-decoration-thickness: 1px; }
+    summary { font-size: clamp(1.1rem, 1.6vw, 1.25rem); }
+    .moments span, .chain span, .feature p, .instead span, details p { font-size: 1.05rem; }
+    .hero .promise, .caption, .breath-label, #verdict { font-family: var(--sans); font-style: normal; font-weight: 600; }
+    .hero .promise { font-size: 1.1rem; }
+    .caption { font-size: 1rem; }
+    .recog .aside { font-weight: 500; }
+  </style>
+
+  <style>
+    /* ═══ Variant A2: deeper raspberry, white type on pink, fewer pink fields ═══ */
+    :root { --fuchsia: #C8216F; --pink-on-dark: #F06AA6; }
+    .hero-pink { background: var(--fuchsia); color: #fff; }
+    .hero-pink .wordmark, .hero h1, .hero .lede strong { color: #fff; }
+    .hero h1 em { color: var(--petal); }
+    .hero .reassure { color: #FFE3EF; opacity: 1; }
+    .hero .promise { color: #fff; border-top-color: rgba(255,255,255,0.4); }
+    .device { color: #fff; }
+    .device-side { border-color: rgba(255,255,255,0.3); }
+    .steps li { border-top-color: rgba(255,255,255,0.3); }
+    .chip, .scale10 button { border-color: rgba(255,255,255,0.65); }
+    .chip[aria-pressed="true"], .scale10 button[aria-checked="true"] { background: var(--aubergine); border-color: var(--aubergine); color: var(--petal); }
+    .breath-label { color: var(--petal); }
+    .close { background: var(--aubergine); color: #fff; }
+    .close h2 em { color: var(--pink-on-dark); }
+    .close .row p, footer { color: var(--on-aub-2); }
+    footer { border-top-color: rgba(255,195,221,0.25); }
+    .close .btn-aub { background: var(--fuchsia); color: #fff; }
+    .reframe p.big em, .founder-copy h2 em { color: var(--pink-on-dark); }
+    @media (hover: hover) and (pointer: fine) {
+      .chip:hover { background: rgba(255,255,255,0.1); }
+      .close .btn-aub:hover { background: #D93A82; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═════════ HOOK ═════════ -->
+  <header class="hero">
+    <div class="hero-pink">
+      <a class="wordmark" href="index.html">Mirabae</a>
+      <h1>Your head<br />is <em>loud.</em></h1>
+      <p class="lede">It was never willpower. It is a signal. <strong>The Food Noise App gives you sixty seconds between the urge and the action.</strong></p>
+      <div class="cta">
+        <a class="btn btn-aub" href="#reset">Try the reset now
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2.5v11M3.5 9 8 13.5 12.5 9"/></svg>
+        </a>
+        <p class="reassure">Free, right on this page. No sign-up.</p>
+        <p class="promise">No counting. No weighing. No shame.</p>
+      </div>
+    </div>
+    <div class="hero-aub">
+      <div class="top"><a href="#" data-app-link>Get the app</a></div>
+      <figure class="duo hero-photo">
+        <img src="img/food-noise-fridge.jpg"
+             alt="A hand reaching into an open fridge late at night" width="760" height="1009" />
+      </figure>
+      <p class="caption"><span>Not hungry. Just loud.</span><b>23:14</b></p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ═════════ RECOGNITION ═════════ -->
+    <section class="recog" aria-labelledby="recog-title">
+      <div class="recog-grid">
+        <h2 id="recog-title">It shows up <em>on time.</em> Every day.</h2>
+        <ol class="moments">
+          <li><time>12:30</time><div><b>Not hungry at all.</b><span>You barely ate this morning. It almost feels like control.</span></div></li>
+          <li><time>16:40</time><div><b>Two bites.</b><span>Just a taste. Then you cannot stop, and you do not even know why.</span></div></li>
+          <li><time>18:10</time><div><b>A yogurt. Then an apple. Then&hellip;</b><span>It started healthy. Then this, then that, then whatever is left in the cupboard.</span></div></li>
+          <li><time>21:05</time><div><b>&ldquo;Did you eat today?&rdquo;</b><span>&ldquo;Yes.&rdquo; You do not say how much.</span></div></li>
+          <li><time>23:14</time><div><b>The 11 PM pantry.</b><span>You should have gone to sleep. Instead: cereal, a few crackers, something sweet. The house is quiet. Your head is not.</span></div></li>
+        </ol>
+      </div>
+      <p class="aside">And somewhere in between you start to think something is wrong with your head. <strong>Nothing is wrong with you.</strong></p>
+    </section>
+
+    <!-- ═════════ REFRAME + MECHANISM ═════════ -->
+    <section class="reframe" aria-label="Why it happens">
+      <p class="big">It was never <em>willpower.</em> It is a signal.</p>
+      <div class="chain">
+        <div><b>Stress rises.</b><span>A long day, a hard meeting, a bad night of sleep. Your body asks for fast comfort.</span></div>
+        <div><b>Energy dips.</b><span>A skipped lunch or a sugary snack sends your energy up and down, and the urge gets louder.</span></div>
+        <div><b>The loop repeats.</b><span>Same time, same place, same craving. A habit that runs on autopilot, until you interrupt it.</span></div>
+      </div>
+    </section>
+
+    <!-- ═════════ OFFER + WORKING DEMO ═════════ -->
+    <section class="offer" id="reset" aria-labelledby="offer-title">
+      <div class="offer-head">
+        <h2 id="offer-title">Not another diet. <em>A pause button.</em></h2>
+        <p>Regulation, not restriction. The app does not count calories or ban foods. It helps you notice the signal, let it pass, and decide for yourself.</p>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature"><h3>Check in</h3><p>Name what is loud in one tap, <i>which means</i> the urge stops being a mystery and becomes something you can work with.</p></div>
+        <div class="feature"><h3>60-second reset</h3><p>A guided breath, four in and four out, <i>which means</i> the craving has time to peak and pass before you act.</p></div>
+        <div class="feature"><h3>Your pattern</h3><p>Every check-in lands in your log, <i>which means</i> you see when the noise rises and what turns it down.</p></div>
+      </div>
+
+      <div class="device">
+        <div class="device-side">
+          <h3>Try it right now.</h3>
+          <p>The exact flow from the app. Nothing you tap leaves this page.</p>
+          <ol class="steps" id="steps">
+            <li class="on">Name it</li><li>Rate it</li><li>Breathe</li><li>Re-rate</li>
+          </ol>
+        </div>
+        <div class="device-main" aria-live="polite">
+          <div class="stage on" data-stage="0">
+            <h4>What is loud right now?</h4>
+            <div class="chips" role="group" aria-label="What is loud right now">
+              <button class="chip" aria-pressed="false">Stress</button>
+              <button class="chip" aria-pressed="false">Boredom</button>
+              <button class="chip" aria-pressed="false">Tired</button>
+              <button class="chip" aria-pressed="false">Habit</button>
+              <button class="chip" aria-pressed="false">Sad</button>
+              <button class="chip" aria-pressed="false">Saw food</button>
+              <button class="chip" aria-pressed="false" data-hungry>Actually hungry</button>
+            </div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toRate" disabled>Next</button></div>
+          </div>
+
+          <div class="stage" data-stage="hungry">
+            <h4>Then eat. <em>Hunger is not noise.</em></h4>
+            <p class="sub">Real hunger deserves an answer. Protein, fibre, fat, and something you actually enjoy.</p>
+            <div class="stage-actions"><button class="textbtn" data-restart>Start over</button></div>
+          </div>
+
+          <div class="stage" data-stage="1">
+            <h4>How loud is it?</h4>
+            <p class="sub" id="namedAs"></p>
+            <div class="scale10" role="radiogroup" aria-label="Strength, 1 to 10" id="rateScale"></div>
+            <div class="scale-ends"><span>A whisper</span><span>Deafening</span></div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toBreath" disabled>Start 60 seconds</button></div>
+          </div>
+
+          <div class="stage" data-stage="2">
+            <div class="breath">
+              <div class="orb" id="orb"></div>
+              <p class="breath-label"><span id="breathWord">Breathe in</span><small id="breathClock">60</small></p>
+            </div>
+            <div class="stage-actions" style="justify-content:center"><button class="textbtn" id="skipBreath">Skip to re-rate</button></div>
+          </div>
+
+          <div class="stage" data-stage="3">
+            <h4>And now?</h4>
+            <div class="scale10" role="radiogroup" aria-label="Strength now, 1 to 10" id="rerateScale"></div>
+            <div class="scale-ends"><span>A whisper</span><span>Deafening</span></div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toResult" disabled>See the shift</button></div>
+          </div>
+
+          <div class="stage" data-stage="4">
+            <div class="shift"><span class="from" id="resFrom">8</span><span id="resTo">4</span></div>
+            <p class="sub" id="verdict" style="font-size:1.3rem">The urge moved. You did not have to obey it.</p>
+            <div class="stage-actions">
+              <a class="btn btn-aub" href="#" data-app-link>Keep this in the app</a>
+              <button class="textbtn" data-restart>Again</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ THE MORNING AFTER ═════════ -->
+    <section class="after" aria-labelledby="after-title">
+      <div class="after-grid">
+        <div>
+          <h2 id="after-title">Already ate it? <em>Start here.</em></h2>
+          <p class="after-lede">The morning after is its own kind of loud. The regret. The tiredness. The quiet promise that today you will barely eat. That promise is usually where the next loop begins.</p>
+          <p class="after-lede"><strong>You are not the only one.</strong> Tomorrow does not start on Monday. It starts at your next check-in.</p>
+        </div>
+        <ul class="instead">
+          <li><s>Skip breakfast to make up for it.</s><span>Eat a real breakfast. Hungry mornings make loud evenings.</span></li>
+          <li><s>Step on the scale to punish yourself.</s><span>Name what was loud last night. Stress, boredom, tiredness.</span></li>
+          <li><s>Promise it will never happen again.</s><span>Notice when it happened. That time is information, not failure.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═════════ FOUNDER ═════════ -->
+    <section class="founder" aria-labelledby="founder-title">
+      <figure class="duo">
+        <img src="img/food-noise-water.jpg"
+             alt="A glass of water on a kitchen counter at night" width="760" height="950" loading="lazy" />
+      </figure>
+      <div class="founder-copy">
+        <h2 id="founder-title">Built by a woman who <em>lived the noise.</em></h2>
+        <p>The 3 PM hum. The 11 PM pantry. Mirabae started as the founder's own attempt to understand why, and to <strong>stop fighting her own brain.</strong> The app is the tool she wished she had at 23:14.</p>
+      </div>
+    </section>
+
+    <!-- ═════════ DOUBTS ═════════ -->
+    <section class="doubts" aria-labelledby="doubts-title">
+      <h2 id="doubts-title">The questions you are already asking.</h2>
+      <div>
+        <details>
+          <summary>I have tried everything. Why would this be different?</summary>
+          <p>Most plans work on what you eat. This works one step earlier, on the moment the urge shows up. That is why the plans that ignored the signal did not hold.</p>
+        </details>
+        <details>
+          <summary>Is something wrong with me?</summary>
+          <p>No. Thinking about food all day, losing control after a few bites, eating more at night after eating very little during the day: many people know these patterns. They are signals, not a character flaw. If they cause you real distress, please talk to a doctor or a qualified professional.</p>
+        </details>
+        <details>
+          <summary>Is this a diet?</summary>
+          <p>No. No calorie counting, no banned foods, no weigh-ins. Regulation, not restriction. If you are actually hungry, the app tells you to eat.</p>
+        </details>
+        <details>
+          <summary>Can sixty seconds really change anything?</summary>
+          <p>Sixty seconds will not fix everything. It gives you a gap between the urge and the action, and in that gap you get to choose. Try it above and see what your number does.</p>
+        </details>
+        <details>
+          <summary>Is this medical treatment?</summary>
+          <p>No. It is a self-reflection tool. If thoughts about food cause you real distress, or you recognise signs of an eating disorder, please talk to a doctor or a qualified professional.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ═════════ CLOSE ═════════ -->
+    <section class="close" aria-labelledby="close-title">
+      <h2 id="close-title">Turn the noise <em>down.</em></h2>
+      <div class="row">
+        <a class="btn btn-aub" href="#" data-app-link>Get the app</a>
+        <p>Another year of the 3 PM hum is the price of waiting. The next loud moment is the best one to start with.</p>
+      </div>
+      <footer>
+        <p>The Food Noise App is a self-reflection tool, not a diagnosis or medical advice.</p>
+        <span>© 2026 Mirabae</span>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+  // EDIT HERE: real Food Noise App link
+  const APP_URL = '#';
+  document.querySelectorAll('[data-app-link]').forEach(a => a.href = APP_URL);
+
+  // Headline test: add ?h=b to the URL to show variant B
+  if (new URLSearchParams(location.search).get('h') === 'b') {
+    document.querySelector('.hero h1').innerHTML = 'Tired of thinking about <em>food?</em>';
+  }
+
+  (() => {
+    const stages = [...document.querySelectorAll('.stage')];
+    const steps = [...document.querySelectorAll('#steps li')];
+    let named = '', before = 0, after = 0, timer = null;
+
+    function go(key) {
+      stages.forEach(s => s.classList.toggle('on', s.dataset.stage == key));
+      const i = key === 'hungry' ? 0 : Number(key);
+      steps.forEach((s, j) => { s.classList.toggle('on', j === i); s.classList.toggle('done', j < i); });
+    }
+
+    const chips = [...document.querySelectorAll('.chip')];
+    const toRate = document.getElementById('toRate');
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.setAttribute('aria-pressed', x === c));
+      named = c.textContent; toRate.disabled = false;
+    }));
+    toRate.addEventListener('click', () => {
+      const pick = chips.find(c => c.getAttribute('aria-pressed') === 'true');
+      if (pick && pick.hasAttribute('data-hungry')) return go('hungry');
+      document.getElementById('namedAs').textContent = `${named}, right now. One honest number.`;
+      go(1);
+    });
+
+    function buildScale(id, onPick) {
+      const el = document.getElementById(id);
+      for (let v = 1; v <= 10; v++) {
+        const b = document.createElement('button');
+        b.textContent = v; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
+        b.addEventListener('click', () => {
+          el.querySelectorAll('button').forEach(x => x.setAttribute('aria-checked', x === b));
+          onPick(v);
+        });
+        el.appendChild(b);
+      }
+    }
+    const toBreath = document.getElementById('toBreath');
+    const toResult = document.getElementById('toResult');
+    buildScale('rateScale', v => { before = v; toBreath.disabled = false; });
+    buildScale('rerateScale', v => { after = v; toResult.disabled = false; });
+
+    const orb = document.getElementById('orb');
+    const word = document.getElementById('breathWord');
+    const clock = document.getElementById('breathClock');
+    function stopBreath() { clearInterval(timer); timer = null; orb.classList.remove('in'); }
+    toBreath.addEventListener('click', () => {
+      go(2);
+      let t = 60;
+      const tick = () => {
+        const inhale = Math.floor((60 - t) / 4) % 2 === 0;
+        orb.classList.toggle('in', inhale);
+        word.textContent = inhale ? 'Breathe in' : 'Breathe out';
+        clock.textContent = t;
+      };
+      requestAnimationFrame(tick);
+      timer = setInterval(() => { t -= 1; tick(); if (t <= 0) { stopBreath(); go(3); } }, 1000);
+    });
+    document.getElementById('skipBreath').addEventListener('click', () => { stopBreath(); go(3); });
+
+    toResult.addEventListener('click', () => {
+      document.getElementById('resFrom').textContent = before;
+      document.getElementById('resTo').textContent = after;
+      document.getElementById('verdict').textContent = after < before
+        ? 'The urge moved. You did not have to obey it.'
+        : 'Still loud. That is information, not failure. Drink some water and check in again in ten minutes.';
+      go(4);
+    });
+
+    document.querySelectorAll('[data-restart]').forEach(b => b.addEventListener('click', () => {
+      stopBreath();
+      chips.forEach(x => x.setAttribute('aria-pressed', 'false'));
+      document.querySelectorAll('.scale10 button').forEach(x => x.setAttribute('aria-checked', 'false'));
+      toRate.disabled = toBreath.disabled = toResult.disabled = true;
+      go(0);
+    }));
+  })();
+  </script>
+</body>
+</html>
