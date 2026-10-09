@@ -21,3 +21,12 @@ Goal: real design aesthetics and uniqueness, never generic AI web design.
 - Colors: black `#0A0A0A`, gold `#B8986A`, cream `#F6F0E7`.
 - Fonts: Cormorant Garamond (display), Montserrat (text).
 - Known risk: this combo is common in beauty link pages; push uniqueness through imagery, layout and motion.
+
+## Food Noise App page (`app.html`, chosen 2026-10-09: variant A2)
+
+- Colors: raspberry `#C8216F` (white type on it), aubergine `#2A0B3B`, blush `#F9DCE9`, petal `#FFC3DD`; pink as text on light grounds uses `#B5115A`.
+- Fonts: Bodoni Moda only at display sizes, Hanken Grotesk for everything else (16px minimum).
+- Photos: grayscale duotone (raspberry highlights, aubergine shadows) via CSS blend modes.
+- Audience (TikTok, Oct 2026): 87% women, ~85% under 35; the founder's target is 35 to 50, so the page must work for both.
+- Tone: no shame, no counting, no medical promises; always point to professional help for real distress.
+- Alternatives kept for reference: `app-a.html` (louder fuchsia), `app-b.html` (aubergine-led).
