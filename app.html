@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#C8216F" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -320,9 +320,8 @@
       .feature + .feature { border-top-color: rgba(59,13,69,0.2); }
       .device { grid-template-columns: 1fr; }
       .device-side { border-right: 0; border-bottom: 1px solid rgba(42,11,59,0.25); }
-      .founder { grid-template-columns: 1fr; }
+      .founder { grid-template-columns: minmax(0, 1fr); }
       .founder .duo { min-height: 0; aspect-ratio: 4 / 5; }
-      .noise-wall { min-height: 440px; }
     }
     @media (max-width: 520px) {
       .moments li { grid-template-columns: 1fr; gap: 8px; }
@@ -362,66 +361,66 @@
 
 
 
-    /* ═══ Hero: interactive word brain ═══ */
-    .brain-stage {
-      position: relative; overflow: hidden; background: #1B0727; border-radius: 2px;
+
+    /* ═══ Founder: fridge door with peelable sticky notes ═══ */
+    .fridge { min-width: 0; display: flex; flex-direction: column; background: #1B0727; padding: clamp(20px, 3vw, 36px); gap: 16px; }
+    .fridge-door {
+      position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 10px;
+      background:
+        radial-gradient(120% 90% at 85% 15%, rgba(255,214,170,0.55), transparent 55%),
+        linear-gradient(100deg, #cfc7bb 0%, #ebe5dc 30%, #f3eee7 55%, #ddd5c9 85%, #c4bbad 100%);
+      background-size: cover; background-position: center;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), inset -30px 0 60px rgba(0,0,0,0.12);
       -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
-      touch-action: pan-y; cursor: grab;
     }
-    .brain-stage.holding { cursor: grabbing; }
-    .brain-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-    .brain-quiet {
-      position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none;
-      font-family: var(--serif); font-variation-settings: 'opsz' 18; font-style: italic; font-weight: 500;
-      font-size: clamp(3.4rem, 7vw, 6rem); color: #fff;
-      opacity: 0; filter: blur(8px); transform: translateY(10px);
-      transition: opacity 900ms var(--ease-out), filter 900ms var(--ease-out), transform 900ms var(--ease-out);
+    .fridge-door.has-photo { background: var(--door) center / cover no-repeat, #2a2420; }
+    .fridge-door.has-photo::after { /* the photo's lamp light falls on the notes too */
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: multiply;
+      background: radial-gradient(90% 70% at 18% 28%, rgba(255,236,210,1) 0%, rgba(214,190,160,1) 45%, rgba(120,104,92,1) 100%);
     }
-    .brain-stage.is-quiet .brain-quiet { opacity: 1; filter: none; transform: none; }
-    .brain-hold {
-      position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
-      display: inline-flex; align-items: center; gap: 12px;
-      min-height: 48px; padding: 0 22px 0 14px; border-radius: 999px;
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,195,221,0.35);
-      color: #fff; font-family: var(--sans); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.02em;
-      white-space: nowrap; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-      transition: transform 160ms var(--ease-out), background-color 200ms ease, opacity 400ms ease;
+    .fridge-handle {
+      position: absolute; left: 4%; top: 18%; width: 10px; height: 34%; border-radius: 6px;
+      background: linear-gradient(90deg, #8d8a86, #f5f5f3 45%, #a3a09c);
+      box-shadow: 3px 4px 8px rgba(0,0,0,0.25);
     }
-    .brain-hold:active { transform: translateX(-50%) scale(0.97); }
-    .brain-hold .ring { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,195,221,0.4); }
-    .brain-hold .ring i {
-      position: absolute; inset: -2px; border-radius: 50%;
-      background: conic-gradient(var(--pink-on-dark) calc(var(--p, 0) * 1turn), transparent 0);
-      -webkit-mask: radial-gradient(circle, transparent 7px, #000 8px); mask: radial-gradient(circle, transparent 7px, #000 8px);
+    .fridge-door.has-photo .fridge-handle { display: none; }
+    .note {
+      position: absolute; left: var(--x); top: var(--y);
+      width: clamp(84px, 22%, 140px); aspect-ratio: 1;
+      display: grid; place-items: center; padding: 10px; text-align: center;
+      font-family: 'Caveat', cursive; font-weight: 700; font-size: clamp(1.05rem, 2vw, 1.45rem); line-height: 1.05;
+      color: #2b2433; cursor: pointer; z-index: 1;
+      transform: rotate(var(--r));
+      transform-origin: 50% 8%;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.12), 2px 8px 12px -6px rgba(0,0,0,0.35);
+      transition: transform 160ms var(--ease-out), box-shadow 160ms ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    .brain-stage.is-quiet .brain-hold { background: rgba(255,255,255,0.14); }
-    @media (hover: hover) and (pointer: fine) { .brain-hold:hover { background: rgba(255,255,255,0.14); } }
-    /* ═══ Noise wall: the founder's noise, fading to quiet ═══ */
-    .noise-wall { position: relative; min-height: 560px; padding: clamp(36px, 5vw, 64px) var(--gutter); overflow: hidden; background: #1B0727; display: flex; align-items: center; }
-    .noise-words { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15em 0.55em; line-height: 1.05; }
-    .noise-words span {
-      font-family: var(--serif); font-variation-settings: 'opsz' 18; font-weight: 600; color: var(--petal);
-      transition: opacity 700ms var(--ease-out), filter 700ms var(--ease-out), transform 700ms var(--ease-out);
+    .note::after { /* curl shadow at the free bottom edge */
+      content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; height: 18%;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.07)); pointer-events: none;
     }
-    .noise-words span:nth-child(3n) { color: var(--pink-on-dark); }
-    .noise-words span:nth-child(4n) { color: #fff; }
-    .noise-words .i { font-style: italic; font-weight: 500; }
-    .w-s { font-size: clamp(1.1rem, 1.8vw, 1.5rem); opacity: 0.55; }
-    .w-m { font-size: clamp(1.6rem, 2.8vw, 2.4rem); opacity: 0.75; }
-    .w-l { font-size: clamp(2.2rem, 4vw, 3.4rem); }
-    .w-xl { font-size: clamp(2.8rem, 5.6vw, 4.6rem); }
-    .noise-quiet {
-      position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none;
-      font-family: var(--serif); font-variation-settings: 'opsz' 18; font-style: italic; font-weight: 500;
-      font-size: clamp(3.6rem, 9vw, 7rem); color: #fff;
-      opacity: 0; transform: translateY(8px); filter: blur(6px);
-      transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out), filter 900ms var(--ease-out);
+    .n-y { background: linear-gradient(180deg, #f3e27a 0%, #f7e98f 18%, #f6e584 100%); }
+    .n-p { background: linear-gradient(180deg, #f6a3c6 0%, #f9b6d3 18%, #f7a9c9 100%); }
+    @media (hover: hover) and (pointer: fine) {
+      .note:not(.note-last):hover { transform: rotate(var(--r)) translateY(-2px) rotateX(8deg); box-shadow: 0 1px 1px rgba(0,0,0,0.12), 3px 14px 16px -8px rgba(0,0,0,0.4); }
     }
-    .noise-wall.is-quiet .noise-words span { opacity: 0.06; filter: blur(3px); transform: scale(0.98); }
-    .noise-wall.is-quiet .noise-quiet { opacity: 1; transform: none; filter: none; }
-    @media (prefers-reduced-motion: reduce) {
-      .noise-words span, .noise-quiet { transition: opacity 300ms ease; filter: none !important; transform: none !important; }
+    .note:active:not(.note-last) { transform: rotate(var(--r)) scale(0.97); }
+    .note-last {
+      left: 50%; top: 46%; width: clamp(120px, 34%, 190px); font-size: clamp(2rem, 4vw, 2.8rem);
+      transform: translate(-50%, -50%) rotate(-3deg) scale(0.92); opacity: 0; cursor: default; z-index: 0; pointer-events: none;
+      transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
     }
+    .fridge.is-quiet .note-last { opacity: 1; transform: translate(-50%, -50%) rotate(-3deg); }
+    .fridge-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--on-aub-2); font-size: 1rem; }
+    .fridge-hold {
+      min-height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(255,195,221,0.4);
+      color: #fff; font-weight: 700; font-size: 0.95rem; background: rgba(255,255,255,0.06);
+      transition: transform 160ms var(--ease-out), background-color 200ms ease;
+      -webkit-user-select: none; user-select: none; touch-action: none;
+    }
+    .fridge-hold:active { transform: scale(0.97); }
+    .fridge-hold.holding { background: var(--fuchsia); border-color: var(--fuchsia); }
     /* ═══ Transformation + display legibility ═══ */
     h1, h2, .reframe p.big { font-variation-settings: 'opsz' 18; font-weight: 600; }
     .hero h1 { font-variation-settings: 'opsz' 30; }
@@ -489,15 +488,11 @@
     </div>
     <div class="hero-aub">
       <div class="top"><a href="#" data-app-link>Get the app</a></div>
-      <div class="brain-stage hero-photo" id="brainStage">
-        <canvas id="brainCanvas" aria-hidden="true"></canvas>
-        <p class="brain-quiet" id="brainQuiet" aria-hidden="true">quiet.</p>
-        <button class="brain-hold" id="brainHold" type="button" aria-describedby="brainHint">
-          <span class="ring" aria-hidden="true"><i id="brainRing"></i></span>
-          <span id="brainHoldLabel">Press and hold</span>
-        </button>
-      </div>
-      <p class="caption" id="brainHint"><span id="brainCaption">This is food noise. Hold to turn it down.</span><b>23:14</b></p>
+      <figure class="duo hero-photo">
+        <img src="img/food-noise-fridge.jpg"
+             alt="A hand reaching into an open fridge late at night" width="760" height="1009" />
+      </figure>
+      <p class="caption"><span>Not hungry. Just loud.</span><b>23:14</b></p>
     </div>
   </header>
 
@@ -635,32 +630,29 @@
 
     <!-- ═════════ FOUNDER ═════════ -->
     <section class="founder" aria-labelledby="founder-title">
-      <div class="noise-wall" id="noiseWall" aria-hidden="true">
-        <div class="noise-words">
-          <span class="w-xl">snack?</span>
-          <span class="w-s">just one</span>
-          <span class="w-m i">chocolate</span>
-          <span class="w-l">you deserve it</span>
-          <span class="w-s">start Monday</span>
-          <span class="w-m">something sweet</span>
-          <span class="w-l i">I already ate</span>
-          <span class="w-s">one more</span>
-          <span class="w-m">the fridge</span>
-          <span class="w-s i">what&rsquo;s for dinner</span>
-          <span class="w-xl">crisps</span>
-          <span class="w-s">only a bite</span>
-          <span class="w-m">it was a long day</span>
-          <span class="w-l">cereal</span>
-          <span class="w-s i">be good tomorrow</span>
-          <span class="w-m">bread</span>
-          <span class="w-s">just a taste</span>
-          <span class="w-l i">did you eat today?</span>
-          <span class="w-xl">again?</span>
-          <span class="w-m">why can&rsquo;t I stop</span>
-          <span class="w-s">the pantry</span>
-          <span class="w-m i">something salty</span>
+      <div class="fridge" id="fridge">
+        <div class="fridge-door has-photo" style="--door:url(img/fridge-door.jpg)" aria-label="A fridge door covered in sticky notes. Tap a note to peel it off." role="group">
+          <span class="fridge-handle" aria-hidden="true"></span>
+          <button class="note n-p" style="--x:29%;--y:6%;--r:-6deg" aria-label="Peel off: snack?">snack?</button>
+          <button class="note n-y" style="--x:55%;--y:4%;--r:4deg" aria-label="Peel off: just one">just one</button>
+          <button class="note n-p" style="--x:71%;--y:8%;--r:-3deg" aria-label="Peel off: you deserve it">you deserve it</button>
+          <button class="note n-y" style="--x:33%;--y:26%;--r:5deg" aria-label="Peel off: start Monday">start Monday</button>
+          <button class="note n-p" style="--x:59%;--y:24%;--r:-4deg" aria-label="Peel off: I already ate">I already ate</button>
+          <button class="note n-y" style="--x:72%;--y:30%;--r:7deg" aria-label="Peel off: chocolate?">chocolate?</button>
+          <button class="note n-y" style="--x:27%;--y:46%;--r:-2deg" aria-label="Peel off: did you eat today?">did you eat today?</button>
+          <button class="note n-p" style="--x:52%;--y:44%;--r:6deg" aria-label="Peel off: one more">one more</button>
+          <button class="note n-p" style="--x:69%;--y:50%;--r:-5deg" aria-label="Peel off: something sweet">something sweet</button>
+          <button class="note n-y" style="--x:37%;--y:64%;--r:3deg" aria-label="Peel off: why can&rsquo;t I stop">why can&rsquo;t I stop</button>
+          <button class="note n-p" style="--x:60%;--y:66%;--r:-7deg" aria-label="Peel off: the pantry">the pantry</button>
+          <button class="note n-y" style="--x:71%;--y:70%;--r:4deg" aria-label="Peel off: it was a long day">it was a long day</button>
+          <button class="note n-p" style="--x:30%;--y:78%;--r:-4deg" aria-label="Peel off: only a bite">only a bite</button>
+          <button class="note n-y" style="--x:53%;--y:78%;--r:5deg" aria-label="Peel off: again?">again?</button>
+          <p class="note n-p note-last" aria-live="polite">quiet.</p>
         </div>
-        <p class="noise-quiet">quiet.</p>
+        <div class="fridge-bar">
+          <span id="fridgeCount">14 thoughts on the door</span>
+          <button class="fridge-hold" id="fridgeHold" type="button">Hold to clear them all</button>
+        </div>
       </div>
       <div class="founder-copy">
         <h2 id="founder-title">Built by a woman who <em>lived the noise.</em></h2>
@@ -716,146 +708,51 @@
 
 
 
-  // Hero brain: food-noise words packed into a brain; press and hold to quiet it
+
+  // Fridge door: tap a sticky note to peel it off, or hold to clear them all
   (() => {
-    const stage = document.getElementById('brainStage');
-    if (!stage) return;
-    const cv = document.getElementById('brainCanvas');
-    const ctx = cv.getContext('2d');
-    const hold = document.getElementById('brainHold');
-    const label = document.getElementById('brainHoldLabel');
-    const caption = document.getElementById('brainCaption');
-    const ring = document.getElementById('brainRing');
+    const fridge = document.getElementById('fridge');
+    if (!fridge) return;
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const WORDS = ['snack?','just one','chocolate','you deserve it','start Monday','something sweet','I already ate','one more',
-      'the fridge',"what's for dinner",'crisps','only a bite','long day','cereal','tomorrow','bread','just a taste',
-      'did you eat today?','again?',"why can't I stop",'the pantry','salty','cookies','one bite','after dinner','3 PM',
-      'bored','tired','I earned it','last one','toast','ice cream','biscuits','why?','hungry?','nuts','pasta','cheese'];
-    const COLORS = ['#FFC3DD','#FFC3DD','#F06AA6','#FFFFFF','#E8A9C9','#C8216F'];
-    // Brain drawing in unit space (side view, facing left)
-    const OUTLINE = [[.10,.60],[.03,.42],[.07,.22],[.20,.08],[.38,.02],[.58,.02],[.76,.08],[.90,.20],[.98,.38],[.96,.56],
-      [.93,.66],[.86,.76],[.74,.80],[.66,.77],[.64,.84],[.62,.90],[.57,.90],[.55,.82],[.52,.76],[.40,.75],[.26,.73],[.16,.68]];
-    const FOLDS = [
-      [[.30,.58],[.40,.52],[.52,.47],[.64,.44]],                       // lateral sulcus
-      [[.55,.04],[.52,.16],[.55,.26],[.50,.36],[.47,.46]],             // central sulcus
-      [[.14,.30],[.22,.24],[.28,.30],[.36,.22],[.42,.28]],
-      [[.12,.46],[.20,.40],[.26,.46],[.33,.40],[.40,.44]],
-      [[.62,.14],[.68,.22],[.74,.16],[.80,.24],[.86,.20]],
-      [[.62,.32],[.70,.28],[.76,.34],[.84,.30],[.92,.36]],
-      [[.66,.52],[.74,.46],[.80,.54],[.88,.48],[.93,.54]],
-      [[.30,.66],[.38,.62],[.46,.67],[.54,.62],[.60,.68]],
-      [[.70,.66],[.78,.70],[.86,.66]],[[.70,.72],[.80,.75],[.88,.70]], // cerebellum
-      [[.24,.12],[.30,.18],[.38,.12],[.44,.18]],
-    ];
-    function smooth(path, pts, closed) {
-      const P = closed ? [pts[pts.length - 1], ...pts, pts[0], pts[1]] : [pts[0], ...pts, pts[pts.length - 1]];
-      path.moveTo(P[1][0], P[1][1]);
-      for (let i = 1; i < P.length - 2; i++) {
-        const [p0, p1, p2, p3] = [P[i - 1], P[i], P[i + 1], P[i + 2]];
-        path.bezierCurveTo(p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6, p2[0], p2[1]);
-      }
-      if (closed) path.closePath();
-    }
-    let W = 0, H = 0, box, items = [], calm = 0, holding = false, done = false, last = 0, dpr = 1, outline, folds;
-
-    function layout() {
-      const r = stage.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = r.width; H = r.height;
-      cv.width = W * dpr; cv.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const bw = Math.min(W * 0.94, (H - 100) * 1.3), bh = bw / 1.3;
-      box = { x: (W - bw) / 2, y: Math.max(14, (H - 90 - bh) / 2), w: bw, h: bh };
-      const k = Math.max(0.75, bw / 460);
-      const toPx = pts => pts.map(([u, v]) => [box.x + u * box.w, box.y + v * box.h]);
-      outline = new Path2D(); smooth(outline, toPx(OUTLINE), true);
-      folds = new Path2D(); FOLDS.forEach(f => smooth(folds, toPx(f), false));
-      items = []; const rects = [];
-      let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-      for (let a = 0; a < 4000 && items.length < 230; a++) {
-        const word = WORDS[Math.floor(rnd() * WORDS.length)];
-        const big = rnd() < 0.12, mid = rnd() < 0.3;
-        const size = Math.round((big ? 22 + rnd() * 8 : mid ? 15 + rnd() * 4 : 10 + rnd() * 3) * k);
-        const italic = rnd() < 0.35;
-        ctx.font = `${italic ? 'italic ' : ''}${big ? 600 : 500} ${size}px ${big || italic ? '"Bodoni Moda"' : '"Hanken Grotesk"'}`;
-        const tw = ctx.measureText(word).width, th = size * 0.8;
-        const u = rnd(), v = rnd();
-        const x = box.x + u * box.w, y = box.y + v * box.h;
-        const ok = [[x - tw / 2, y - th / 2], [x + tw / 2, y - th / 2], [x - tw / 2, y + th / 2], [x + tw / 2, y + th / 2]]
-          .every(([px, py]) => ctx.isPointInPath(outline, px * dpr, py * dpr));
-        if (!ok) continue;
-        const rr = { l: x - tw / 2 - 2, r: x + tw / 2 + 2, t: y - th / 2 - 1, b: y + th / 2 + 1 };
-        if (rects.some(q => rr.l < q.r && rr.r > q.l && rr.t < q.b && rr.b > q.t)) continue;
-        rects.push(rr);
-        items.push({ word, font: ctx.font, x, y, a: big ? 1 : 0.55 + rnd() * 0.45,
-          c: COLORS[Math.floor(rnd() * COLORS.length)], t: rnd() * 0.85, rot: (rnd() - 0.5) * 0.9,
-          drift: (rnd() - 0.5) * 60, ph: rnd() * 6.28 });
-      }
-    }
-
-    function draw(now) {
-      const dt = Math.min(0.05, (now - last) / 1000 || 0); last = now;
-      if (!done) calm = holding ? Math.min(1, calm + dt / 2.4) : Math.max(0, calm - dt / 0.9);
-      if (calm >= 1 && !done) {
-        done = true; stage.classList.add('is-quiet');
-        label.textContent = 'Again'; caption.textContent = 'That is what sixty seconds can feel like.';
-      }
-      ring.style.setProperty('--p', calm.toFixed(3));
-      ctx.clearRect(0, 0, W, H);
-      const loud = 1 - calm;
-      ctx.save();
-      ctx.fillStyle = 'rgba(200,33,111,' + (0.07 * (1 - calm)) + ')'; ctx.fill(outline);
-      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      ctx.strokeStyle = 'rgba(255,195,221,' + (0.09 * (1 - calm)) + ')'; ctx.lineWidth = 1; ctx.stroke(folds);
-      ctx.strokeStyle = 'rgba(255,195,221,' + (0.32 * (1 - 0.75 * calm)) + ')'; ctx.lineWidth = 1.5; ctx.stroke(outline);
-      ctx.restore();
-      for (const it of items) {
-        const p = Math.min(1, Math.max(0, (calm - it.t) / 0.15));
-        if (p >= 1) continue;
-        const e = p * p;
-        const jx = reduce ? 0 : Math.sin(now / 90 + it.ph) * 1.6 * loud * (Math.random() < 0.5 ? 1 : 0.4);
-        const jy = reduce ? 0 : Math.cos(now / 110 + it.ph) * 1.2 * loud;
-        const x = it.x + jx + (reduce ? 0 : it.drift * e);
-        const y = it.y + jy + (reduce ? 0 : e * H * 0.55);
-        ctx.save();
-        ctx.translate(x, y); if (!reduce) ctx.rotate(it.rot * e);
-        ctx.globalAlpha = it.a * (1 - p) * (reduce ? 1 : 0.85 + 0.15 * Math.sin(now / 140 + it.ph * 3) * loud);
-        ctx.font = it.font; ctx.fillStyle = it.c; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText(it.word, 0, 0);
-        ctx.restore();
-      }
-      requestAnimationFrame(draw);
-    }
-
-    const start = e => {
-      if (done) { done = false; calm = 0; stage.classList.remove('is-quiet'); label.textContent = 'Press and hold'; caption.textContent = 'This is food noise. Hold to turn it down.'; return; }
-      holding = true; stage.classList.add('holding'); label.textContent = 'Breathe out…';
-      if (e && e.pointerId !== undefined && e.target.setPointerCapture) e.target.setPointerCapture(e.pointerId);
+    const notes = [...fridge.querySelectorAll('button.note')];
+    const count = document.getElementById('fridgeCount');
+    const hold = document.getElementById('fridgeHold');
+    let left = notes.length, timer = null;
+    const update = () => {
+      count.textContent = left ? `${left} thought${left === 1 ? '' : 's'} on the door` : 'Nothing left on the door.';
+      if (!left) { fridge.classList.add('is-quiet'); hold.textContent = 'Put them back'; }
     };
-    const stop = () => { if (!holding) return; holding = false; stage.classList.remove('holding'); if (!done) label.textContent = 'Press and hold'; };
-    stage.addEventListener('pointerdown', start);
-    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => stage.addEventListener(t, stop));
-    stage.addEventListener('contextmenu', e => e.preventDefault());
-    hold.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); start(); } });
-    hold.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') stop(); });
-
-    let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 150); });
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { layout(); requestAnimationFrame(draw); });
-  })();
-
-  // Noise wall: words fade one by one until only "quiet." remains
-  (() => {
-    const wall = document.getElementById('noiseWall');
-    if (!wall || !('IntersectionObserver' in window)) { wall && wall.classList.add('is-quiet'); return; }
-    const words = [...wall.querySelectorAll('.noise-words span')];
-    const order = words.map((_, i) => i).sort(() => Math.random() - 0.5);
-    order.forEach((i, n) => words[i].style.transitionDelay = (n * 90) + 'ms');
-    wall.querySelector('.noise-quiet').style.transitionDelay = (words.length * 90 + 200) + 'ms';
-    new IntersectionObserver((entries, obs) => {
-      if (!entries[0].isIntersecting) return;
-      setTimeout(() => wall.classList.add('is-quiet'), 900);
-      obs.disconnect();
-    }, { threshold: 0.45 }).observe(wall);
+    function peel(n) {
+      if (n.dataset.gone) return;
+      n.dataset.gone = '1'; n.disabled = true; left--; update();
+      const r = parseFloat(n.style.getPropertyValue('--r')) || 0;
+      const spin = (Math.random() - 0.5) * 70, drift = (Math.random() - 0.5) * 120;
+      const anim = reduce
+        ? n.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' })
+        : n.animate([
+            { transform: `rotate(${r}deg)`, opacity: 1 },
+            { transform: `rotate(${r}deg) translateY(-6px) rotateX(38deg) scale(1.04)`, opacity: 1, offset: 0.22 },
+            { transform: `translate(${drift}px, 520px) rotate(${r + spin}deg) rotateX(20deg)`, opacity: 0 },
+          ], { duration: 1100, easing: 'cubic-bezier(0.5, 0, 0.75, 0)', fill: 'forwards' });
+      anim.onfinish = () => { n.style.visibility = 'hidden'; };
+    }
+    function reset() {
+      notes.forEach(n => { n.getAnimations().forEach(a => a.cancel()); delete n.dataset.gone; n.disabled = false; n.style.visibility = ''; });
+      left = notes.length; fridge.classList.remove('is-quiet'); hold.textContent = 'Hold to clear them all'; update();
+    }
+    notes.forEach(n => n.addEventListener('click', () => peel(n)));
+    const startHold = e => {
+      if (!left) { reset(); return; }
+      e && e.preventDefault(); hold.classList.add('holding');
+      const step = () => { const next = notes.find(n => !n.dataset.gone); if (next) peel(next); else stopHold(); };
+      step(); clearInterval(timer); timer = setInterval(step, 160);
+    };
+    const stopHold = () => { clearInterval(timer); timer = null; hold.classList.remove('holding'); };
+    hold.addEventListener('pointerdown', startHold);
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => hold.addEventListener(t, stopHold));
+    hold.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) startHold(e); });
+    hold.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') stopHold(); });
+    hold.addEventListener('contextmenu', e => e.preventDefault());
   })();
 
   // Headline test: add ?h=b to the URL to show variant B
