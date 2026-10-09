@@ -322,6 +322,7 @@
       .device-side { border-right: 0; border-bottom: 1px solid rgba(42,11,59,0.25); }
       .founder { grid-template-columns: 1fr; }
       .founder .duo { min-height: 0; aspect-ratio: 4 / 5; }
+      .noise-wall { min-height: 440px; }
     }
     @media (max-width: 520px) {
       .moments li { grid-template-columns: 1fr; gap: 8px; }
@@ -359,6 +360,33 @@
     .caption { font-size: 1rem; }
     .recog .aside { font-weight: 500; }
 
+
+    /* ═══ Noise wall: the founder's noise, fading to quiet ═══ */
+    .noise-wall { position: relative; min-height: 560px; padding: clamp(36px, 5vw, 64px) var(--gutter); overflow: hidden; background: #1B0727; display: flex; align-items: center; }
+    .noise-words { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15em 0.55em; line-height: 1.05; }
+    .noise-words span {
+      font-family: var(--serif); font-variation-settings: 'opsz' 18; font-weight: 600; color: var(--petal);
+      transition: opacity 700ms var(--ease-out), filter 700ms var(--ease-out), transform 700ms var(--ease-out);
+    }
+    .noise-words span:nth-child(3n) { color: var(--pink-on-dark); }
+    .noise-words span:nth-child(4n) { color: #fff; }
+    .noise-words .i { font-style: italic; font-weight: 500; }
+    .w-s { font-size: clamp(1.1rem, 1.8vw, 1.5rem); opacity: 0.55; }
+    .w-m { font-size: clamp(1.6rem, 2.8vw, 2.4rem); opacity: 0.75; }
+    .w-l { font-size: clamp(2.2rem, 4vw, 3.4rem); }
+    .w-xl { font-size: clamp(2.8rem, 5.6vw, 4.6rem); }
+    .noise-quiet {
+      position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none;
+      font-family: var(--serif); font-variation-settings: 'opsz' 18; font-style: italic; font-weight: 500;
+      font-size: clamp(3.6rem, 9vw, 7rem); color: #fff;
+      opacity: 0; transform: translateY(8px); filter: blur(6px);
+      transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out), filter 900ms var(--ease-out);
+    }
+    .noise-wall.is-quiet .noise-words span { opacity: 0.06; filter: blur(3px); transform: scale(0.98); }
+    .noise-wall.is-quiet .noise-quiet { opacity: 1; transform: none; filter: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .noise-words span, .noise-quiet { transition: opacity 300ms ease; filter: none !important; transform: none !important; }
+    }
     /* ═══ Transformation + display legibility ═══ */
     h1, h2, .reframe p.big { font-variation-settings: 'opsz' 18; font-weight: 600; }
     .hero h1 { font-variation-settings: 'opsz' 30; }
@@ -568,10 +596,33 @@
 
     <!-- ═════════ FOUNDER ═════════ -->
     <section class="founder" aria-labelledby="founder-title">
-      <figure class="duo">
-        <img src="img/food-noise-water.jpg"
-             alt="A glass of water on a kitchen counter at night" width="760" height="950" loading="lazy" />
-      </figure>
+      <div class="noise-wall" id="noiseWall" aria-hidden="true">
+        <div class="noise-words">
+          <span class="w-xl">snack?</span>
+          <span class="w-s">just one</span>
+          <span class="w-m i">chocolate</span>
+          <span class="w-l">you deserve it</span>
+          <span class="w-s">start Monday</span>
+          <span class="w-m">something sweet</span>
+          <span class="w-l i">I already ate</span>
+          <span class="w-s">one more</span>
+          <span class="w-m">the fridge</span>
+          <span class="w-s i">what&rsquo;s for dinner</span>
+          <span class="w-xl">crisps</span>
+          <span class="w-s">only a bite</span>
+          <span class="w-m">it was a long day</span>
+          <span class="w-l">cereal</span>
+          <span class="w-s i">be good tomorrow</span>
+          <span class="w-m">bread</span>
+          <span class="w-s">just a taste</span>
+          <span class="w-l i">did you eat today?</span>
+          <span class="w-xl">again?</span>
+          <span class="w-m">why can&rsquo;t I stop</span>
+          <span class="w-s">the pantry</span>
+          <span class="w-m i">something salty</span>
+        </div>
+        <p class="noise-quiet">quiet.</p>
+      </div>
       <div class="founder-copy">
         <h2 id="founder-title">Built by a woman who <em>lived the noise.</em></h2>
         <p>The 3 PM hum. The 11 PM pantry. Mirabae started as the founder's own attempt to understand why, and to <strong>stop fighting her own brain.</strong> The app is the tool she wished she had at 23:14.</p>
@@ -623,6 +674,22 @@
   // EDIT HERE: real Food Noise App link
   const APP_URL = '#';
   document.querySelectorAll('[data-app-link]').forEach(a => a.href = APP_URL);
+
+
+  // Noise wall: words fade one by one until only "quiet." remains
+  (() => {
+    const wall = document.getElementById('noiseWall');
+    if (!wall || !('IntersectionObserver' in window)) { wall && wall.classList.add('is-quiet'); return; }
+    const words = [...wall.querySelectorAll('.noise-words span')];
+    const order = words.map((_, i) => i).sort(() => Math.random() - 0.5);
+    order.forEach((i, n) => words[i].style.transitionDelay = (n * 90) + 'ms');
+    wall.querySelector('.noise-quiet').style.transitionDelay = (words.length * 90 + 200) + 'ms';
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting) return;
+      setTimeout(() => wall.classList.add('is-quiet'), 900);
+      obs.disconnect();
+    }, { threshold: 0.45 }).observe(wall);
+  })();
 
   // Headline test: add ?h=b to the URL to show variant B
   if (new URLSearchParams(location.search).get('h') === 'b') {
