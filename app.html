@@ -235,6 +235,32 @@
     .shift { font-family: var(--serif); font-size: clamp(5rem, 14vw, 10rem); line-height: 1; display: flex; gap: 0.3em; align-items: baseline; font-variant-numeric: lining-nums; }
     .shift .from { opacity: 0.4; text-decoration: line-through; text-decoration-thickness: 0.05em; }
 
+    .hero .promise {
+      margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(42,11,59,0.35);
+      font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+      max-width: 30ch;
+    }
+    .recog .aside {
+      margin-top: clamp(48px, 6vw, 80px); max-width: 30ch; margin-left: auto;
+      font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.15;
+    }
+    .recog .aside strong { font-weight: 500; font-style: italic; color: var(--fuchsia); }
+
+    /* ══════════ THE MORNING AFTER ══════════ */
+    .after { background: var(--petal); padding: clamp(96px, 13vw, 170px) var(--gutter); }
+    .after-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+    .after h2 { font-size: clamp(2.8rem, 6vw, 5.2rem); line-height: 0.98; }
+    .after h2 em { color: var(--fuchsia); }
+    .after-lede { margin-top: 24px; max-width: 42ch; font-size: 1.1rem; color: var(--on-blush-2); }
+    .after-lede strong { color: var(--plum); font-weight: 700; }
+    .instead { list-style: none; border-top: 1px solid var(--plum); }
+    .instead li { padding: 26px 0; border-bottom: 1px solid rgba(59,13,69,0.25); }
+    .instead s {
+      display: block; font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.2;
+      color: var(--on-blush-2); text-decoration-color: var(--fuchsia); text-decoration-thickness: 2px;
+    }
+    .instead span { display: block; margin-top: 8px; font-weight: 600; font-size: 1.05rem; }
+
     /* ══════════ FOUNDER (real proof) ══════════ */
     .founder {
       background: var(--aubergine); color: var(--petal);
@@ -286,7 +312,8 @@
       .hero-pink { min-height: 88svh; }
       .hero-aub .top { display: none; }
       .hero-photo { margin-top: 0; min-height: 0; aspect-ratio: 4 / 5; }
-      .recog-grid, .offer-head, .doubts { grid-template-columns: 1fr; }
+      .recog-grid, .offer-head, .doubts, .after-grid { grid-template-columns: 1fr; }
+      .recog .aside { margin-left: 0; }
       .recog h2 { position: static; }
       .chain, .feature-row { grid-template-columns: 1fr; }
       .chain div + div, .feature + .feature { padding-left: 0; border-left: 0; border-top: 1px solid rgba(255,195,221,0.2); margin-top: 22px; }
@@ -321,6 +348,7 @@
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2.5v11M3.5 9 8 13.5 12.5 9"/></svg>
         </a>
         <p class="reassure">Free, right on this page. No sign-up.</p>
+        <p class="promise">No counting. No weighing. No shame.</p>
       </div>
     </div>
     <div class="hero-aub">
@@ -339,11 +367,14 @@
       <div class="recog-grid">
         <h2 id="recog-title">It shows up <em>on time.</em> Every day.</h2>
         <ol class="moments">
-          <li><time>15:15</time><div><b>The 3 PM hum.</b><span>You are not hungry. You are tired, and the snack drawer is right there.</span></div></li>
-          <li><time>20:30</time><div><b>The meal that never ends.</b><span>You just finished dinner and you are already thinking about the next thing.</span></div></li>
-          <li><time>23:14</time><div><b>The 11 PM pantry.</b><span>The house is quiet. Your head is not.</span></div></li>
+          <li><time>12:30</time><div><b>Not hungry at all.</b><span>You barely ate this morning. It almost feels like control.</span></div></li>
+          <li><time>16:40</time><div><b>Two bites.</b><span>Just a taste. Then you cannot stop, and you do not even know why.</span></div></li>
+          <li><time>18:10</time><div><b>A yogurt. Then an apple. Then&hellip;</b><span>It started healthy. Then this, then that, then whatever is left in the cupboard.</span></div></li>
+          <li><time>21:05</time><div><b>&ldquo;Did you eat today?&rdquo;</b><span>&ldquo;Yes.&rdquo; You do not say how much.</span></div></li>
+          <li><time>23:14</time><div><b>The 11 PM pantry.</b><span>You should have gone to sleep. Instead: cereal, a few crackers, something sweet. The house is quiet. Your head is not.</span></div></li>
         </ol>
       </div>
+      <p class="aside">And somewhere in between you start to think something is wrong with your head. <strong>Nothing is wrong with you.</strong></p>
     </section>
 
     <!-- ═════════ REFRAME + MECHANISM ═════════ -->
@@ -433,6 +464,22 @@
       </div>
     </section>
 
+    <!-- ═════════ THE MORNING AFTER ═════════ -->
+    <section class="after" aria-labelledby="after-title">
+      <div class="after-grid">
+        <div>
+          <h2 id="after-title">Already ate it? <em>Start here.</em></h2>
+          <p class="after-lede">The morning after is its own kind of loud. The regret. The tiredness. The quiet promise that today you will barely eat. That promise is usually where the next loop begins.</p>
+          <p class="after-lede"><strong>You are not the only one.</strong> Tomorrow does not start on Monday. It starts at your next check-in.</p>
+        </div>
+        <ul class="instead">
+          <li><s>Skip breakfast to make up for it.</s><span>Eat a real breakfast. Hungry mornings make loud evenings.</span></li>
+          <li><s>Step on the scale to punish yourself.</s><span>Name what was loud last night. Stress, boredom, tiredness.</span></li>
+          <li><s>Promise it will never happen again.</s><span>Notice when it happened. That time is information, not failure.</span></li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ═════════ FOUNDER ═════════ -->
     <section class="founder" aria-labelledby="founder-title">
       <figure class="duo">
@@ -452,6 +499,10 @@
         <details>
           <summary>I have tried everything. Why would this be different?</summary>
           <p>Most plans work on what you eat. This works one step earlier, on the moment the urge shows up. That is why the plans that ignored the signal did not hold.</p>
+        </details>
+        <details>
+          <summary>Is something wrong with me?</summary>
+          <p>No. Thinking about food all day, losing control after a few bites, eating more at night after eating very little during the day: many people know these patterns. They are signals, not a character flaw. If they cause you real distress, please talk to a doctor or a qualified professional.</p>
         </details>
         <details>
           <summary>Is this a diet?</summary>
@@ -486,6 +537,11 @@
   // EDIT HERE: real Food Noise App link
   const APP_URL = '#';
   document.querySelectorAll('[data-app-link]').forEach(a => a.href = APP_URL);
+
+  // Headline test: add ?h=b to the URL to show variant B
+  if (new URLSearchParams(location.search).get('h') === 'b') {
+    document.querySelector('.hero h1').innerHTML = 'Tired of thinking about <em>food?</em>';
+  }
 
   (() => {
     const stages = [...document.querySelectorAll('.stage')];
