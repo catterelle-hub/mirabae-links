@@ -30,3 +30,17 @@ Goal: real design aesthetics and uniqueness, never generic AI web design.
 - Audience (TikTok, Oct 2026): 87% women, ~85% under 35; the founder's target is 35 to 50, so the page must work for both.
 - Tone: no shame, no counting, no medical promises; always point to professional help for real distress.
 - Alternatives kept for reference: `app-a.html` (louder fuchsia), `app-b.html` (aubergine-led).
+
+## Mirabae links and facts (do not ask the founder again)
+
+- Food Noise App (web app, hosted on Vercel): https://app.mirabae.com ("Mirabae · Food Noise Coach")
+  - Features: 20-second daily check-ins, Quiet Score, food-noise patterns (e.g. "The Stress Grazer"), "Quiet Now" emergency program, 7-Day Reset, Mira (in-app text coach), Pattern Map, lessons, journaling, Satiety Plate.
+  - Plans via Whop, 7-day free trial, cancel anytime: Quiet Start $19/mo https://whop.com/checkout/plan_vwpPc8bgB1u1w · Mirabae Ritual $49/mo https://whop.com/checkout/plan_e5cn9Mu03t5Kg
+  - Whop product page: https://whop.com/mirabae-0696/mirabae-app/
+  - Landing page CTA should say "Start 7 days free".
+- Link hub: https://links.mirabae.com (this repo, index.html)
+- Shop: https://www.mirabae.com · Brainelle: https://www.mirabae.com/products/brainelle?variant=52952487330130
+- Anima (kefir fibre powder): https://anima.mirabae.com (repo catterelle-hub/anima-landing)
+- The Appetite Recode (ebook): https://whop.com/mirabae-0696/the-appetite-recode
+- Founder: Anjelika. 1:1 coaching via app.mirabae.com/coaching-apply.
+- Where things live: app code is NOT in this repo and not visible to the connected GitHub/Vercel accounts (as of 2026-10-10); Notion "Mirabae — Master Operating Hub" holds older ops notes; the "Mirabae Brain" notes live on the founder's Mac unless synced.
