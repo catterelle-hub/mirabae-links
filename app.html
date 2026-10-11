@@ -470,6 +470,66 @@
       .close .btn-aub:hover { background: #D93A82; }
     }
   </style>
+
+  <style>
+    /* ═══ Inside the app: scroll driven phone with the real screen recording ═══ */
+    .ai { position: relative; height: 260vh; background: var(--aubergine); color: #fff; }
+    .ai-stage {
+      position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+      gap: clamp(32px, 6vw, 96px); padding: 0 var(--gutter);
+      background:
+        radial-gradient(60% 55% at 72% 50%, rgba(200,33,111,0.55), transparent 70%),
+        radial-gradient(40% 40% at 15% 85%, rgba(255,195,221,0.12), transparent 70%);
+    }
+    .ai-copy { max-width: 520px; }
+    .ai-eyebrow { font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--petal); }
+    .ai h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(2.4rem, 5vw, 4.4rem); line-height: 1.02; margin: 16px 0 28px; }
+    .ai h2 em { color: var(--pink-on-dark); }
+    .ai-caps { position: relative; min-height: 7.5em; }
+    .ai-cap {
+      position: absolute; inset: 0 auto auto 0; margin: 0; font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.5;
+      color: #FFE3EF; opacity: 0; transform: translateY(10px);
+      transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+    }
+    .ai-cap b { display: block; font-family: var(--serif); font-size: 1.5em; color: #fff; margin-bottom: 6px; }
+    .ai-cap.on { opacity: 1; transform: none; }
+    .ai-note { margin-top: 18px; font-size: 0.85rem; color: rgba(255,227,239,0.7); }
+    .ai-view { perspective: 1400px; }
+    .ai-phone {
+      --tilt: 1; --zoom: 0;
+      width: clamp(200px, min(26vw, 36vh), 330px); aspect-ratio: 720 / 1392; box-sizing: content-box;
+      padding: 12px; border-radius: 46px; background: #140419;
+      box-shadow: 0 0 0 1.5px rgba(255,195,221,0.35), 0 40px 90px -20px rgba(0,0,0,0.65);
+      transform:
+        translateY(calc(var(--tilt) * 70px))
+        rotateX(calc(var(--tilt) * 26deg)) rotateY(calc(var(--tilt) * -22deg)) rotateZ(calc(var(--tilt) * 7deg))
+        scale(calc(0.82 + (1 - var(--tilt)) * 0.18 + var(--zoom) * var(--zoomk, 0.16)));
+      transform-origin: 50% 60%; will-change: transform;
+    }
+    .ai-phone video, .ai-phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 34px; background: #F6F0E7; }
+    @media (max-width: 760px) {
+      .ai { height: 230vh; }
+      .ai-stage { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; justify-items: center; align-items: start; gap: 18px; padding-top: 56px; padding-bottom: 28px; }
+      .ai-copy { display: contents; }
+      .ai-head { text-align: center; order: 1; }
+      .ai h2 { font-size: clamp(2rem, 9vw, 2.6rem); margin: 10px 0 0; }
+      .ai-view { align-self: center; order: 2; }
+      .ai-phone { --zoomk: 0.05; width: min(52vw, 25svh); padding: 8px; border-radius: 34px; }
+      .ai-phone video, .ai-phone img { border-radius: 27px; }
+      .ai-bottom { width: 100%; max-width: 420px; text-align: center; order: 3; }
+      .ai-caps { min-height: 6.2em; }
+      .ai-cap { inset: 0 0 auto 0; font-size: 1rem; }
+      .ai-cap b { font-size: 1.35em; }
+      .ai-note { margin-top: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ai { height: auto; }
+      .ai-stage { position: relative; height: auto; min-height: 100svh; padding-top: 72px; padding-bottom: 72px; }
+      .ai-phone { --tilt: 0 !important; --zoom: 0 !important; transform: none; }
+      .ai-cap { transition: none; }
+    }
+  </style>
 </head>
 <body>
 
@@ -534,6 +594,33 @@
         <li>Your head has room again. For your work, your people, your own plans.</li>
       </ul>
       <p class="quiet-end">That is not a stricter you. <em>That is a quieter you.</em></p>
+    </section>
+
+    <!-- ═════════ INSIDE THE APP: real screen recording ═════════ -->
+    <section class="ai" id="inside" aria-labelledby="ai-title">
+      <div class="ai-stage">
+        <div class="ai-copy">
+          <div class="ai-head">
+            <span class="ai-eyebrow">Inside the app</span>
+            <h2 id="ai-title">This is what quiet <em>looks like.</em></h2>
+          </div>
+          <div class="ai-bottom">
+            <div class="ai-caps" aria-live="polite">
+              <p class="ai-cap on" data-from="0"><b>Your Quiet Score.</b>One number for how loud your head was today, and proof that it is getting quieter.</p>
+              <p class="ai-cap" data-from="6"><b>Quiet Now.</b>Two minutes for the moment that used to end in the pantry. Arrive, exhale, name it.</p>
+              <p class="ai-cap" data-from="18.5"><b>The 7-Day Reset.</b>One focused week. One small step a day. No starting over on Monday.</p>
+            </div>
+            <p class="ai-note">A real screen recording of the app. No mockup.</p>
+          </div>
+        </div>
+        <div class="ai-view">
+          <div class="ai-phone" id="aiPhone">
+            <video id="aiVideo" muted playsinline loop preload="metadata" poster="img/app-demo.jpg" aria-label="Screen recording of the Mirabae app: Quiet Score, Quiet Now and the 7-Day Reset">
+              <source src="img/app-demo.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ═════════ OFFER + WORKING DEMO ═════════ -->
@@ -711,6 +798,37 @@
 
 
 
+
+
+  // Inside the app: phone straightens up and the camera moves in as you scroll
+  (() => {
+    const sec = document.getElementById('inside'), phone = document.getElementById('aiPhone'), video = document.getElementById('aiVideo');
+    if (!sec || !phone || !video) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const caps = [...sec.querySelectorAll('.ai-cap')];
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const clamp = v => Math.min(1, Math.max(0, v));
+    let ticking = false;
+    function frame() {
+      ticking = false;
+      const r = sec.getBoundingClientRect();
+      const p = clamp(-r.top / Math.max(1, r.height - innerHeight));
+      phone.style.setProperty('--tilt', (1 - ease(clamp(p / 0.45))).toFixed(4));
+      phone.style.setProperty('--zoom', ease(clamp((p - 0.5) / 0.4)).toFixed(4));
+    }
+    if (!reduce) {
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+      addEventListener('resize', frame); frame();
+      new IntersectionObserver(([e]) => { e.isIntersecting ? video.play().catch(() => {}) : video.pause(); }, { threshold: 0.25 }).observe(sec);
+    } else {
+      video.removeAttribute('loop'); video.controls = true;
+    }
+    video.addEventListener('timeupdate', () => {
+      const t = video.currentTime; let idx = 0;
+      caps.forEach((c, i) => { if (t >= parseFloat(c.dataset.from)) idx = i; });
+      caps.forEach((c, i) => c.classList.toggle('on', i === idx));
+    });
+  })();
 
   // Fridge door: tap a sticky note to peel it off, or hold to clear them all
   (() => {
