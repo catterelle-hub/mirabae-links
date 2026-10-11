@@ -421,6 +421,7 @@
     }
     .fridge-hold:active { transform: scale(0.97); }
     .fridge-hold.holding { background: var(--fuchsia); border-color: var(--fuchsia); }
+    .trial-note { margin-top: 18px; font-size: 1rem; color: var(--on-aub-2); }
     /* ═══ Transformation + display legibility ═══ */
     h1, h2, .reframe p.big { font-variation-settings: 'opsz' 18; font-weight: 600; }
     .hero h1 { font-variation-settings: 'opsz' 30; }
@@ -487,7 +488,7 @@
       </div>
     </div>
     <div class="hero-aub">
-      <div class="top"><a href="#" data-app-link>Get the app</a></div>
+      <div class="top"><a href="https://whop.com/checkout/plan_vwpPc8bgB1u1w" data-app-link>Start 7 days free</a></div>
       <figure class="duo hero-photo">
         <img src="img/food-noise-fridge.jpg"
              alt="A hand reaching into an open fridge late at night" width="760" height="1009" />
@@ -604,7 +605,7 @@
             <div class="shift"><span class="from" id="resFrom">8</span><span id="resTo">4</span></div>
             <p class="sub" id="verdict" style="font-size:1.3rem">The urge moved. You did not have to obey it.</p>
             <div class="stage-actions">
-              <a class="btn btn-aub" href="#" data-app-link>Keep this in the app</a>
+              <a class="btn btn-aub" href="https://whop.com/checkout/plan_vwpPc8bgB1u1w" data-app-link>Start 7 days free</a>
               <button class="textbtn" data-restart>Again</button>
             </div>
           </div>
@@ -691,9 +692,10 @@
     <section class="close" aria-labelledby="close-title">
       <h2 id="close-title">Turn the noise <em>down.</em></h2>
       <div class="row">
-        <a class="btn btn-aub" href="#" data-app-link>Get the app</a>
+        <a class="btn btn-aub" href="https://whop.com/checkout/plan_vwpPc8bgB1u1w" data-app-link>Start 7 days free</a>
         <p>There is a version of you who forgets about food until she is hungry. She is not more disciplined. She is just quieter. Your next loud moment is the best time to meet her.</p>
       </div>
+      <p class="trial-note">7 days free, then $19 a month. Cancel anytime, in one click.</p>
       <footer>
         <p>The Food Noise App is a self-reflection tool, not a diagnosis or medical advice.</p>
         <span>© 2026 Mirabae</span>
@@ -702,8 +704,8 @@
   </main>
 
   <script>
-  // EDIT HERE: real Food Noise App link
-  const APP_URL = '#';
+  // Food Noise App: Quiet Start plan, 7-day free trial on Whop
+  const APP_URL = 'https://whop.com/checkout/plan_vwpPc8bgB1u1w';
   document.querySelectorAll('[data-app-link]').forEach(a => a.href = APP_URL);
 
 
