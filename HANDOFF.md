@@ -25,8 +25,8 @@ Read `CLAUDE.md` first. It has the design rules, the A2 palette, every Mirabae l
    - Then a short Quiet Now style breath where the fridge notes fall away, then "Start 7 days free".
    - Label it as a preview, store nothing, no medical claims.
 2. **Check with the founder**
-   - Is "The app is the tool she wished she had at 23:14" (founder section) true to her story?
-   - Whop shows "$23.75 crossed out → $19, Save 20%". If $23.75 was never charged, remove the strike price (EU reference-price rules, and the brand avoids discount culture).
+   - Done 2026-10-11: the founder rejected "The app is the tool she wished she had at 23:14" (sounds like AI, too specific). Replaced with: "Today she eats full plates and her head stays quiet around food. It took her years to get there. The app is everything that helped, made small enough to fit into your day."
+   - Settled 2026-10-11: the Whop strike price ($23.75 crossed out, $19) stays for now. The founder checked with Whop support; Whop offers no other way. Do not raise it again unless Whop changes this.
    - Android: plan a PWA first (installable web app, free), then Google Play via a Trusted Web Activity. Check current Play fees, the closed-testing requirement for new accounts, and whether Whop billing is allowed for in-app subscriptions.
 3. **Connect missing sources so future sessions see everything**
    - The app's code repo and its Vercel project are not visible to the connected GitHub/Vercel accounts. Install the Claude GitHub App on the app repo (https://claude.ai/connect-github) and connect the Vercel account that owns app.mirabae.com (https://claude.ai/customize/connectors).
