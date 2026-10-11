@@ -37,3 +37,12 @@ Read `CLAUDE.md` first. It has the design rules, the A2 palette, every Mirabae l
 - Test every change with Playwright at 390px and desktop before showing it.
 - Keep `app-a.html` / `app-b.html` as references; `app.html` is the live page.
 - Higgsfield credits left: about 6 (as of 2026-10-11).
+
+## The Mirabae Lab (in progress, branch `claude/mirabae-lab`, 2026-10-11)
+
+Decided with the founder (Brain: DECISION-015 amendment, `20-products/miralemon.md`, `20-products/brainelle.md`):
+- New page `lab.html` (first draft in this branch, not tested yet): pink campaign energy, three products (Brainelle, Anima, Miralemon) with prices and founding prices, multi-select waitlist posting to Klaviyo lists via the public form endpoint (same as anima.mirabae.com): Brainelle `TCGeRD`, Anima `TGRgd4`, Miralemon `WdVJcj`. Optional "Would you order it at launch?" (Yes / Maybe).
+- One quiet link tree entry at the very bottom: "The Mirabae Lab · What we're making next" (not added yet).
+- Fix in lab.html before shipping: "Kefir Fibre Powder" must be "Kefir Fiber Powder" (matches the Anima box, US market).
+- Animation plan: Lenis smooth scroll (desktop only), GSAP (official GreenSock skills installed in ~/.claude/skills), SplitText hero, ScrollTrigger card reveals, a click spark on "I want this", and a slowly rotating three sided product prism with silver or gold edges that reacts to mouse and tilt. Inspiration: resend.com's Spline cube; take the technique, never copy the cube.
+- Next step when the session resumes: founder approval of 4 packaging drafts (Brainelle powder tub x2, Miralemon can x2) on Nano Banana via WaveSpeed, about $0.16 total. Refs prepared in `~/Mirabae-Brain/generations/refs/` (anima_box_ref.png, mirabae_logo_gold.webp, miralemon_can_draft1_ref.jpg). Approved label copy is in the Brain product files and in the session; Brainelle is now a powder ("Brain & Beauty Morning Drink", "Collagen Powder Dietary Supplement").
