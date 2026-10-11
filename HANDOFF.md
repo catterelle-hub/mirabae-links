@@ -9,27 +9,28 @@ Read `CLAUDE.md` first. It has the design rules, the A2 palette, every Mirabae l
 - Copy aligned with the real app: 20-second check-in + Quiet Score, Quiet Now, 7-Day Reset, Pattern Map.
 - Mira (Text the Coach) is deliberately NOT promised: it is only in the $49 Mirabae Ritual plan, while the CTA sells Quiet Start ($19).
 
+## Done on 2026-10-11 (local Claude Code, branch `claude/linktree-and-app-demo`)
+
+- **Link tree (`index.html`)**: rebuilt from the July version that was never pushed. Order: Quiz, App (now `/app`, the landing page), Open Your App, Private Coaching (`app.mirabae.com/coaching-apply`), The Appetite Recode, Shop. Removed Brainelle (dead carrd link) and Anima (parked, DECISION-015 in the Brain).
+- **Hosting confirmed**: Vercel project `mirabae-links`, Git connected; every merge to `main` deploys to production (links.mirabae.com). `vercel.json` with `cleanUrls` makes `/app` work.
+- **Phone section** ("Inside the app", between "Imagine forgetting about food" and the offer): scroll driven 3D phone, the real screen recording plays inside, captions follow the video (Quiet Score, Quiet Now, 7-Day Reset). Reduced motion: no tilt, video with controls, no autoplay.
+- `img/app-demo.mp4` (720px, 25.5 s, 2.5 MB, no audio) and `img/app-demo.jpg`, cut from `Screen_Recording_20261003_123049_Chrome.mp4` (Downloads on the founder's Mac). Segments used: 98.5 to 104.5 s, 14.5 to 27 s, 44 to 48.5 s, 54 to 56.5 s. **Never use 5 to 10 s (share sheet with contacts and a phone number) or 113 to 125 s (account screen with the founder's email).**
+- Tested at 375px, 1280x720 and 1440x900: no horizontal scroll, no console errors.
+
 ## Open, in this order
 
-1. **Show the page on the link tree (links.mirabae.com)**
-   - Add a featured link card to `index.html` pointing to `app.html` ("Quiet the food noise · Start 7 days free" or similar).
-   - Confirm how links.mirabae.com is hosted (GitHub Pages, Vercel, other) and that `https://links.mirabae.com/app.html` loads after the merge. A nicer URL like `/app` may need a hosting rewrite or an `app/index.html`.
-2. **Phone "camera pan" section with the real app**
-   - The founder has a screen recording of the app (open app → home with Quiet Score → Quiet Now → 7-Day Reset). It was too large to attach in the cloud session.
-   - Compress it with ffmpeg (H.264, about 720px wide, no audio, target under 8 MB), save as `img/app-demo.mp4` plus a poster frame `img/app-demo.jpg`.
-   - Build a scroll-driven section: a phone tilts in 3D, the camera zooms in, the recording plays inside the phone. Respect `prefers-reduced-motion` (static poster). Pink campaign world outside the phone, the real cream/terracotta app inside.
-3. **"60 seconds that read your noise" sequence** (replaces or extends the demo in the "Try it right now" block)
+1. **"60 seconds that read your noise" sequence** (replaces or extends the demo in the "Try it right now" block)
    - Three taps: when it gets loud (3 PM, after dinner, 11 PM, all day), what is under it (stress, boredom, tired, lonely, actually hungry), what happens after (regret, restrict next day, "Monday", nothing).
-   - Reveal a pattern card using the app's real pattern names (founder to supply the list; "The Stress Grazer" is confirmed) plus one sentence that names the hidden reason.
+   - Reveal a pattern card using the app's real pattern names, seen in the recording on 2026-10-11: The Stress Grazer, The Evening Unraveler, The Reward Seeker, The Perfectionist Restrictor, The Emotional Soother (plus "Real Hunger"). Note: the quiz at quiz.mirabae.com uses a different set (Pressure Eater, Achiever's Trap, Night-Brain, Cycle Keeper, Feeling Feeder); the founder must decide which set is canonical plus one sentence that names the hidden reason.
    - Then a short Quiet Now style breath where the fridge notes fall away, then "Start 7 days free".
    - Label it as a preview, store nothing, no medical claims.
-4. **Check with the founder**
-   - Is "The app is the tool she wished she had at 23:14" (founder section) true to her story?
-   - Whop shows "$23.75 crossed out → $19, Save 20%". If $23.75 was never charged, remove the strike price (EU reference-price rules, and the brand avoids discount culture).
+2. **Check with the founder**
+   - Done 2026-10-11: the founder rejected "The app is the tool she wished she had at 23:14" (sounds like AI, too specific). Replaced with: "Today she eats full plates and her head stays quiet around food. It took her years to get there. The app is everything that helped, made small enough to fit into your day."
+   - Settled 2026-10-11: the Whop strike price ($23.75 crossed out, $19) stays for now. The founder checked with Whop support; Whop offers no other way. Do not raise it again unless Whop changes this.
    - Android: plan a PWA first (installable web app, free), then Google Play via a Trusted Web Activity. Check current Play fees, the closed-testing requirement for new accounts, and whether Whop billing is allowed for in-app subscriptions.
-5. **Connect missing sources so future sessions see everything**
+3. **Connect missing sources so future sessions see everything**
    - The app's code repo and its Vercel project are not visible to the connected GitHub/Vercel accounts. Install the Claude GitHub App on the app repo (https://claude.ai/connect-github) and connect the Vercel account that owns app.mirabae.com (https://claude.ai/customize/connectors).
-   - Consider putting the "Mirabae Brain" notes in a private GitHub repo so cloud sessions can read them.
+   - Done: the Mirabae Brain is a private GitHub repo (`catterelle-hub/Mirabae-Brain`) since 2026-10-10.
 
 ## Working rules
 
