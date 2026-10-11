@@ -3,614 +3,699 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>The Food Noise App · Mirabae</title>
-  <meta name="description" content="Check in when an urge gets loud, take a 60-second reset, and see the pattern over days. Regulation, not restriction." />
-  <meta name="theme-color" content="#0A0A0A" />
+  <title>Food Noise App</title>
+  <meta name="description" content="Your head is loud. It was never willpower. The Food Noise App gives you sixty seconds between the urge and the action." />
+  <meta name="theme-color" content="#C8216F" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:        #0A0A0A;
-      --ink-2:      #141311;
-      --gold:       #B8986A;
-      --gold-lt:    #D4B48A;
-      --gold-deep:  #7A5F38;
-      --cream:      #F6F0E7;
-      --cream-2:    #EDE4D6;
-      --on-dark-2:  #A39B90;
-      --on-cream:   #221E1A;
-      --on-cream-2: #645A50;
-      --hair-dark:  rgba(184,152,106,0.28);
-      --hair-cream: rgba(122,95,56,0.25);
+      --fuchsia:   #E8247F;
+      --aubergine: #2A0B3B;
+      --plum:      #3B0D45;
+      --blush:     #F9DCE9;
+      --petal:     #FFC3DD;
+      --on-aub-2:  #D9B8E4;
+      --on-blush-2:#6E4377;
 
-      --serif: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
-      --sans:  'Montserrat', system-ui, sans-serif;
-
-      --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+      --serif: 'Bodoni Moda', 'Didot', Georgia, serif;
+      --sans:  'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-
-      --gutter: clamp(20px, 5vw, 64px);
+      --gutter: clamp(20px, 5vw, 72px);
     }
 
     html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
     body {
-      background: var(--ink);
-      color: var(--cream);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -webkit-tap-highlight-color: transparent;
+      background: var(--blush); color: var(--plum);
+      font-family: var(--sans); font-size: 17px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
     }
-    ::selection { background: var(--gold); color: var(--ink); }
-    .cream ::selection { background: var(--gold-deep); color: var(--cream); }
-    :focus-visible { outline: 1.5px solid var(--gold-lt); outline-offset: 4px; border-radius: 2px; }
-    .cream :focus-visible { outline-color: var(--gold-deep); }
-    html { scrollbar-color: var(--gold-deep) var(--ink); }
-
+    ::selection { background: var(--fuchsia); color: #fff; }
+    :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
     a { color: inherit; }
     button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    img { display: block; max-width: 100%; }
 
-    h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.01em; text-wrap: balance; }
+    h1, h2, h3, .serif { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; text-wrap: balance; }
+    em { font-style: italic; }
     p { text-wrap: pretty; }
 
-    /* ── Buttons ── */
+    /* Duotone print: grayscale photo, fuchsia highlights, aubergine shadows */
+    .duo { position: relative; overflow: hidden; background: var(--fuchsia); isolation: isolate; }
+    .duo img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(1) contrast(1.15) brightness(1.05);
+      mix-blend-mode: multiply;
+    }
+    .duo::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--aubergine); mix-blend-mode: lighten; pointer-events: none;
+    }
+
+    /* Buttons: rectangular, confident */
     .btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      height: 48px; padding: 0 26px;
-      font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
-      letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
-      border-radius: 999px;
-      transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease, border-color 200ms ease;
-      user-select: none;
-      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 14px;
+      min-height: 58px; padding: 0 30px;
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; white-space: nowrap;
+      transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease;
     }
     .btn:active { transform: scale(0.97); }
-    .btn-gold { background: var(--gold); color: var(--ink); }
-    .btn-line { border: 1px solid var(--hair-dark); color: var(--cream); }
-    .cream .btn-line { border-color: var(--hair-cream); color: var(--on-cream); }
+    .btn-aub { background: var(--aubergine); color: var(--petal); }
+    .btn-fuchsia { background: var(--fuchsia); color: #fff; }
+    .btn-petal { background: var(--petal); color: var(--aubergine); }
+    .btn svg { width: 16px; height: 16px; transition: transform 200ms var(--ease-out); }
     @media (hover: hover) and (pointer: fine) {
-      .btn-gold:hover { background: var(--gold-lt); }
-      .btn-line:hover { border-color: var(--gold); }
-      .cream .btn-line:hover { border-color: var(--gold-deep); }
+      .btn-aub:hover { background: var(--plum); }
+      .btn-fuchsia:hover { background: #F23C8F; }
+      .btn-petal:hover { background: #fff; }
+      .btn:hover svg { transform: translateY(2px); }
     }
-    .btn svg { width: 14px; height: 14px; }
 
-    /* ── Nav ── */
-    .nav {
-      position: absolute; inset: 0 0 auto 0; z-index: 5;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: max(20px, env(safe-area-inset-top)) var(--gutter) 0;
+    /* ══════════ HERO: colour block ══════════ */
+    .hero {
+      display: grid; grid-template-columns: 55fr 45fr;
+      min-height: 100svh;
+    }
+    .hero-pink {
+      background: var(--fuchsia); color: var(--aubergine);
+      padding: max(26px, env(safe-area-inset-top)) var(--gutter) 56px;
+      display: flex; flex-direction: column;
     }
     .wordmark {
-      font-family: var(--serif); font-size: 1.35rem; font-weight: 500;
-      letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
-    }
-    .nav .btn { height: 40px; padding: 0 18px; font-size: 0.7rem; }
-
-    /* ══════════ HERO: the dial ══════════ */
-    .hero {
-      position: relative;
-      min-height: 100svh;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      padding: 104px var(--gutter) max(32px, env(safe-area-inset-bottom));
-      overflow: hidden;
-      --n: 0.9; /* noise 0..1, driven by the dial */
-      background:
-        radial-gradient(120% 70% at 50% 110%, rgba(184,152,106,calc(0.16 - var(--n) * 0.12)), transparent 60%),
-        var(--ink);
-    }
-
-    /* the static: craving words drifting behind the headline */
-    .static { position: absolute; inset: 0; pointer-events: none; }
-    .static span {
-      position: absolute;
-      font-family: var(--serif); font-style: italic;
-      color: var(--on-dark-2);
-      white-space: nowrap;
-      opacity: calc(var(--n) * var(--a));
-      filter: blur(calc((1 - var(--n)) * 10px));
-      animation: jitter var(--d) steps(2, jump-none) infinite;
-      transition: opacity 240ms ease, filter 240ms ease;
-    }
-    @keyframes jitter {
-      0%   { transform: translate(0, 0); }
-      50%  { transform: translate(var(--jx), var(--jy)); }
-      100% { transform: translate(0, 0); }
-    }
-
-    .hero-copy {
-      position: relative; z-index: 2;
-      align-self: center;
-      max-width: 40rem;
-      padding-bottom: 32px;
+      font-family: var(--serif); font-size: 1.05rem; font-weight: 500;
+      letter-spacing: 0.42em; text-transform: uppercase; text-decoration: none;
     }
     .hero h1 {
-      font-size: clamp(3.1rem, 9.5vw, 6rem);
-      line-height: 0.95;
-      max-width: 11ch;
+      margin-top: auto;
+      font-size: clamp(4.2rem, 10.5vw, 10rem);
+      line-height: 0.9;
+      font-variation-settings: 'opsz' 96;
     }
-    .hero h1 em { font-style: italic; color: var(--gold-lt); }
+    .hero h1 em { font-weight: 400; }
     .hero .lede {
-      margin-top: 24px;
-      max-width: 38ch;
-      font-size: clamp(1rem, 1.6vw, 1.1rem);
-      color: var(--on-dark-2);
+      margin-top: 34px; max-width: 34ch;
+      font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.5;
     }
-    .hero .ctas { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero .lede strong { font-weight: 700; }
+    .hero .cta { margin-top: 34px; }
+    .hero .reassure { margin-top: 14px; font-size: 0.9rem; opacity: 0.85; }
 
-    /* the quiet line, sharpens as the noise drops */
-    .quiet-line {
-      position: relative; z-index: 2;
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
-      color: var(--cream);
-      margin-bottom: 28px;
-      opacity: calc(1 - var(--n) * 1.1);
-      filter: blur(calc(var(--n) * 8px));
-      transition: opacity 240ms ease, filter 240ms ease;
-    }
-
-    /* the tuner scale */
-    .tuner { position: relative; z-index: 2; }
-    .tuner-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--on-dark-2);
-      margin-bottom: 14px;
-    }
-    .tuner-head output {
-      font-family: var(--serif); font-size: 1.6rem; font-weight: 500; letter-spacing: 0;
-      color: var(--gold-lt);
-      font-variant-numeric: tabular-nums lining-nums;
-      min-width: 3ch; text-align: right;
-    }
-    .scale {
-      position: relative; height: 64px;
-      border-top: 1px solid var(--hair-dark);
-      border-bottom: 1px solid var(--hair-dark);
-      background:
-        repeating-linear-gradient(90deg, var(--gold) 0 1px, transparent 1px 10%) 0 100% / 100% 22px no-repeat,
-        repeating-linear-gradient(90deg, rgba(184,152,106,0.45) 0 1px, transparent 1px 2%) 0 100% / 100% 10px no-repeat;
-    }
-    .scale-nums {
-      position: absolute; inset: 8px 0 auto 0;
-      display: flex; justify-content: space-between;
-      font-size: 0.66rem; font-weight: 500; color: var(--on-dark-2);
-      font-variant-numeric: tabular-nums;
-      pointer-events: none;
-    }
-    .scale-nums span { width: 0; display: flex; justify-content: center; }
-    .needle {
-      position: absolute; top: -10px; bottom: -10px; width: 2px;
-      left: calc(var(--pos) * 100%);
-      background: var(--gold-lt);
-      box-shadow: 0 0 0 4px rgba(10,10,10,0.9), 0 6px 18px rgba(212,180,138,0.35);
-      transform: translateX(-1px);
-      pointer-events: none;
-    }
-    .needle::after {
-      content: ''; position: absolute; left: 50%; top: -6px;
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--gold-lt); transform: translateX(-50%);
-    }
-    .scale input {
-      position: absolute; inset: -14px 0; width: 100%; height: calc(100% + 28px);
-      opacity: 0; cursor: ew-resize; margin: 0;
-      touch-action: pan-y;
-    }
-    .tuner-foot {
-      display: flex; justify-content: space-between;
-      margin-top: 12px;
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-    }
-    .tuner-foot span:first-child { color: var(--on-dark-2); }
-    .tuner-foot span:last-child  { color: var(--gold-lt); }
-    .tuner-hint {
-      margin-top: 14px; font-size: 0.8rem; color: var(--on-dark-2);
-      transition: opacity 300ms ease;
-    }
-    .hero.tuned .tuner-hint { opacity: 0; }
-
-    /* ══════════ CREAM: the reset, live ══════════ */
-    .cream {
-      background: var(--cream);
-      color: var(--on-cream);
-    }
-    .reset {
-      padding: clamp(88px, 12vw, 150px) var(--gutter);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-      gap: clamp(48px, 8vw, 120px);
-      align-items: start;
-    }
-    .reset h2, .log h2, .close h2 {
-      font-size: clamp(2.4rem, 5.6vw, 4.2rem);
-      line-height: 1.02;
-    }
-    .reset h2 em, .log h2 em { font-style: italic; color: var(--gold-deep); }
-    .reset .intro p {
-      margin-top: 22px; max-width: 40ch; color: var(--on-cream-2);
-    }
-    .path { margin-top: 44px; list-style: none; border-top: 1px solid var(--hair-cream); }
-    .path li {
-      display: grid; grid-template-columns: 7.5rem 1fr; gap: 16px;
-      padding: 18px 0; border-bottom: 1px solid var(--hair-cream);
-      transition: color 200ms ease;
-      color: var(--on-cream-2);
-    }
-    .path li b {
-      font-family: var(--serif); font-size: 1.35rem; font-weight: 500; line-height: 1.2;
-      color: var(--on-cream);
-    }
-    .path li.on b { color: var(--gold-deep); font-style: italic; }
-    .path li span { font-size: 0.92rem; padding-top: 3px; }
-
-    /* the instrument: one object, not a phone mockup */
-    .instrument {
-      position: sticky; top: 32px;
-      background: var(--ink);
-      color: var(--cream);
-      border-radius: 28px;
-      padding: clamp(26px, 4vw, 40px);
-      min-height: 520px;
+    .hero-aub {
+      background: var(--aubergine); color: var(--petal);
+      padding: max(26px, env(safe-area-inset-top)) var(--gutter) 40px;
       display: flex; flex-direction: column;
-      box-shadow: 0 30px 60px -30px rgba(34,30,26,0.55), 0 2px 6px rgba(34,30,26,0.15);
     }
-    .inst-top {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.66rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--on-dark-2);
-      padding-bottom: 18px; border-bottom: 1px solid var(--hair-dark);
+    .hero-aub .top { display: flex; justify-content: flex-end; }
+    .hero-aub .top a { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+    .hero-photo { margin: 36px 0 0; flex: 1; min-height: 360px; }
+    .caption {
+      margin-top: 14px; display: flex; justify-content: space-between; gap: 16px;
+      font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--on-aub-2);
     }
-    .inst-top .dots { display: flex; gap: 6px; }
-    .inst-top .dots i {
-      width: 18px; height: 2px; background: var(--hair-dark);
-      transition: background-color 300ms ease;
-    }
-    .inst-top .dots i.on { background: var(--gold); }
+    .caption b { font-style: normal; font-weight: 500; color: var(--petal); font-variant-numeric: lining-nums tabular-nums; }
 
-    .stage { flex: 1; display: none; flex-direction: column; padding-top: 30px; }
-    .stage.on { display: flex; animation: stage-in 420ms var(--ease-out); }
-    @keyframes stage-in { from { opacity: 0; transform: translateY(8px); filter: blur(4px); } }
-    .stage h3 { font-size: clamp(1.7rem, 3vw, 2.2rem); line-height: 1.1; }
-    .stage .sub { margin-top: 10px; color: var(--on-dark-2); font-size: 0.92rem; }
+    /* ══════════ RECOGNITION ══════════ */
+    .recog { padding: clamp(96px, 13vw, 180px) var(--gutter); }
+    .recog-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+    .recog h2 { font-size: clamp(2.6rem, 5.4vw, 4.8rem); line-height: 1.02; position: sticky; top: 40px; }
+    .recog h2 em { color: var(--fuchsia); }
+    .moments { list-style: none; border-top: 1px solid var(--plum); }
+    .moments li {
+      display: grid; grid-template-columns: 7.2rem 1fr; gap: 20px; align-items: baseline;
+      padding: 30px 0; border-bottom: 1px solid rgba(59,13,69,0.25);
+    }
+    .moments time {
+      font-family: var(--serif); font-size: clamp(2rem, 3.6vw, 2.8rem); line-height: 1;
+      font-variant-numeric: lining-nums tabular-nums; color: var(--fuchsia);
+    }
+    .moments b { display: block; font-family: var(--serif); font-size: 1.45rem; font-weight: 500; line-height: 1.2; }
+    .moments span { display: block; margin-top: 6px; color: var(--on-blush-2); }
+
+    /* ══════════ REFRAME ══════════ */
+    .reframe {
+      background: var(--aubergine); color: var(--petal);
+      padding: clamp(110px, 15vw, 210px) var(--gutter);
+    }
+    .reframe p.big {
+      font-family: var(--serif); font-size: clamp(2.8rem, 7.4vw, 7rem); line-height: 1;
+      letter-spacing: -0.025em; max-width: 14ch;
+    }
+    .reframe p.big em { color: var(--fuchsia); }
+    .chain {
+      margin-top: clamp(64px, 8vw, 110px);
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0;
+      border-top: 1px solid rgba(255,195,221,0.35);
+    }
+    .chain div { padding: 26px 28px 0 0; }
+    .chain div + div { padding-left: 28px; border-left: 1px solid rgba(255,195,221,0.2); }
+    .chain b { display: block; font-family: var(--serif); font-size: 1.6rem; font-weight: 500; color: #fff; }
+    .chain span { display: block; margin-top: 8px; color: var(--on-aub-2); max-width: 30ch; }
+
+    /* ══════════ OFFER + DEMO ══════════ */
+    .offer { padding: clamp(96px, 13vw, 180px) var(--gutter); }
+    .offer-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 100px); align-items: end; }
+    .offer h2 { font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 0.98; }
+    .offer h2 em { color: var(--fuchsia); }
+    .offer-head p { color: var(--on-blush-2); max-width: 42ch; font-size: 1.1rem; }
+
+    .feature-row { margin-top: clamp(56px, 7vw, 90px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--plum); }
+    .feature { padding: 26px 30px 0 0; }
+    .feature + .feature { padding-left: 30px; border-left: 1px solid rgba(59,13,69,0.2); }
+    .feature h3 { font-size: 1.75rem; line-height: 1.1; }
+    .feature p { margin-top: 10px; color: var(--on-blush-2); }
+    .feature p i { font-style: normal; color: var(--plum); font-weight: 600; }
+
+    /* the working reset */
+    .device {
+      margin-top: clamp(64px, 8vw, 110px);
+      background: var(--fuchsia); color: var(--aubergine);
+      display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    }
+    .device-side { padding: clamp(28px, 4vw, 56px); border-right: 1px solid rgba(42,11,59,0.25); }
+    .device-side h3 { font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1; }
+    .device-side p { margin-top: 14px; max-width: 30ch; }
+    .steps { margin-top: 32px; list-style: none; }
+    .steps li {
+      padding: 12px 0; border-top: 1px solid rgba(42,11,59,0.25);
+      font-weight: 600; font-size: 0.95rem; opacity: 0.45;
+      transition: opacity 200ms ease;
+      display: flex; justify-content: space-between;
+    }
+    .steps li.on, .steps li.done { opacity: 1; }
+    .steps li.done::after { content: '\2713'; }
+
+    .device-main { padding: clamp(28px, 4vw, 56px); min-height: 460px; display: flex; flex-direction: column; }
+    .stage { display: none; flex: 1; flex-direction: column; }
+    .stage.on { display: flex; animation: stage-in 380ms var(--ease-out); }
+    @keyframes stage-in { from { opacity: 0; transform: translateY(8px); filter: blur(3px); } }
+    .stage h4 { font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.02; letter-spacing: -0.02em; }
+    .stage .sub { margin-top: 10px; }
 
     .chips { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; }
     .chip {
-      height: 42px; padding: 0 18px; border-radius: 999px;
-      border: 1px solid var(--hair-dark);
-      font-size: 0.86rem; font-weight: 500;
-      transition: transform 160ms var(--ease-out), border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+      min-height: 48px; padding: 0 20px; border: 1.5px solid var(--aubergine);
+      font-weight: 600; font-size: 1rem;
+      transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease;
     }
     .chip:active { transform: scale(0.97); }
-    @media (hover: hover) and (pointer: fine) { .chip:hover { border-color: var(--gold); } }
-    .chip[aria-pressed="true"] { background: var(--gold); color: var(--ink); border-color: var(--gold); }
-    .chip.hungry { border-style: dashed; }
+    .chip[aria-pressed="true"] { background: var(--aubergine); color: var(--petal); }
+    @media (hover: hover) and (pointer: fine) { .chip:hover { background: rgba(42,11,59,0.08); } .chip[aria-pressed="true"]:hover { background: var(--aubergine); } }
 
-    .mini-scale { margin-top: auto; padding-top: 34px; }
-    .mini-scale .big {
-      font-family: var(--serif); font-size: 5.5rem; line-height: 1; color: var(--gold-lt);
-      font-variant-numeric: tabular-nums lining-nums;
+    .scale10 { margin-top: 28px; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; }
+    .scale10 button {
+      aspect-ratio: 1 / 1.2; border: 1.5px solid var(--aubergine);
+      font-family: var(--serif); font-size: clamp(1.2rem, 2.6vw, 2rem); font-variant-numeric: lining-nums;
+      transition: transform 160ms var(--ease-out), background-color 160ms ease, color 160ms ease;
     }
-    .mini-scale .big small { font-size: 1.4rem; color: var(--on-dark-2); }
-    .mini-scale .scale { height: 48px; margin-top: 16px; }
+    .scale10 button:active { transform: scale(0.94); }
+    .scale10 button[aria-checked="true"] { background: var(--aubergine); color: var(--petal); }
+    .scale-ends { margin-top: 8px; display: flex; justify-content: space-between; font-size: 0.85rem; }
 
-    .stage-actions { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .stage-actions .btn-line { color: var(--cream); }
+    .stage-actions { margin-top: auto; padding-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
     .btn[disabled] { opacity: 0.35; pointer-events: none; }
+    .textbtn { font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
 
-    /* breath */
-    .breath {
-      flex: 1; display: grid; place-items: center; position: relative;
-      min-height: 260px;
+    .breath { flex: 1; display: grid; place-items: center; position: relative; min-height: 240px; }
+    .orb {
+      width: min(56vw, 220px); aspect-ratio: 1; border-radius: 50%;
+      background: var(--aubergine);
+      transform: scale(0.55);
+      transition: transform 4000ms var(--ease-in-out);
     }
-    .ring {
-      width: min(62vw, 230px); aspect-ratio: 1; border-radius: 50%;
-      border: 1px solid var(--gold);
-      display: grid; place-items: center;
-      transform: scale(0.62);
-      transition: transform 4000ms var(--ease-in-out), background-color 4000ms ease;
-      background: rgba(184,152,106,0.04);
-    }
-    .ring.in { transform: scale(1); background: rgba(184,152,106,0.12); }
-    .ring-text {
-      position: absolute; text-align: center;
-      font-family: var(--serif); font-size: 1.5rem; font-style: italic;
-    }
-    .ring-text small {
-      display: block; margin-top: 4px;
-      font-family: var(--sans); font-style: normal; font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.2em; color: var(--on-dark-2);
-      font-variant-numeric: tabular-nums;
-    }
+    .orb.in { transform: scale(1); }
+    .breath-label { position: absolute; text-align: center; color: var(--petal); font-family: var(--serif); font-style: italic; font-size: 1.4rem; pointer-events: none; }
+    .breath-label small { display: block; margin-top: 2px; font-family: var(--sans); font-style: normal; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; font-variant-numeric: tabular-nums; }
 
-    .shift {
-      margin-top: 26px;
-      font-family: var(--serif); font-size: clamp(3.4rem, 8vw, 5rem); line-height: 1;
-      font-variant-numeric: tabular-nums lining-nums;
-      display: flex; align-items: baseline; gap: 18px;
-    }
-    .shift .from { color: var(--on-dark-2); text-decoration: line-through; text-decoration-thickness: 1px; }
-    .shift .arrow { font-size: 1.6rem; color: var(--gold); }
-    .shift .to { color: var(--gold-lt); }
-    .verdict { margin-top: 18px; font-family: var(--serif); font-size: 1.35rem; font-style: italic; }
+    .shift { font-family: var(--serif); font-size: clamp(5rem, 14vw, 10rem); line-height: 1; display: flex; gap: 0.3em; align-items: baseline; font-variant-numeric: lining-nums; }
+    .shift .from { opacity: 0.4; text-decoration: line-through; text-decoration-thickness: 0.05em; }
 
-    /* ══════════ LOG: a week, read like a tuner strip ══════════ */
-    .log { padding: 0 var(--gutter) clamp(88px, 12vw, 150px); }
-    .log-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; flex-wrap: wrap; }
-    .log-head p { max-width: 38ch; color: var(--on-cream-2); }
-    .strip {
-      margin-top: 52px;
-      display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));
-      border-top: 1px solid var(--on-cream);
+    .hero .promise {
+      margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(42,11,59,0.35);
+      font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+      max-width: 30ch;
     }
-    .day { padding: 16px 10px 0 0; border-right: 1px solid var(--hair-cream); }
-    .day:last-child { border-right: 0; }
-    .day-name {
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--on-cream-2);
+    .recog .aside {
+      margin-top: clamp(48px, 6vw, 80px); max-width: 30ch; margin-left: auto;
+      font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.15;
     }
-    .bars { margin-top: 18px; height: 150px; display: flex; align-items: flex-end; gap: 5px; }
-    .bar {
-      width: 7px; border-radius: 1px;
-      background: var(--cream-2);
-      box-shadow: inset 0 0 0 1px var(--hair-cream);
-      position: relative;
-      transform-origin: bottom;
+    .recog .aside strong { font-weight: 500; font-style: italic; color: var(--fuchsia); }
+
+    /* ══════════ THE MORNING AFTER ══════════ */
+    .after { background: var(--petal); padding: clamp(96px, 13vw, 170px) var(--gutter); }
+    .after-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
+    .after h2 { font-size: clamp(2.8rem, 6vw, 5.2rem); line-height: 0.98; }
+    .after h2 em { color: var(--fuchsia); }
+    .after-lede { margin-top: 24px; max-width: 42ch; font-size: 1.1rem; color: var(--on-blush-2); }
+    .after-lede strong { color: var(--plum); font-weight: 700; }
+    .instead { list-style: none; border-top: 1px solid var(--plum); }
+    .instead li { padding: 26px 0; border-bottom: 1px solid rgba(59,13,69,0.25); }
+    .instead s {
+      display: block; font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.2;
+      color: var(--on-blush-2); text-decoration-color: var(--fuchsia); text-decoration-thickness: 2px;
     }
-    .bar::after {
-      content: ''; position: absolute; left: 0; right: 0; bottom: 0;
-      height: var(--after); background: var(--gold-deep); border-radius: 1px;
+    .instead span { display: block; margin-top: 8px; font-weight: 600; font-size: 1.05rem; }
+
+    /* ══════════ FOUNDER (real proof) ══════════ */
+    .founder {
+      background: var(--aubergine); color: var(--petal);
+      display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     }
-    .day.peak .day-name { color: var(--gold-deep); }
-    .day-time {
-      margin-top: 12px; font-size: 0.78rem; color: var(--on-cream-2);
-      font-variant-numeric: tabular-nums;
+    .founder .duo { min-height: 520px; }
+    .founder-copy { padding: clamp(64px, 9vw, 130px) var(--gutter); align-self: center; }
+    .founder-copy h2 { font-size: clamp(2.6rem, 5.2vw, 4.6rem); line-height: 1.02; }
+    .founder-copy h2 em { color: var(--fuchsia); }
+    .founder-copy p { margin-top: 24px; max-width: 44ch; color: var(--on-aub-2); font-size: 1.1rem; }
+    .founder-copy p strong { color: #fff; font-weight: 600; }
+
+    /* ══════════ DOUBTS ══════════ */
+    .doubts { padding: clamp(96px, 13vw, 170px) var(--gutter); display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 100px); }
+    .doubts h2 { font-size: clamp(2.4rem, 4.6vw, 4rem); line-height: 1.02; }
+    details { border-bottom: 1px solid rgba(59,13,69,0.25); }
+    details:first-of-type { border-top: 1px solid var(--plum); }
+    summary {
+      list-style: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      padding: 26px 0; font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.2;
     }
-    .legend {
-      margin-top: 22px; display: flex; gap: 22px; flex-wrap: wrap;
-      font-size: 0.78rem; color: var(--on-cream-2);
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: ''; flex: none; width: 14px; height: 14px;
+      background: linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat,
+                  linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat;
+      transition: transform 240ms var(--ease-out);
     }
-    .legend i { display: inline-block; width: 7px; height: 12px; margin-right: 8px; vertical-align: -1px; border-radius: 1px; }
-    .legend .l-before { background: var(--cream-2); box-shadow: inset 0 0 0 1px var(--hair-cream); }
-    .legend .l-after { background: var(--gold-deep); }
-    .insight {
-      margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--hair-cream);
-      display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end;
-    }
-    .insight blockquote {
-      font-family: var(--serif); font-size: clamp(1.6rem, 3.4vw, 2.4rem); line-height: 1.15;
-      max-width: 26ch;
-    }
-    .insight blockquote em { color: var(--gold-deep); }
-    .demo-note { font-size: 0.74rem; color: var(--on-cream-2); text-align: right; max-width: 24ch; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { padding: 0 0 28px; max-width: 56ch; color: var(--on-blush-2); }
 
     /* ══════════ CLOSE ══════════ */
-    .close {
-      padding: clamp(100px, 14vw, 170px) var(--gutter) 60px;
-      text-align: left;
-    }
-    .close h2 { max-width: 12ch; }
-    .close h2 em { font-style: italic; color: var(--gold-lt); }
-    .close p { margin-top: 22px; max-width: 44ch; color: var(--on-dark-2); }
-    .close .ctas { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .close { background: var(--fuchsia); color: var(--aubergine); padding: clamp(110px, 15vw, 200px) var(--gutter) 40px; }
+    .close h2 { font-size: clamp(3.4rem, 9vw, 8.4rem); line-height: 0.92; max-width: 11ch; }
+    .close h2 em { font-weight: 400; }
+    .close .row { margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 30px; }
+    .close .row p { max-width: 40ch; }
     footer {
-      margin-top: 110px; padding-top: 24px; border-top: 1px solid var(--hair-dark);
+      margin-top: 110px; padding-top: 20px; border-top: 1px solid rgba(42,11,59,0.35);
       display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-      font-size: 0.72rem; line-height: 1.7; color: var(--on-dark-2);
-      padding-bottom: env(safe-area-inset-bottom);
+      font-size: 0.8rem; padding-bottom: env(safe-area-inset-bottom);
     }
-    footer p { max-width: 60ch; }
+    footer p { max-width: 70ch; }
 
     /* ── Responsive ── */
-    @media (max-width: 860px) {
-      .reset { grid-template-columns: 1fr; }
-      .instrument { position: relative; top: 0; min-height: 500px; }
-      .insight { grid-template-columns: 1fr; }
-      .demo-note { text-align: left; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: 0; }
+      .hero-pink { min-height: 88svh; }
+      .hero-aub .top { display: none; }
+      .hero-photo { margin-top: 0; min-height: 0; aspect-ratio: 4 / 5; }
+      .recog-grid, .offer-head, .doubts, .after-grid { grid-template-columns: 1fr; }
+      .recog .aside { margin-left: 0; }
+      .recog h2 { position: static; }
+      .chain, .feature-row { grid-template-columns: 1fr; }
+      .chain div + div, .feature + .feature { padding-left: 0; border-left: 0; border-top: 1px solid rgba(255,195,221,0.2); margin-top: 22px; }
+      .feature + .feature { border-top-color: rgba(59,13,69,0.2); }
+      .device { grid-template-columns: 1fr; }
+      .device-side { border-right: 0; border-bottom: 1px solid rgba(42,11,59,0.25); }
+      .founder { grid-template-columns: minmax(0, 1fr); }
+      .founder .duo { min-height: 0; aspect-ratio: 4 / 5; }
     }
-    @media (max-width: 560px) {
-      .scale-nums span:nth-child(even) { visibility: hidden; }
-      .path li { grid-template-columns: 1fr; gap: 4px; }
-      .strip { grid-template-columns: repeat(7, minmax(0, 1fr)); }
-      .day { padding-right: 4px; }
-      .bars { gap: 3px; height: 120px; }
-      .bar { width: 5px; }
-      .day-name { letter-spacing: 0.08em; }
-      .day-time { font-size: 0.68rem; }
+    @media (max-width: 520px) {
+      .moments li { grid-template-columns: 1fr; gap: 8px; }
+      .scale10 { gap: 3px; }
+      .btn { padding: 0 24px; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .static span { animation: none; }
       .stage.on { animation: none; }
-      .ring { transition: background-color 4000ms ease; transform: scale(0.85); }
-      .ring.in { transform: scale(0.85); }
+      .orb, .orb.in { transition: none; transform: scale(0.8); }
+    }
+
+    /* ═══ Readability pass ═══
+       Bodoni only at display sizes; small headings in the sans.
+       Minimum text size 16px. Pink as text only in deeper ink on light grounds. */
+    :root { --fuchsia-ink: #B5115A; --on-blush-2: #573062; }
+    body { font-size: 18px; line-height: 1.6; }
+    .hero-pink { color: #14041C; }
+    .hero .lede { font-size: clamp(1.1rem, 1.5vw, 1.3rem); }
+    .hero .reassure, .scale-ends, .steps li, .hero-aub .top a { font-size: 1rem; }
+    footer { font-size: 0.9rem; }
+    .recog h2 em, .offer h2 em, .after h2 em, .recog .aside strong { color: var(--fuchsia-ink); }
+    .moments time { color: var(--fuchsia-ink); font-weight: 500; }
+    .moments b, .chain b, .feature h3, .instead s, summary {
+      font-family: var(--sans); font-weight: 700; letter-spacing: -0.01em;
+    }
+    .moments b { font-size: 1.25rem; }
+    .chain b { font-size: 1.3rem; }
+    .feature h3 { font-size: 1.35rem; }
+    .instead s { font-size: 1.15rem; font-weight: 600; text-decoration-thickness: 1px; }
+    summary { font-size: clamp(1.1rem, 1.6vw, 1.25rem); }
+    .moments span, .chain span, .feature p, .instead span, details p { font-size: 1.05rem; }
+    .hero .promise, .caption, .breath-label, #verdict { font-family: var(--sans); font-style: normal; font-weight: 600; }
+    .hero .promise { font-size: 1.1rem; }
+    .caption { font-size: 1rem; }
+    .recog .aside { font-weight: 500; }
+
+
+
+
+    /* ═══ Founder: fridge door with peelable sticky notes ═══ */
+    .fridge { min-width: 0; display: flex; flex-direction: column; background: #1B0727; padding: clamp(20px, 3vw, 36px); gap: 16px; }
+    .fridge-door {
+      position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 10px;
+      background:
+        radial-gradient(120% 90% at 85% 15%, rgba(255,214,170,0.55), transparent 55%),
+        linear-gradient(100deg, #cfc7bb 0%, #ebe5dc 30%, #f3eee7 55%, #ddd5c9 85%, #c4bbad 100%);
+      background-size: cover; background-position: center;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), inset -30px 0 60px rgba(0,0,0,0.12);
+      -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    }
+    .fridge-door.has-photo { background: var(--door) center / cover no-repeat, #2a2420; }
+    .fridge-door.has-photo::after { /* the photo's lamp light falls on the notes too */
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: multiply;
+      background: radial-gradient(90% 70% at 18% 28%, rgba(255,236,210,1) 0%, rgba(214,190,160,1) 45%, rgba(120,104,92,1) 100%);
+    }
+    .fridge-handle {
+      position: absolute; left: 4%; top: 18%; width: 10px; height: 34%; border-radius: 6px;
+      background: linear-gradient(90deg, #8d8a86, #f5f5f3 45%, #a3a09c);
+      box-shadow: 3px 4px 8px rgba(0,0,0,0.25);
+    }
+    .fridge-door.has-photo .fridge-handle { display: none; }
+    .note {
+      position: absolute; left: var(--x); top: var(--y);
+      width: clamp(84px, 22%, 140px); aspect-ratio: 1;
+      display: grid; place-items: center; padding: 10px; text-align: center;
+      font-family: 'Caveat', cursive; font-weight: 700; font-size: clamp(1.05rem, 2vw, 1.45rem); line-height: 1.05;
+      color: #2b2433; cursor: pointer; z-index: 1;
+      transform: rotate(var(--r));
+      transform-origin: 50% 8%;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.12), 2px 8px 12px -6px rgba(0,0,0,0.35);
+      transition: transform 160ms var(--ease-out), box-shadow 160ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .note::after { /* curl shadow at the free bottom edge */
+      content: ''; position: absolute; left: 6%; right: 6%; bottom: 0; height: 18%;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.07)); pointer-events: none;
+    }
+    .n-y { background: linear-gradient(180deg, #f3e27a 0%, #f7e98f 18%, #f6e584 100%); }
+    .n-p { background: linear-gradient(180deg, #f6a3c6 0%, #f9b6d3 18%, #f7a9c9 100%); }
+    @media (hover: hover) and (pointer: fine) {
+      .note:not(.note-last):hover { transform: rotate(var(--r)) translateY(-2px) rotateX(8deg); box-shadow: 0 1px 1px rgba(0,0,0,0.12), 3px 14px 16px -8px rgba(0,0,0,0.4); }
+    }
+    .note:active:not(.note-last) { transform: rotate(var(--r)) scale(0.97); }
+    .note-last {
+      left: 50%; top: 46%; width: clamp(120px, 34%, 190px); font-size: clamp(2rem, 4vw, 2.8rem);
+      transform: translate(-50%, -50%) rotate(-3deg) scale(0.92); opacity: 0; cursor: default; z-index: 0; pointer-events: none;
+      transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+    }
+    .fridge.is-quiet .note-last { opacity: 1; transform: translate(-50%, -50%) rotate(-3deg); }
+    .fridge-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--on-aub-2); font-size: 1rem; }
+    .fridge-hold {
+      min-height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid rgba(255,195,221,0.4);
+      color: #fff; font-weight: 700; font-size: 0.95rem; background: rgba(255,255,255,0.06);
+      transition: transform 160ms var(--ease-out), background-color 200ms ease;
+      -webkit-user-select: none; user-select: none; touch-action: none;
+    }
+    .fridge-hold:active { transform: scale(0.97); }
+    .fridge-hold.holding { background: var(--fuchsia); border-color: var(--fuchsia); }
+    /* ═══ Transformation + display legibility ═══ */
+    h1, h2, .reframe p.big { font-variation-settings: 'opsz' 18; font-weight: 600; }
+    .hero h1 { font-variation-settings: 'opsz' 30; }
+    .quiet { padding: clamp(96px, 13vw, 170px) var(--gutter); border-top: 1px solid rgba(59,13,69,0.15); }
+    .quiet h2 { font-size: clamp(2.6rem, 5.8vw, 5.2rem); line-height: 1; max-width: 16ch; }
+    .quiet h2 em { color: var(--fuchsia-ink); }
+    .quiet-list { list-style: none; margin-top: clamp(48px, 6vw, 80px); max-width: 900px; margin-left: auto; border-top: 1px solid var(--plum); }
+    .quiet-list li {
+      padding: 22px 0 22px 2.2em; position: relative; border-bottom: 1px solid rgba(59,13,69,0.2);
+      font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 500; line-height: 1.4;
+    }
+    .quiet-list li::before {
+      content: ''; position: absolute; left: 0; top: 50%; width: 1.1em; height: 2px;
+      background: var(--fuchsia); transform: translateY(-50%);
+    }
+    .quiet-end {
+      margin-top: clamp(40px, 5vw, 64px); max-width: 900px; margin-left: auto;
+      font-family: var(--serif); font-variation-settings: 'opsz' 18; font-weight: 600;
+      font-size: clamp(1.8rem, 3.6vw, 3rem); line-height: 1.1;
+    }
+    .quiet-end em { color: var(--fuchsia-ink); }
+  </style>
+
+  <style>
+    /* ═══ Variant A2: deeper raspberry, white type on pink, fewer pink fields ═══ */
+    :root { --fuchsia: #C8216F; --pink-on-dark: #F06AA6; }
+    .hero-pink { background: var(--fuchsia); color: #fff; }
+    .hero-pink .wordmark, .hero h1, .hero .lede strong { color: #fff; }
+    .hero h1 em { color: var(--petal); }
+    .hero .reassure { color: #FFE3EF; opacity: 1; }
+    .hero .promise { color: #fff; border-top-color: rgba(255,255,255,0.4); }
+    .device { color: #fff; }
+    .device-side { border-color: rgba(255,255,255,0.3); }
+    .steps li { border-top-color: rgba(255,255,255,0.3); }
+    .chip, .scale10 button { border-color: rgba(255,255,255,0.65); }
+    .chip[aria-pressed="true"], .scale10 button[aria-checked="true"] { background: var(--aubergine); border-color: var(--aubergine); color: var(--petal); }
+    .breath-label { color: var(--petal); }
+    .close { background: var(--aubergine); color: #fff; }
+    .close h2 em { color: var(--pink-on-dark); }
+    .close .row p, footer { color: var(--on-aub-2); }
+    footer { border-top-color: rgba(255,195,221,0.25); }
+    .close .btn-aub { background: var(--fuchsia); color: #fff; }
+    .reframe p.big em, .founder-copy h2 em { color: var(--pink-on-dark); }
+    @media (hover: hover) and (pointer: fine) {
+      .chip:hover { background: rgba(255,255,255,0.1); }
+      .close .btn-aub:hover { background: #D93A82; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═════════ HERO ═════════ -->
-  <header class="hero" id="hero">
-    <nav class="nav" aria-label="Main">
+  <!-- ═════════ HOOK ═════════ -->
+  <header class="hero">
+    <div class="hero-pink">
       <a class="wordmark" href="index.html">Mirabae</a>
-      <a class="btn btn-line" href="#" data-app-link>Open the app</a>
-    </nav>
-
-    <div class="static" id="static" aria-hidden="true"></div>
-
-    <div class="hero-copy">
-      <h1>Turn the <em>noise</em> down.</h1>
-      <p class="lede">The Food Noise App sits in the gap between the urge and the action. Check in, take a 60-second reset, and watch the volume drop.</p>
-      <div class="ctas">
-        <a class="btn btn-gold" href="#reset">Try a reset
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg>
+      <h1>Your head<br />is <em>loud.</em></h1>
+      <p class="lede">You are not weak, and you are not broken. Your brain is sending a signal, and nobody ever showed you how to answer it. <strong>The Food Noise App gives you sixty seconds between the urge and the action.</strong></p>
+      <div class="cta">
+        <a class="btn btn-aub" href="#reset">Try the reset now
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2.5v11M3.5 9 8 13.5 12.5 9"/></svg>
         </a>
-        <a class="btn btn-line" href="#" data-app-link>Open the app</a>
+        <p class="reassure">Free, right on this page. No sign-up.</p>
+        <p class="promise">No counting. No weighing. No shame.</p>
       </div>
     </div>
-
-    <div>
-      <p class="quiet-line" aria-live="polite">It was never willpower. It is a signal.</p>
-      <div class="tuner">
-        <div class="tuner-head">
-          <label for="dial">How loud is it right now?</label>
-          <output id="dialOut" for="dial">9</output>
-        </div>
-        <div class="scale" style="--pos:0.1">
-          <div class="scale-nums" aria-hidden="true">
-            <span>10</span><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
-          </div>
-          <div class="needle"></div>
-          <input type="range" id="dial" min="0" max="100" value="10" step="1" aria-valuetext="Noise 9 of 10" />
-        </div>
-        <div class="tuner-foot"><span>Noise</span><span>Quiet</span></div>
-        <p class="tuner-hint">Drag the dial to the right.</p>
-      </div>
+    <div class="hero-aub">
+      <div class="top"><a href="#" data-app-link>Get the app</a></div>
+      <figure class="duo hero-photo">
+        <img src="img/food-noise-fridge.jpg"
+             alt="A hand reaching into an open fridge late at night" width="760" height="1009" />
+      </figure>
+      <p class="caption"><span>Not hungry. Just loud.</span><b>23:14</b></p>
     </div>
   </header>
 
   <main>
-    <!-- ═════════ RESET (cream) ═════════ -->
-    <section class="cream" id="reset" aria-labelledby="reset-title">
-      <div class="reset">
-        <div class="intro">
-          <h2 id="reset-title">Ninety seconds. <em>Not</em> another rule.</h2>
-          <p>When a craving gets loud you do not need more discipline. You need a pause long enough for the signal to pass. This is the exact flow from the app, working right here.</p>
-          <ol class="path" id="path">
-            <li class="on"><b>Name it</b><span>What is actually loud: stress, boredom, habit, or real hunger.</span></li>
-            <li><b>Rate it</b><span>One honest number. No judgement attached to it.</span></li>
-            <li><b>Breathe</b><span>A guided 60-second reset. Four in, four out.</span></li>
-            <li><b>Re-rate</b><span>Watch the number move. You did not have to obey it.</span></li>
+    <!-- ═════════ RECOGNITION ═════════ -->
+    <section class="recog" aria-labelledby="recog-title">
+      <div class="recog-grid">
+        <h2 id="recog-title">We know your day. <em>Maybe better than you do.</em></h2>
+        <ol class="moments">
+          <li><time>12:30</time><div><b>Not hungry at all.</b><span>You barely ate this morning. It feels like control. It is actually the beginning of tonight.</span></div></li>
+          <li><time>16:40</time><div><b>Two bites.</b><span>Just a taste. Then you cannot stop, and you cannot explain why. It is not greed. It is a body that ran on coffee all day.</span></div></li>
+          <li><time>18:10</time><div><b>A yogurt. Then an apple. Then&hellip;</b><span>It started healthy. Then this, then that. You were never looking for food. You were looking for the feeling of being done.</span></div></li>
+          <li><time>21:05</time><div><b>&ldquo;Did you eat today?&rdquo;</b><span>&ldquo;Yes.&rdquo; You do not say how much. The secret weighs more than the food.</span></div></li>
+          <li><time>23:14</time><div><b>The 11 PM pantry.</b><span>You should have gone to sleep. Instead: cereal, crackers, something sweet. You were not hungry. You were exhausted, and food was the only off switch you had.</span></div></li>
+        </ol>
+      </div>
+      <p class="aside">Somewhere in between, you start to believe something is wrong with your head. <strong>Nothing is wrong with you.</strong> You are running on empty, and your brain is doing exactly what it was built to do.</p>
+    </section>
+
+    <!-- ═════════ REFRAME + MECHANISM ═════════ -->
+    <section class="reframe" aria-label="Why it happens">
+      <p class="big">It was never <em>willpower.</em> It is a signal.</p>
+      <div class="chain">
+        <div><b>The quiet morning.</b><span>Skipping breakfast feels like a win. To your brain, it is not discipline. It is a reason to get loud later.</span></div>
+        <div><b>The long day.</b><span>Stress, decisions, a hundred small demands. By evening your willpower is not gone. It is used up.</span></div>
+        <div><b>The loud night.</b><span>Hunger, tiredness and habit arrive at the same time. That is not a character flaw. It is a pattern, and patterns can be interrupted.</span></div>
+      </div>
+    </section>
+
+    <!-- ═════════ TRANSFORMATION ═════════ -->
+    <section class="quiet" aria-labelledby="quiet-title">
+      <h2 id="quiet-title">Imagine forgetting about food <em>until you are hungry.</em></h2>
+      <ul class="quiet-list">
+        <li>You finish dinner, and the kitchen is just a room again.</li>
+        <li>The chocolate is still in the cupboard on Friday. You forgot it was there.</li>
+        <li>You eat breakfast without making a deal with yourself.</li>
+        <li>A hard day ends, and you know what you need. It is not the pantry.</li>
+        <li>Your head has room again. For your work, your people, your own plans.</li>
+      </ul>
+      <p class="quiet-end">That is not a stricter you. <em>That is a quieter you.</em></p>
+    </section>
+
+    <!-- ═════════ OFFER + WORKING DEMO ═════════ -->
+    <section class="offer" id="reset" aria-labelledby="offer-title">
+      <div class="offer-head">
+        <h2 id="offer-title">Not another diet. <em>A pause button.</em></h2>
+        <p>No calories. No banned foods. No starting over on Monday. Just sixty seconds that give you back the choice.</p>
+      </div>
+
+      <div class="feature-row">
+        <div class="feature"><h3>Check in</h3><p>Name what is loud in one tap, <i>which means</i> the urge stops being a mystery and becomes something you can work with.</p></div>
+        <div class="feature"><h3>60-second reset</h3><p>A guided breath, four in and four out, <i>which means</i> the craving has time to peak and pass before you act.</p></div>
+        <div class="feature"><h3>Your pattern</h3><p>Every check-in lands in your log, <i>which means</i> you see when the noise rises and what turns it down.</p></div>
+      </div>
+
+      <div class="device">
+        <div class="device-side">
+          <h3>Try it right now.</h3>
+          <p>The exact flow from the app. Nothing you tap leaves this page.</p>
+          <ol class="steps" id="steps">
+            <li class="on">Name it</li><li>Rate it</li><li>Breathe</li><li>Re-rate</li>
           </ol>
         </div>
-
-        <div class="instrument" aria-live="polite">
-          <div class="inst-top">
-            <span id="instLabel">Check-in</span>
-            <span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></span>
-          </div>
-
-          <!-- 1 name -->
+        <div class="device-main" aria-live="polite">
           <div class="stage on" data-stage="0">
-            <h3>What is loud right now?</h3>
-            <p class="sub">Pick the one that fits best.</p>
-            <div class="chips" role="group" aria-label="What is loud">
+            <h4>What is loud right now?</h4>
+            <div class="chips" role="group" aria-label="What is loud right now">
               <button class="chip" aria-pressed="false">Stress</button>
               <button class="chip" aria-pressed="false">Boredom</button>
               <button class="chip" aria-pressed="false">Tired</button>
               <button class="chip" aria-pressed="false">Habit</button>
               <button class="chip" aria-pressed="false">Sad</button>
               <button class="chip" aria-pressed="false">Saw food</button>
-              <button class="chip hungry" aria-pressed="false" data-hungry>Actually hungry</button>
+              <button class="chip" aria-pressed="false" data-hungry>Actually hungry</button>
             </div>
-            <div class="stage-actions" style="margin-top:auto;padding-top:28px">
-              <button class="btn btn-gold" id="toRate" disabled>Continue</button>
-            </div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toRate" disabled>Next</button></div>
           </div>
 
-          <!-- 1b hungry -->
           <div class="stage" data-stage="hungry">
-            <h3>Then eat. <em style="color:var(--gold-lt)">Hunger is not noise.</em></h3>
-            <p class="sub">Real hunger is a signal worth answering. Build a plate that keeps you full: protein, fibre, fat, and something you actually enjoy.</p>
-            <div class="stage-actions" style="margin-top:auto">
-              <button class="btn btn-line" data-restart>New check-in</button>
-            </div>
+            <h4>Then eat. <em>Hunger is not noise.</em></h4>
+            <p class="sub">Real hunger deserves an answer. Protein, fibre, fat, and something you actually enjoy.</p>
+            <div class="stage-actions"><button class="textbtn" data-restart>Start over</button></div>
           </div>
 
-          <!-- 2 rate -->
           <div class="stage" data-stage="1">
-            <h3>How strong is it?</h3>
-            <p class="sub" id="namedAs">Stress, right now.</p>
-            <div class="mini-scale">
-              <div class="big"><span id="rateOut">7</span><small> / 10</small></div>
-              <div class="scale" style="--pos:0.7">
-                <div class="needle"></div>
-                <input type="range" id="rate" min="1" max="10" value="7" step="1" aria-label="Urge strength, 1 to 10" />
-              </div>
-            </div>
-            <div class="stage-actions">
-              <button class="btn btn-gold" id="toBreath">Start the reset</button>
-            </div>
+            <h4>How loud is it?</h4>
+            <p class="sub" id="namedAs"></p>
+            <div class="scale10" role="radiogroup" aria-label="Strength, 1 to 10" id="rateScale"></div>
+            <div class="scale-ends"><span>A whisper</span><span>Deafening</span></div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toBreath" disabled>Start 60 seconds</button></div>
           </div>
 
-          <!-- 3 breathe -->
           <div class="stage" data-stage="2">
             <div class="breath">
-              <div class="ring" id="ring"></div>
-              <div class="ring-text"><span id="breathWord">Breathe in</span><small id="breathClock">60</small></div>
+              <div class="orb" id="orb"></div>
+              <p class="breath-label"><span id="breathWord">Breathe in</span><small id="breathClock">60</small></p>
             </div>
-            <div class="stage-actions" style="justify-content:center">
-              <button class="btn btn-line" id="skipBreath">Skip to re-rate</button>
-            </div>
+            <div class="stage-actions" style="justify-content:center"><button class="textbtn" id="skipBreath">Skip to re-rate</button></div>
           </div>
 
-          <!-- 4 re-rate -->
           <div class="stage" data-stage="3">
-            <h3>How strong is it now?</h3>
-            <div class="mini-scale" style="padding-top:22px">
-              <div class="big"><span id="rerateOut">4</span><small> / 10</small></div>
-              <div class="scale" style="--pos:0.4">
-                <div class="needle"></div>
-                <input type="range" id="rerate" min="1" max="10" value="4" step="1" aria-label="Urge strength now, 1 to 10" />
-              </div>
-            </div>
-            <div class="stage-actions">
-              <button class="btn btn-gold" id="toResult">Save check-in</button>
-            </div>
+            <h4>And now?</h4>
+            <div class="scale10" role="radiogroup" aria-label="Strength now, 1 to 10" id="rerateScale"></div>
+            <div class="scale-ends"><span>A whisper</span><span>Deafening</span></div>
+            <div class="stage-actions"><button class="btn btn-aub" id="toResult" disabled>See the shift</button></div>
           </div>
 
-          <!-- 5 result -->
           <div class="stage" data-stage="4">
-            <h3>The urge moved.</h3>
-            <div class="shift"><span class="from" id="resFrom">7</span><span class="arrow" aria-hidden="true">→</span><span class="to" id="resTo">4</span></div>
-            <p class="verdict" id="verdict">You did not have to obey it.</p>
-            <div class="stage-actions" style="margin-top:auto">
-              <a class="btn btn-gold" href="#" data-app-link>Keep this in the app</a>
-              <button class="btn btn-line" data-restart>Again</button>
+            <div class="shift"><span class="from" id="resFrom">8</span><span id="resTo">4</span></div>
+            <p class="sub" id="verdict" style="font-size:1.3rem">The urge moved. You did not have to obey it.</p>
+            <div class="stage-actions">
+              <a class="btn btn-aub" href="#" data-app-link>Keep this in the app</a>
+              <button class="textbtn" data-restart>Again</button>
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- ═════════ LOG ═════════ -->
-      <div class="log" aria-labelledby="log-title">
-        <div class="log-head">
-          <h2 id="log-title">One moment is noise. <em>A week is a pattern.</em></h2>
-          <p>Every check-in lands in your log. Over days the app shows you when the volume rises, and what turns it down, so you stop fighting each moment alone.</p>
+    <!-- ═════════ THE MORNING AFTER ═════════ -->
+    <section class="after" aria-labelledby="after-title">
+      <div class="after-grid">
+        <div>
+          <h2 id="after-title">Already ate it? <em>Start here.</em></h2>
+          <p class="after-lede">The morning after is its own kind of loud. The regret. The tiredness. The quiet promise that today you will barely eat. That promise is usually where the next loop begins.</p>
+          <p class="after-lede"><strong>You are not the only one.</strong> Tomorrow does not start on Monday. It starts at your next check-in.</p>
         </div>
+        <ul class="instead">
+          <li><s>Skip breakfast to make up for it.</s><span>Eat a real breakfast. Hungry mornings make loud evenings.</span></li>
+          <li><s>Step on the scale to punish yourself.</s><span>Name what was loud last night. Stress, boredom, tiredness.</span></li>
+          <li><s>Promise it will never happen again.</s><span>Notice when it happened. That time is information, not failure.</span></li>
+        </ul>
+      </div>
+    </section>
 
-        <div class="strip" id="strip" role="img" aria-label="Example week of check-ins. Urges peak most afternoons around 3 PM and drop after each reset."></div>
-        <div class="legend" aria-hidden="true">
-          <span><i class="l-before"></i>Before the reset</span>
-          <span><i class="l-after"></i>After the reset</span>
+    <!-- ═════════ FOUNDER ═════════ -->
+    <section class="founder" aria-labelledby="founder-title">
+      <div class="fridge" id="fridge">
+        <div class="fridge-door has-photo" style="--door:url(img/fridge-door.jpg)" aria-label="A fridge door covered in sticky notes. Tap a note to peel it off." role="group">
+          <span class="fridge-handle" aria-hidden="true"></span>
+          <button class="note n-p" style="--x:29%;--y:6%;--r:-6deg" aria-label="Peel off: snack?">snack?</button>
+          <button class="note n-y" style="--x:55%;--y:4%;--r:4deg" aria-label="Peel off: just one">just one</button>
+          <button class="note n-p" style="--x:71%;--y:8%;--r:-3deg" aria-label="Peel off: you deserve it">you deserve it</button>
+          <button class="note n-y" style="--x:33%;--y:26%;--r:5deg" aria-label="Peel off: start Monday">start Monday</button>
+          <button class="note n-p" style="--x:59%;--y:24%;--r:-4deg" aria-label="Peel off: I already ate">I already ate</button>
+          <button class="note n-y" style="--x:72%;--y:30%;--r:7deg" aria-label="Peel off: chocolate?">chocolate?</button>
+          <button class="note n-y" style="--x:27%;--y:46%;--r:-2deg" aria-label="Peel off: did you eat today?">did you eat today?</button>
+          <button class="note n-p" style="--x:52%;--y:44%;--r:6deg" aria-label="Peel off: one more">one more</button>
+          <button class="note n-p" style="--x:69%;--y:50%;--r:-5deg" aria-label="Peel off: something sweet">something sweet</button>
+          <button class="note n-y" style="--x:37%;--y:64%;--r:3deg" aria-label="Peel off: why can&rsquo;t I stop">why can&rsquo;t I stop</button>
+          <button class="note n-p" style="--x:60%;--y:66%;--r:-7deg" aria-label="Peel off: the pantry">the pantry</button>
+          <button class="note n-y" style="--x:71%;--y:70%;--r:4deg" aria-label="Peel off: it was a long day">it was a long day</button>
+          <button class="note n-p" style="--x:30%;--y:78%;--r:-4deg" aria-label="Peel off: only a bite">only a bite</button>
+          <button class="note n-y" style="--x:53%;--y:78%;--r:5deg" aria-label="Peel off: again?">again?</button>
+          <p class="note n-p note-last" aria-live="polite">quiet.</p>
         </div>
+        <div class="fridge-bar">
+          <span id="fridgeCount">14 thoughts on the door</span>
+          <button class="fridge-hold" id="fridgeHold" type="button">Hold to clear them all</button>
+        </div>
+      </div>
+      <div class="founder-copy">
+        <h2 id="founder-title">Built by a woman who <em>lived the noise.</em></h2>
+        <p>The 3 PM hum. The 11 PM pantry. Mirabae started as the founder's own attempt to understand why, and to <strong>stop fighting her own brain.</strong> The app is the tool she wished she had at 23:14.</p>
+      </div>
+    </section>
 
-        <div class="insight">
-          <blockquote>Your loudest moments land around <em>3 PM</em>, on days you skipped lunch.</blockquote>
-          <p class="demo-note">Example week with illustrative data. Your log is built from your own check-ins.</p>
-        </div>
+    <!-- ═════════ DOUBTS ═════════ -->
+    <section class="doubts" aria-labelledby="doubts-title">
+      <h2 id="doubts-title">The questions you are already asking.</h2>
+      <div>
+        <details>
+          <summary>I have tried everything. Why would this be different?</summary>
+          <p>Most plans work on what you eat. This works one step earlier, on the moment the urge shows up. That is why the plans that ignored the signal did not hold.</p>
+        </details>
+        <details>
+          <summary>Is something wrong with me?</summary>
+          <p>No. Thinking about food all day, losing control after a few bites, eating more at night after eating very little during the day: many people know these patterns. They are signals, not a character flaw. If they cause you real distress, please talk to a doctor or a qualified professional.</p>
+        </details>
+        <details>
+          <summary>Is this a diet?</summary>
+          <p>No. No calorie counting, no banned foods, no weigh-ins. Regulation, not restriction. If you are actually hungry, the app tells you to eat.</p>
+        </details>
+        <details>
+          <summary>Can sixty seconds really change anything?</summary>
+          <p>Sixty seconds will not fix everything. It gives you a gap between the urge and the action, and in that gap you get to choose. Try it above and see what your number does.</p>
+        </details>
+        <details>
+          <summary>Is this medical treatment?</summary>
+          <p>No. It is a self-reflection tool. If thoughts about food cause you real distress, or you recognise signs of an eating disorder, please talk to a doctor or a qualified professional.</p>
+        </details>
       </div>
     </section>
 
     <!-- ═════════ CLOSE ═════════ -->
     <section class="close" aria-labelledby="close-title">
-      <h2 id="close-title">Regulation, <em>not</em> restriction.</h2>
-      <p>The app is the method in your pocket. The full why behind the noise, the 7-Day Neuro-Reset and the Satiety Plate, lives in The Appetite Recode.</p>
-      <div class="ctas">
-        <a class="btn btn-gold" href="#" data-app-link>Open the app</a>
-        <a class="btn btn-line" href="https://whop.com/mirabae-0696/the-appetite-recode" target="_blank" rel="noopener">The Appetite Recode</a>
+      <h2 id="close-title">Turn the noise <em>down.</em></h2>
+      <div class="row">
+        <a class="btn btn-aub" href="#" data-app-link>Get the app</a>
+        <p>There is a version of you who forgets about food until she is hungry. She is not more disciplined. She is just quieter. Your next loud moment is the best time to meet her.</p>
       </div>
-
       <footer>
-        <p>This app is a self-reflection tool, not a diagnosis or medical advice. If thoughts about food cause you real distress, or you recognise signs of an eating disorder, please talk to a doctor or a qualified professional.</p>
+        <p>The Food Noise App is a self-reflection tool, not a diagnosis or medical advice.</p>
         <span>© 2026 Mirabae</span>
       </footer>
     </section>
@@ -621,59 +706,71 @@
   const APP_URL = '#';
   document.querySelectorAll('[data-app-link]').forEach(a => a.href = APP_URL);
 
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── Hero: static words + dial ── */
+
+
+  // Fridge door: tap a sticky note to peel it off, or hold to clear them all
   (() => {
-    const WORDS = ['snack?', 'just one more', 'chocolate', 'you deserve it', 'the fridge', "what's for dinner", 'I already ate',
-      'something sweet', 'crisps', 'it was a long day', 'only a bite', 'start Monday', 'bread', 'the pantry', 'one more'];
-    const hero = document.getElementById('hero');
-    const field = document.getElementById('static');
-    const n = innerWidth < 600 ? 16 : 30;
-    for (let i = 0; i < n; i++) {
-      const s = document.createElement('span');
-      s.textContent = WORDS[i % WORDS.length];
-      const left = Math.random() * 92, top = 4 + Math.random() * 62;
-      s.style.cssText = `left:${left}%;top:${top}%;font-size:${14 + Math.random() * 22}px;` +
-        `--a:${(0.18 + Math.random() * 0.5).toFixed(2)};--d:${(0.5 + Math.random() * 0.9).toFixed(2)}s;` +
-        `--jx:${(Math.random() * 6 - 3).toFixed(1)}px;--jy:${(Math.random() * 6 - 3).toFixed(1)}px`;
-      field.appendChild(s);
+    const fridge = document.getElementById('fridge');
+    if (!fridge) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const notes = [...fridge.querySelectorAll('button.note')];
+    const count = document.getElementById('fridgeCount');
+    const hold = document.getElementById('fridgeHold');
+    let left = notes.length, timer = null;
+    const update = () => {
+      count.textContent = left ? `${left} thought${left === 1 ? '' : 's'} on the door` : 'Nothing left on the door.';
+      if (!left) { fridge.classList.add('is-quiet'); hold.textContent = 'Put them back'; }
+    };
+    function peel(n) {
+      if (n.dataset.gone) return;
+      n.dataset.gone = '1'; n.disabled = true; left--; update();
+      const r = parseFloat(n.style.getPropertyValue('--r')) || 0;
+      const spin = (Math.random() - 0.5) * 70, drift = (Math.random() - 0.5) * 120;
+      const anim = reduce
+        ? n.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' })
+        : n.animate([
+            { transform: `rotate(${r}deg)`, opacity: 1 },
+            { transform: `rotate(${r}deg) translateY(-6px) rotateX(38deg) scale(1.04)`, opacity: 1, offset: 0.22 },
+            { transform: `translate(${drift}px, 520px) rotate(${r + spin}deg) rotateX(20deg)`, opacity: 0 },
+          ], { duration: 1100, easing: 'cubic-bezier(0.5, 0, 0.75, 0)', fill: 'forwards' });
+      anim.onfinish = () => { n.style.visibility = 'hidden'; };
     }
-
-    const dial = document.getElementById('dial');
-    const out = document.getElementById('dialOut');
-    const scale = dial.parentElement;
-    function tune() {
-      const p = dial.value / 100;           // 0 = loud, 1 = quiet
-      const level = Math.round(10 - p * 10);
-      hero.style.setProperty('--n', (1 - p).toFixed(3));
-      scale.style.setProperty('--pos', p);
-      out.textContent = level;
-      dial.setAttribute('aria-valuetext', `Noise ${level} of 10`);
-      hero.classList.toggle('tuned', p > 0.6);
+    function reset() {
+      notes.forEach(n => { n.getAnimations().forEach(a => a.cancel()); delete n.dataset.gone; n.disabled = false; n.style.visibility = ''; });
+      left = notes.length; fridge.classList.remove('is-quiet'); hold.textContent = 'Hold to clear them all'; update();
     }
-    dial.addEventListener('input', tune);
-    tune();
+    notes.forEach(n => n.addEventListener('click', () => peel(n)));
+    const startHold = e => {
+      if (!left) { reset(); return; }
+      e && e.preventDefault(); hold.classList.add('holding');
+      const step = () => { const next = notes.find(n => !n.dataset.gone); if (next) peel(next); else stopHold(); };
+      step(); clearInterval(timer); timer = setInterval(step, 160);
+    };
+    const stopHold = () => { clearInterval(timer); timer = null; hold.classList.remove('holding'); };
+    hold.addEventListener('pointerdown', startHold);
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => hold.addEventListener(t, stopHold));
+    hold.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) startHold(e); });
+    hold.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') stopHold(); });
+    hold.addEventListener('contextmenu', e => e.preventDefault());
   })();
 
-  /* ── Reset instrument ── */
+  // Headline test: add ?h=b to the URL to show variant B
+  if (new URLSearchParams(location.search).get('h') === 'b') {
+    document.querySelector('.hero h1').innerHTML = 'Tired of thinking about <em>food?</em>';
+  }
+
   (() => {
     const stages = [...document.querySelectorAll('.stage')];
-    const dots = [...document.querySelectorAll('.inst-top .dots i')];
-    const steps = [...document.querySelectorAll('#path li')];
-    const label = document.getElementById('instLabel');
-    const LABELS = ['Check-in', 'Rate', 'Reset', 'Re-rate', 'Saved'];
-    let named = '', before = 7, timer = null;
+    const steps = [...document.querySelectorAll('#steps li')];
+    let named = '', before = 0, after = 0, timer = null;
 
     function go(key) {
       stages.forEach(s => s.classList.toggle('on', s.dataset.stage == key));
       const i = key === 'hungry' ? 0 : Number(key);
-      dots.forEach((d, j) => d.classList.toggle('on', j <= Math.min(i, 3)));
-      steps.forEach((s, j) => s.classList.toggle('on', j === Math.min(i, 3)));
-      label.textContent = key === 'hungry' ? 'Check-in' : LABELS[i];
+      steps.forEach((s, j) => { s.classList.toggle('on', j === i); s.classList.toggle('done', j < i); });
     }
 
-    // 1. name
     const chips = [...document.querySelectorAll('.chip')];
     const toRate = document.getElementById('toRate');
     chips.forEach(c => c.addEventListener('click', () => {
@@ -681,109 +778,63 @@
       named = c.textContent; toRate.disabled = false;
     }));
     toRate.addEventListener('click', () => {
-      const hungry = chips.find(c => c.getAttribute('aria-pressed') === 'true')?.hasAttribute('data-hungry');
-      if (hungry) return go('hungry');
-      document.getElementById('namedAs').textContent = `${named}, right now.`;
+      const pick = chips.find(c => c.getAttribute('aria-pressed') === 'true');
+      if (pick && pick.hasAttribute('data-hungry')) return go('hungry');
+      document.getElementById('namedAs').textContent = `${named}, right now. One honest number.`;
       go(1);
     });
 
-    // sliders with needles
-    function bindScale(id, outId) {
-      const input = document.getElementById(id), o = document.getElementById(outId);
-      const sync = () => {
-        o.textContent = input.value;
-        input.parentElement.style.setProperty('--pos', (input.value - 1) / 9);
-      };
-      input.addEventListener('input', sync); sync();
-      return input;
+    function buildScale(id, onPick) {
+      const el = document.getElementById(id);
+      for (let v = 1; v <= 10; v++) {
+        const b = document.createElement('button');
+        b.textContent = v; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
+        b.addEventListener('click', () => {
+          el.querySelectorAll('button').forEach(x => x.setAttribute('aria-checked', x === b));
+          onPick(v);
+        });
+        el.appendChild(b);
+      }
     }
-    const rate = bindScale('rate', 'rateOut');
-    const rerate = bindScale('rerate', 'rerateOut');
+    const toBreath = document.getElementById('toBreath');
+    const toResult = document.getElementById('toResult');
+    buildScale('rateScale', v => { before = v; toBreath.disabled = false; });
+    buildScale('rerateScale', v => { after = v; toResult.disabled = false; });
 
-    // 2 → 3 breathe
-    const ring = document.getElementById('ring');
+    const orb = document.getElementById('orb');
     const word = document.getElementById('breathWord');
     const clock = document.getElementById('breathClock');
-    function stopBreath() { clearInterval(timer); timer = null; ring.classList.remove('in'); }
-    function startBreath() {
-      before = Number(rate.value);
-      rerate.value = Math.max(1, before - 3); rerate.dispatchEvent(new Event('input'));
+    function stopBreath() { clearInterval(timer); timer = null; orb.classList.remove('in'); }
+    toBreath.addEventListener('click', () => {
       go(2);
       let t = 60;
-      clock.textContent = t;
-      const phase = () => {
+      const tick = () => {
         const inhale = Math.floor((60 - t) / 4) % 2 === 0;
-        ring.classList.toggle('in', inhale);
+        orb.classList.toggle('in', inhale);
         word.textContent = inhale ? 'Breathe in' : 'Breathe out';
+        clock.textContent = t;
       };
-      requestAnimationFrame(phase);
-      timer = setInterval(() => {
-        t -= 1; clock.textContent = t;
-        if ((60 - t) % 4 === 0) phase();
-        if (t <= 0) { stopBreath(); go(3); }
-      }, 1000);
-    }
-    document.getElementById('toBreath').addEventListener('click', startBreath);
+      requestAnimationFrame(tick);
+      timer = setInterval(() => { t -= 1; tick(); if (t <= 0) { stopBreath(); go(3); } }, 1000);
+    });
     document.getElementById('skipBreath').addEventListener('click', () => { stopBreath(); go(3); });
 
-    // 4 → 5 result
-    document.getElementById('toResult').addEventListener('click', () => {
-      const after = Number(rerate.value);
+    toResult.addEventListener('click', () => {
       document.getElementById('resFrom').textContent = before;
       document.getElementById('resTo').textContent = after;
-      const v = document.getElementById('verdict');
-      v.textContent = after < before ? 'You did not have to obey it.'
-        : 'Still loud. That is information, not failure. Try a glass of water and check in again in ten minutes.';
-      document.querySelector('[data-stage="4"] h3').textContent = after < before ? 'The urge moved.' : 'Noted.';
+      document.getElementById('verdict').textContent = after < before
+        ? 'The urge moved. You did not have to obey it.'
+        : 'Still loud. That is information, not failure. Drink some water and check in again in ten minutes.';
       go(4);
     });
 
     document.querySelectorAll('[data-restart]').forEach(b => b.addEventListener('click', () => {
       stopBreath();
       chips.forEach(x => x.setAttribute('aria-pressed', 'false'));
-      toRate.disabled = true; go(0);
+      document.querySelectorAll('.scale10 button').forEach(x => x.setAttribute('aria-checked', 'false'));
+      toRate.disabled = toBreath.disabled = toResult.disabled = true;
+      go(0);
     }));
-  })();
-
-  /* ── Log strip (illustrative data) ── */
-  (() => {
-    const WEEK = [
-      { d: 'Mon', t: '3:10 PM', v: [[8, 5], [6, 3]] },
-      { d: 'Tue', t: '3:40 PM', v: [[7, 4]] },
-      { d: 'Wed', t: '3:05 PM', v: [[9, 5], [7, 4], [5, 2]], peak: true },
-      { d: 'Thu', t: '9:30 PM', v: [[6, 3]] },
-      { d: 'Fri', t: '3:20 PM', v: [[8, 4], [6, 3]] },
-      { d: 'Sat', t: '11:10 PM', v: [[5, 2]] },
-      { d: 'Sun', t: 'Quiet', v: [] },
-    ];
-    const strip = document.getElementById('strip');
-    WEEK.forEach(day => {
-      const el = document.createElement('div');
-      el.className = 'day' + (day.peak ? ' peak' : '');
-      el.innerHTML = `<div class="day-name">${day.d}</div><div class="bars"></div><div class="day-time">${day.t}</div>`;
-      const bars = el.querySelector('.bars');
-      day.v.forEach(([b, a]) => {
-        const bar = document.createElement('i');
-        bar.className = 'bar';
-        bar.style.height = b * 10 + '%';
-        bar.style.setProperty('--after', (a / b * 100) + '%');
-        bars.appendChild(bar);
-      });
-      strip.appendChild(el);
-    });
-
-    // one reveal: bars rise once when the strip comes into view
-    if (reduceMotion || !('IntersectionObserver' in window)) return;
-    const allBars = strip.querySelectorAll('.bar');
-    allBars.forEach(b => b.style.transform = 'scaleY(0.04)');
-    new IntersectionObserver((entries, obs) => {
-      if (!entries[0].isIntersecting) return;
-      allBars.forEach((b, i) => b.animate(
-        [{ transform: 'scaleY(0.04)' }, { transform: 'scaleY(1)' }],
-        { duration: 900, delay: i * 45, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'forwards' }
-      ));
-      obs.disconnect();
-    }, { rootMargin: '0px 0px -120px 0px' }).observe(strip);
   })();
   </script>
 </body>

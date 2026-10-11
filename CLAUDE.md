@@ -21,3 +21,26 @@ Goal: real design aesthetics and uniqueness, never generic AI web design.
 - Colors: black `#0A0A0A`, gold `#B8986A`, cream `#F6F0E7`.
 - Fonts: Cormorant Garamond (display), Montserrat (text).
 - Known risk: this combo is common in beauty link pages; push uniqueness through imagery, layout and motion.
+
+## Food Noise App page (`app.html`, chosen 2026-10-09: variant A2)
+
+- Colors: raspberry `#C8216F` (white type on it), aubergine `#2A0B3B`, blush `#F9DCE9`, petal `#FFC3DD`; pink as text on light grounds uses `#B5115A`.
+- Fonts: Bodoni Moda only at display sizes, Hanken Grotesk for everything else (16px minimum).
+- Photos: grayscale duotone (raspberry highlights, aubergine shadows) via CSS blend modes.
+- Audience (TikTok, Oct 2026): 87% women, ~85% under 35; the founder's target is 35 to 50, so the page must work for both.
+- Tone: no shame, no counting, no medical promises; always point to professional help for real distress.
+- Alternatives kept for reference: `app-a.html` (louder fuchsia), `app-b.html` (aubergine-led).
+
+## Mirabae links and facts (do not ask the founder again)
+
+- Food Noise App (web app, hosted on Vercel): https://app.mirabae.com ("Mirabae · Food Noise Coach")
+  - Features: 20-second daily check-ins, Quiet Score, food-noise patterns (e.g. "The Stress Grazer"), "Quiet Now" emergency program, 7-Day Reset, Mira (in-app text coach), Pattern Map, lessons, journaling, Satiety Plate.
+  - Plans via Whop, 7-day free trial, cancel anytime: Quiet Start $19/mo https://whop.com/checkout/plan_vwpPc8bgB1u1w · Mirabae Ritual $49/mo https://whop.com/checkout/plan_e5cn9Mu03t5Kg
+  - Whop product page: https://whop.com/mirabae-0696/mirabae-app/
+  - Landing page CTA should say "Start 7 days free".
+- Link hub: https://links.mirabae.com (this repo, index.html)
+- Shop: https://www.mirabae.com · Brainelle: https://www.mirabae.com/products/brainelle?variant=52952487330130
+- Anima (kefir fibre powder): https://anima.mirabae.com (repo catterelle-hub/anima-landing)
+- The Appetite Recode (ebook): https://whop.com/mirabae-0696/the-appetite-recode
+- Founder: Anjelika. 1:1 coaching via app.mirabae.com/coaching-apply.
+- Where things live: app code is NOT in this repo and not visible to the connected GitHub/Vercel accounts (as of 2026-10-10); Notion "Mirabae — Master Operating Hub" holds older ops notes; the "Mirabae Brain" notes live on the founder's Mac unless synced.
