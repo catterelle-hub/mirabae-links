@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>The Mirabae Lab</title>
-  <meta name="description" content="Three Mirabae formulas are finished. One goes first. Help us choose: Brainelle, Anima or Miralemon." />
+  <meta name="description" content="Not on any shelf. Yet. Three finished Mirabae formulas: Brainelle, Anima and Miralemon. One gets made first. You decide." />
   <meta name="theme-color" content="#C8216F" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -58,7 +58,8 @@
     .hero .eyebrow { color: var(--petal); }
     .hero h1 { font-size: clamp(3.1rem, 8.4vw, 8rem); line-height: 0.95; margin: 18px 0 18px; font-kerning: none; }
     .hero h1 .l2 { display: block; }
-    .hero .sub { font-family: var(--serif); font-style: italic; font-variation-settings: 'opsz' 18; font-weight: 500; font-size: clamp(1.9rem, 4vw, 3.2rem); color: var(--lemon); line-height: 1; }
+    .hero .sub { font-family: var(--serif); font-style: italic; font-variation-settings: 'opsz' 14; font-weight: 500; font-size: clamp(1.35rem, 2.4vw, 1.9rem); color: var(--lemon); line-height: 1.3; max-width: 30rem; }
+    .hero .punch { margin-top: 14px; font-family: var(--serif); font-variation-settings: 'opsz' 18; font-weight: 600; font-size: clamp(1.4rem, 2.4vw, 1.9rem); color: #fff; }
     .hero p.lede { margin-top: 22px; max-width: 30rem; font-size: clamp(1.02rem, 1.4vw, 1.2rem); color: #FFE3EF; }
     .hero .btn { margin-top: 32px; background: var(--aubergine); color: var(--petal); }
 
@@ -132,6 +133,12 @@
       clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px rgba(233,200,255,0.9)); }
     @media (max-width: 900px) { .bigname { font-size: clamp(4rem, 22vw, 8rem); top: 36%; } }
 
+    /* ═══ WHY VOTE ═══ */
+    .why { background: var(--aubergine); color: #fff; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); padding: clamp(48px, 7vw, 90px) var(--gutter); }
+    .why-n { display: block; font-family: var(--serif); font-variation-settings: 'opsz' 18; font-weight: 600; font-size: 1.1rem; color: var(--pink-on-dark); letter-spacing: 0.08em; }
+    .why p { margin-top: 10px; font-family: var(--serif); font-variation-settings: 'opsz' 18; font-weight: 500; font-size: clamp(1.4rem, 2.3vw, 2rem); line-height: 1.2; }
+    @media (max-width: 900px) { .why { grid-template-columns: 1fr; gap: 26px; } }
+
     /* ═══ RITUALS ═══ */
     .rituals-head { padding: clamp(80px, 11vw, 150px) var(--gutter) clamp(36px, 5vw, 64px); }
     .rituals-head h2 { font-size: clamp(2.3rem, 5.6vw, 4.6rem); line-height: 1; max-width: 14ch; }
@@ -187,6 +194,9 @@
     .email { width: 100%; min-height: 60px; padding: 0 4px; background: transparent; border: 0; border-bottom: 1.5px solid rgba(255,255,255,0.55); font-size: 1.25rem; color: #fff; border-radius: 0; }
     .email::placeholder { color: rgba(255,227,239,0.45); }
     .email:focus { outline: none; border-bottom-color: var(--pink-on-dark); }
+    .about { align-items: center; margin-bottom: 8px; }
+    .about-label { font-size: 0.86rem; color: rgba(255,227,239,0.8); margin-right: 4px; }
+    .chip-sm { min-height: 40px; padding: 0 16px; font-size: 0.92rem; }
     .feedback { min-height: 92px; padding: 14px 4px; font-size: 1.1rem; line-height: 1.5; resize: vertical; font-family: var(--sans); }
     .submit { margin-top: 44px; background: var(--fuchsia); color: #fff; min-height: 60px; }
     .submit:disabled { opacity: 0.6; cursor: default; }
@@ -243,9 +253,10 @@
 
     <div class="hero-copy">
       <span class="eyebrow">The Mirabae Lab</span>
-      <h1 id="heroTitle">Three formulas. <span class="l2">One goes first.</span></h1>
-      <p class="sub">Help us choose.</p>
-      <p class="lede">Brainelle, Anima and Miralemon are finished and with our suppliers. Your vote shapes which one we make first.</p>
+      <h1 id="heroTitle">Not on any shelf. <span class="l2">Yet.</span></h1>
+      <p class="sub">Collagen in a green tea drink. Fiber made for your kefir. A soda with saffron in it.</p>
+      <p class="lede">Three Mirabae formulas, finished and waiting at our suppliers. One gets made first.</p>
+      <p class="punch">No boardroom decides. You do.</p>
       <a class="btn" href="#vote" data-scroll>Cast your vote</a>
     </div>
 
@@ -271,6 +282,12 @@
   </header>
 
   <main>
+    <section class="why" aria-label="Why vote">
+      <div class="why-item reveal"><span class="why-n">01</span><p>You decide what gets made first.</p></div>
+      <div class="why-item reveal"><span class="why-n">02</span><p>First access for every voter.</p></div>
+      <div class="why-item reveal"><span class="why-n">03</span><p>The founding price on your first order.</p></div>
+    </section>
+
     <section class="rituals-head" aria-labelledby="rituals-title">
       <h2 id="rituals-title" class="reveal">Three rituals. <em>Which should we make first?</em></h2>
       <p class="reveal">Read what each one is for. Then vote for the one you would want in your day.</p>
@@ -283,8 +300,8 @@
         <span class="num reveal">01</span>
         <h3 id="t-brainelle" class="reveal">Brainelle</h3>
         <span class="mech reveal">The Green Tea Morning</span>
-        <p class="before reveal">A strong coffee for your head. A collagen powder for your skin. Two rituals, and one of them leaves you wired instead of clear.</p>
-        <p class="after reveal">Brainelle is the green tea way to start the day: support for focus in the morning ahead, and for skin elasticity from within.*</p>
+        <p class="before reveal">Brain and beauty. One scoop. Green tea, not coffee.</p>
+        <p class="after reveal">Your focus ritual and your beauty ritual, finally in one glass. Brainelle is a green tea morning drink with collagen, made for both.</p>
         <ul class="reveal">
           <li>200 mg L-theanine with 70 mg caffeine from green tea, the pairing green tea is known for.</li>
           <li>250 mg citicoline to support focus and memory.*</li>
@@ -303,8 +320,8 @@
         <span class="num reveal">02</span>
         <h3 id="t-anima" class="reveal">Anima</h3>
         <span class="mech reveal">The Kefir Ritual</span>
-        <p class="before reveal">Your gut does more for your mood and your skin than most women were ever told. Most days, it gets the least attention.</p>
-        <p class="after reveal">Anima is made for your daily kefir: the fiber feeds the good bacteria, the kefir brings more of them. Researchers call this pairing a synbiotic.</p>
+        <p class="before reveal">Your kefir brings the bacteria. Anima feeds them.</p>
+        <p class="after reveal">Your gut does more for your mood and your skin than most women were ever told. Anima is made for your daily kefir. Researchers call this pairing a synbiotic.</p>
         <ul class="reveal">
           <li>Feeds the good bacteria in your gut and supports regularity.*</li>
           <li>An 8 g fiber blend of Sunfiber PHGG, acacia and resistant starch.</li>
@@ -323,11 +340,12 @@
         <span class="num reveal">03</span>
         <h3 id="t-mira" class="reveal">Miralemon</h3>
         <span class="mech reveal">Your 3 PM, upgraded</span>
-        <p class="before reveal">3 PM. You want something cold and bright. Not another coffee, not something sweet.</p>
-        <p class="after reveal">Miralemon is the third option: lemon, coconut water and prickly pear, sparkling and cold. No caffeine. 35 calories.</p>
+        <p class="before reveal">Soda, rewritten.</p>
+        <p class="after reveal">Lemon, coconut water and prickly pear, sparkling and cold. No caffeine, no added sugar, 35 calories.</p>
         <ul class="reveal">
-          <li>150 mg L-theanine, 28 mg saffron and 75 mg magnesium in every can.</li>
+          <li>150 mg L-theanine and 28 mg saffron in every can.</li>
         </ul>
+        <p class="how reveal">And my cat Keanu on the can.</p>
         <div class="price reveal"><b>$3.99</b><span>a can, estimated</span><span>$3.49 founding price for voters</span></div>
         <button class="btn reveal" type="button" data-vote="miralemon">Vote for Miralemon</button>
       </div>
@@ -373,6 +391,12 @@
 
           <div class="field">
             <label class="label" for="feedback" id="feedbackLabel">Anything you would love in it? (optional)</label>
+            <div class="chips about" role="radiogroup" aria-label="This is about" id="aboutChips">
+              <span class="about-label">This is about</span>
+              <button type="button" class="chip chip-sm" role="radio" aria-checked="false" data-about="brainelle">Brainelle</button>
+              <button type="button" class="chip chip-sm" role="radio" aria-checked="false" data-about="anima">Anima</button>
+              <button type="button" class="chip chip-sm" role="radio" aria-checked="false" data-about="miralemon">Miralemon</button>
+            </div>
             <textarea class="email feedback" id="feedback" name="feedback" rows="2" maxlength="300" placeholder="An ingredient, a flavour, a wish."></textarea>
             <p class="fine">We read every one.</p>
           </div>
@@ -566,7 +590,7 @@
           SplitText.create('#heroTitle', { type: 'words, chars', mask: 'chars', onSplit(self) {
             return gsap.from(self.chars, { yPercent: 110, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.025 });
           } });
-          gsap.from('.hero .sub, .hero .lede, .hero .btn, .hero .eyebrow', { y: 24, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, delay: 0.5 });
+          gsap.from('.hero .sub, .hero .lede, .hero .punch, .hero .btn, .hero .eyebrow', { y: 24, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, delay: 0.5 });
           gsap.from('.stage', { y: 40, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.35 });
         });
         gsap.utils.toArray('.reveal').forEach(el => {
@@ -597,8 +621,13 @@
     const alsoChips = [...document.querySelectorAll('[data-also]')];
     const orderChips = [...document.querySelectorAll('[data-order]')];
     const NAMES = { brainelle: 'Brainelle', anima: 'Anima', miralemon: 'Miralemon' };
+    let about = '', aboutTouched = false;
+    const aboutChips = [...document.querySelectorAll('[data-about]')];
+    aboutChips.forEach(c => c.addEventListener('click', () => { about = c.dataset.about; aboutTouched = true; renderVote(); }));
     function renderVote() {
-      document.getElementById('feedbackLabel').textContent = first ? `Anything you would love in ${NAMES[first]}? (optional)` : 'Anything you would love in it? (optional)';
+      if (!aboutTouched) about = first;
+      aboutChips.forEach(c => c.setAttribute('aria-checked', c.dataset.about === about));
+      document.getElementById('feedbackLabel').textContent = about ? `Anything you would love in ${NAMES[about]}? (optional)` : 'Anything you would love in it? (optional)';
       firstChips.forEach(c => c.setAttribute('aria-checked', c.dataset.first === first));
       alsoChips.forEach(c => { const off = c.dataset.also === first; c.disabled = off; if (off) also.delete(c.dataset.also); c.setAttribute('aria-pressed', also.has(c.dataset.also)); });
       orderChips.forEach(c => c.setAttribute('aria-checked', c.dataset.order === order));
@@ -627,7 +656,7 @@
           const fd = new FormData();
           fd.append('g', LISTS[id]); fd.append('email', value);
           fd.append('$fields', 'lab_first_choice,lab_also_curious,lab_would_order,lab_voted_at,lab_feedback,lab_feedback_product');
-          fd.append('lab_feedback_product', first);
+          fd.append('lab_feedback_product', about || first);
           fd.append('lab_feedback', (document.getElementById('feedback').value || '').trim().slice(0, 300) || 'none');
           fd.append('lab_first_choice', first);
           fd.append('lab_also_curious', [...also].join(',') || 'none');
@@ -644,7 +673,7 @@
     });
 
     document.getElementById('shareBtn').addEventListener('click', async () => {
-      const data = { title: 'The Mirabae Lab', text: 'Three Mirabae formulas. One goes first. Help choose.', url: 'https://links.mirabae.com/lab' };
+      const data = { title: 'The Mirabae Lab', text: 'Not on any shelf. Yet. Three Mirabae formulas, one gets made first. Vote for yours.', url: 'https://links.mirabae.com/lab' };
       if (navigator.share) { try { await navigator.share(data); } catch {} }
       else { try { await navigator.clipboard.writeText(data.url); document.getElementById('shareBtn').textContent = 'Link copied'; } catch {} }
     });
