@@ -37,3 +37,13 @@ Read `CLAUDE.md` first. It has the design rules, the A2 palette, every Mirabae l
 - Test every change with Playwright at 390px and desktop before showing it.
 - Keep `app-a.html` / `app-b.html` as references; `app.html` is the live page.
 - Higgsfield credits left: about 6 (as of 2026-10-11).
+
+## The Mirabae Lab (built 2026-10-17, branch `claude/mirabae-lab`, live after merge)
+
+- `lab.html` at `/lab`: public vote on which finished formula gets made first (Brainelle, Anima, Miralemon). Votes counted 31 January 2027. Bottom entry in the link tree ("The Mirabae Lab · What we're making next").
+- Approved copy (founder, 2026-10-17): hero "Not on any shelf. Yet." / "Collagen in a green tea drink. Fiber made for your kefir. A soda with saffron in it." / "No boardroom decides. You do." Why vote: decide what gets made first, first access, founding price on the first order. Hooks: Brainelle "Brain and beauty. One scoop. Green tea, not coffee."; Anima "Your kefir brings the bacteria. Anima feeds them."; Miralemon "Soda, rewritten." Never write "coffee" as if it were an ingredient (Brainelle has green tea caffeine).
+- Prism: CSS glass prism, drawn at 2x and shown at 1x for sharpness; it pauses 3 s on each pack flat (2D, razor sharp), spins in on load, glow colour and giant outlined name per product, sparkle burst on each rest, scroll gives it a spin, flick inertia. A Three.js glass version existed (commit 5db2ce6) but the founder preferred the CSS glass.
+- Packs: 4K upscaled (WaveSpeed image upscaler) and cut out locally with macOS Vision (`VNGenerateForegroundInstanceMaskRequest`), saved as WebP in `img/lab/cut/`. Miralemon shows Keanu, the founder's golden British Shorthair, smiling with open eyes.
+- Klaviyo via the public form endpoint, one list per product: Brainelle `TCGeRD`, Anima `TGRgd4`, Miralemon `WdVJcj`. Properties: lab_first_choice, lab_also_curious, lab_would_order (yes/maybe/no), lab_voted_at, lab_feedback (max 300 chars), lab_feedback_product.
+- Typography: Bodoni Moda with explicit optical size ('opsz') for running text and italic display lines; default optical sizing made hairlines vanish.
+- Reel: Remotion project `~/Documents/MirabaeReels/lab-reel` (12 s, 9:16). Rendering needs the founder's own terminal (headless Chrome crashes inside Claude's sandbox): `cd ~/Documents/MirabaeReels/lab-reel && npx remotion render LabReel <output.mp4>`.
