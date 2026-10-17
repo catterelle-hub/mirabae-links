@@ -577,7 +577,7 @@
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
         if (!renderer.getContext()) throw new Error('no webgl');
         document.documentElement.classList.add('v-3d');
-        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2.5));
         renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         host.appendChild(renderer.domElement);
@@ -594,8 +594,8 @@
         // thin reflective glass: crisp packs behind it (no refraction blur), reflections and iridescence on the surface
         const geo = new THREE.CylinderGeometry(R, R, H, 3, 1, false, -Math.PI / 3);
         const glassMat = (side, opacity) => new THREE.MeshPhysicalMaterial({ side, transparent: true, opacity, depthWrite: false, roughness: 0.06, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.03, iridescence: 0.7, iridescenceIOR: 1.35, iridescenceThicknessRange: [180, 520], envMapIntensity: 1.1, color: new THREE.Color('#ffffff') });
-        const back = new THREE.Mesh(geo, glassMat(THREE.BackSide, 0.10)); back.renderOrder = 1;
-        const glass = new THREE.Mesh(geo, glassMat(THREE.FrontSide, 0.16)); glass.renderOrder = 3;
+        const back = new THREE.Mesh(geo, glassMat(THREE.BackSide, 0.05)); back.renderOrder = 1;
+        const glass = new THREE.Mesh(geo, glassMat(THREE.FrontSide, 0.045)); glass.renderOrder = 3;
         group.add(back); group.add(glass);
         const edges = new THREE.LineSegments(new THREE.EdgesGeometry(glass.geometry), new THREE.LineBasicMaterial({ color: 0xf1dcae, transparent: true, opacity: 0.85 }));
         group.add(edges);
@@ -604,7 +604,7 @@
         const packs = ['brainelle', 'anima', 'miralemon'];
         const inr = R * 0.5;
         await Promise.all(packs.map((p, i) => new Promise(res => loader.load(`img/lab/cut/${p}.png`, tex => {
-          tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+          tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter; tex.magFilter = THREE.LinearFilter;
           const ar = tex.image.width / tex.image.height, h = H * 0.78;
           const m = new THREE.Mesh(new THREE.PlaneGeometry(h * ar, h), new THREE.MeshBasicMaterial({ map: tex, alphaTest: 0.5, side: THREE.FrontSide, toneMapped: false }));
           m.renderOrder = 2;
