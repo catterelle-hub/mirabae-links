@@ -167,6 +167,25 @@
     footer { background: var(--aubergine); color: rgba(255,227,239,0.6); padding: 26px var(--gutter) 40px; font-size: 0.85rem; border-top: 1px solid rgba(255,195,221,0.2); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     footer a { text-decoration: none; }
 
+
+    /* Variant B (?v=sparkle): iridescent diamond dust in the hero instead of bubbles */
+    .dust { position: absolute; inset: 0; z-index: -1; pointer-events: none; display: none; }
+    .v-sparkle .dust { display: block; }
+    .v-sparkle .bubbles { display: none; }
+    .dust i {
+      position: absolute; width: var(--s); height: var(--s);
+      background: conic-gradient(from var(--h, 0deg), #FFFFFF, #F3D9FF, #FFC9E6, #FFF0C2, #D6ECFF, #E2CCFF, #FFFFFF);
+      clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.9)) drop-shadow(0 0 12px var(--c)); opacity: 0;
+      animation: twinkle var(--d, 4s) ease-in-out var(--delay, 0s) infinite;
+    }
+    .dust i.dot { clip-path: none; border-radius: 50%; background: #fff; filter: drop-shadow(0 0 4px var(--c)) drop-shadow(0 0 2px #fff); }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: translateY(0) scale(0.4) rotate(0deg); }
+      45% { opacity: 1; transform: translateY(var(--drift, -8px)) scale(1) rotate(25deg); }
+      60% { opacity: 0.85; }
+    }
+    @media (prefers-reduced-motion: reduce) { .dust i { animation: none; opacity: 0.7; transform: none; } }
     @media (hover: hover) and (pointer: fine) {
       .hero .btn:hover { background: var(--plum); }
       .chip:hover:not(:disabled) { border-color: #fff; }
@@ -196,6 +215,7 @@
       <a class="back" href="/">All links</a>
     </div>
     <div class="bubbles" id="bubbles" aria-hidden="true"></div>
+    <div class="dust" id="dust" aria-hidden="true"></div>
 
     <div class="hero-copy">
       <span class="eyebrow">The Mirabae Lab</span>
@@ -370,6 +390,21 @@
     };
     fill(document.getElementById('bubbles'), innerWidth < 700 ? 16 : 30, 'span', 44);
     fill(document.getElementById('fizz'), 16, 'i', 20);
+
+
+    // ── Variant B: diamond dust (?v=sparkle) ──
+    if (new URLSearchParams(location.search).get('v') === 'sparkle') {
+      document.documentElement.classList.add('v-sparkle');
+      const dust = document.getElementById('dust');
+      const colors = ['#D9B8FF', '#B98AE8', '#FFB3DA', '#F3D9A4', '#C8A8FF', '#A97BE0'];
+      const n = innerWidth < 700 ? 34 : 60;
+      for (let i = 0; i < n; i++) {
+        const d = document.createElement('i'), dot = Math.random() < 0.45, size = dot ? 2.5 + Math.random() * 3 : 9 + Math.random() * 14;
+        if (dot) d.className = 'dot';
+        d.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;--s:${size}px;--c:${colors[i % colors.length]};--d:${3 + Math.random() * 4}s;--delay:${-Math.random() * 6}s;--drift:${-4 - Math.random() * 12}px;--h:${Math.floor(Math.random() * 360)}deg`;
+        dust.appendChild(d);
+      }
+    }
 
     // ── Smooth scroll (desktop only) ──
     let lenis = null;
