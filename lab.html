@@ -118,6 +118,20 @@
     .prism-label button[aria-current="true"] { color: #fff; }
     .hint { font-size: 0.8rem; color: rgba(255,227,239,0.75); }
 
+
+    /* Prism drama: product glow, giant editorial name, sparkle bursts */
+    .stage { isolation: isolate; }
+    .glow { position: absolute; z-index: -1; left: 50%; top: 42%; width: 150%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+      background: radial-gradient(closest-side, var(--glow, rgba(91,26,110,0.85)), transparent 70%); transition: background 900ms ease; pointer-events: none; }
+    .bigname { position: absolute; z-index: -1; left: 50%; top: 40%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none;
+      font-family: var(--serif); font-variation-settings: 'opsz' 96; font-weight: 600; font-size: clamp(5rem, 15vw, 13rem); line-height: 1; letter-spacing: -0.03em;
+      color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,0.35); }
+    .bigname .ch { display: inline-block; }
+    .burst { position: absolute; z-index: 4; left: 50%; top: 42%; width: 0; height: 0; pointer-events: none; }
+    .burst i { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; background: radial-gradient(circle, #fff 0 30%, #FBEFFF 60%, #FFE9C6);
+      clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px rgba(233,200,255,0.9)); }
+    @media (max-width: 900px) { .bigname { font-size: clamp(4rem, 22vw, 8rem); top: 36%; } }
+
     /* ═══ RITUALS ═══ */
     .rituals-head { padding: clamp(80px, 11vw, 150px) var(--gutter) clamp(36px, 5vw, 64px); }
     .rituals-head h2 { font-size: clamp(2.3rem, 5.6vw, 4.6rem); line-height: 1; max-width: 14ch; }
@@ -236,6 +250,9 @@
     </div>
 
     <div class="stage" id="stage" tabindex="0" aria-label="The three formulas. Drag or use the arrow keys to turn.">
+      <div class="glow" id="glow" aria-hidden="true"></div>
+      <div class="bigname" id="bigname" aria-hidden="true">Brainelle</div>
+      <div class="burst" id="burst" aria-hidden="true"></div>
       <div class="view"><div class="hires">
         <div class="prism" id="prism">
           <div class="face" data-i="0"><img src="img/lab/cut/brainelle.webp" alt="Brainelle powder tub, deep aubergine with gold type" /><span class="shine"></span></div>
@@ -355,7 +372,7 @@
           </div>
 
           <div class="field">
-            <label class="label" for="feedback">Anything you would love in it? (optional)</label>
+            <label class="label" for="feedback" id="feedbackLabel">Anything you would love in it? (optional)</label>
             <textarea class="email feedback" id="feedback" name="feedback" rows="2" maxlength="300" placeholder="An ingredient, a flavour, a wish."></textarea>
             <p class="fine">We read every one.</p>
           </div>
@@ -443,7 +460,7 @@
       faces.forEach(f => f.style.setProperty('--shine', shine + '%'));
     }
     // At rest the front face leaves 3D space: same size on screen, but drawn as a flat image
-    function enterRest() {
+    let enterRest = function () {
       if (resting) return;
       state.ry = Math.round(state.ry / 120) * 120; state.rx = 0;
       const idx = faceIndex(), k = PERSPECTIVE / (PERSPECTIVE - zDepth);
@@ -451,7 +468,7 @@
       prism.style.transform = 'none';
       faces.forEach((f, i) => { f.style.transform = i === idx ? `scale(${k})` : 'none'; f.style.visibility = i === idx ? 'visible' : 'hidden'; f.style.setProperty('--shine', '120%'); });
       labels.forEach((b, i) => b.setAttribute('aria-current', i === idx));
-    }
+    };
     function leaveRest() {
       if (!resting) return;
       resting = false;
@@ -476,8 +493,48 @@
       const target = Math.round(projected / 120) * 120;
       go(target, Math.min(1.6, 0.6 + Math.abs(target - state.ry) / 260), 'power3.out', IDLE);
     };
-    enterRest();
-    if (!reduce) holdTimer = setTimeout(next, HOLD);
+    // drama: glow colour, giant outlined name, sparkle burst whenever a pack comes to rest
+    const GLOW = ['rgba(120,40,150,0.9)', 'rgba(255,195,221,0.85)', 'rgba(255,241,168,0.85)'];
+    const BIG = ['Brainelle', 'Anima', 'Miralemon'];
+    const glowEl = document.getElementById('glow'), bigEl = document.getElementById('bigname'), burstEl = document.getElementById('burst');
+    let shownBig = -1;
+    function stageFor(idx) {
+      glowEl.style.setProperty('--glow', GLOW[idx]);
+      if (idx === shownBig) return; shownBig = idx;
+      bigEl.innerHTML = [...BIG[idx]].map(c => `<span class="ch">${c}</span>`).join('');
+      if (hasGsap && !reduce) gsap.from(bigEl.querySelectorAll('.ch'), { yPercent: 60, opacity: 0, rotate: 8, duration: 0.8, ease: 'expo.out', stagger: 0.035 });
+    }
+    function burst() {
+      if (!hasGsap || reduce) return;
+      const w = prism.offsetWidth / 2, n = 14;
+      for (let i = 0; i < n; i++) {
+        const d = document.createElement('i'); burstEl.appendChild(d);
+        const a = (i / n) * Math.PI * 2 + Math.random() * 0.4, r = w * (0.55 + Math.random() * 0.45);
+        gsap.fromTo(d, { x: Math.cos(a) * w * 0.3, y: Math.sin(a) * w * 0.45, scale: 0, rotate: 0, opacity: 1 },
+          { x: Math.cos(a) * r, y: Math.sin(a) * r * 1.3, scale: 0.6 + Math.random() * 0.9, rotate: 90 + Math.random() * 90, opacity: 0, duration: 1 + Math.random() * 0.4, ease: 'expo.out', onComplete: () => d.remove() });
+      }
+    }
+    const restOrig = enterRest;
+    enterRest = function () { const was = resting; restOrig(); if (!was && resting) { stageFor(faceIndex()); burst(); } };
+
+    // entrance: the prism spins in from far away and lands on Brainelle
+    if (hasGsap && !reduce) {
+      leaveRest(); state.ry = -720; render();
+      const hires = prism.parentElement;
+      gsap.fromTo(hires, { opacity: 0, y: 160 }, { opacity: 1, y: 0, duration: 2, ease: 'expo.out', delay: 0.4 });
+      gsap.to(state, { ry: 0, duration: 2.4, ease: 'expo.out', delay: 0.4, onUpdate: render, onComplete: () => { enterRest(); holdTimer = setTimeout(next, HOLD); } });
+    } else { enterRest(); stageFor(0); }
+
+    // scroll spin: scrolling through the hero gives the prism a kick, then it settles
+    if (hasGsap && !reduce) {
+      let settle;
+      ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', onUpdate(self) {
+        const v = self.getVelocity(); if (Math.abs(v) < 40) return;
+        clearTimeout(holdTimer); gsap.killTweensOf(state); leaveRest();
+        state.ry += Math.max(-24, Math.min(24, v * 0.012)); render();
+        clearTimeout(settle); settle = setTimeout(() => snap(0), 160);
+      } });
+    }
 
     stage.addEventListener('pointerdown', e => {
       if (e.target.closest('button')) return;
@@ -539,7 +596,9 @@
     const firstChips = [...document.querySelectorAll('[data-first]')];
     const alsoChips = [...document.querySelectorAll('[data-also]')];
     const orderChips = [...document.querySelectorAll('[data-order]')];
+    const NAMES = { brainelle: 'Brainelle', anima: 'Anima', miralemon: 'Miralemon' };
     function renderVote() {
+      document.getElementById('feedbackLabel').textContent = first ? `Anything you would love in ${NAMES[first]}? (optional)` : 'Anything you would love in it? (optional)';
       firstChips.forEach(c => c.setAttribute('aria-checked', c.dataset.first === first));
       alsoChips.forEach(c => { const off = c.dataset.also === first; c.disabled = off; if (off) also.delete(c.dataset.also); c.setAttribute('aria-pressed', also.has(c.dataset.also)); });
       orderChips.forEach(c => c.setAttribute('aria-checked', c.dataset.order === order));
@@ -567,7 +626,8 @@
         const ok = await Promise.all(ids.map(id => {
           const fd = new FormData();
           fd.append('g', LISTS[id]); fd.append('email', value);
-          fd.append('$fields', 'lab_first_choice,lab_also_curious,lab_would_order,lab_voted_at,lab_feedback');
+          fd.append('$fields', 'lab_first_choice,lab_also_curious,lab_would_order,lab_voted_at,lab_feedback,lab_feedback_product');
+          fd.append('lab_feedback_product', first);
           fd.append('lab_feedback', (document.getElementById('feedback').value || '').trim().slice(0, 300) || 'none');
           fd.append('lab_first_choice', first);
           fd.append('lab_also_curious', [...also].join(',') || 'none');
