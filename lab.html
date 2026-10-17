@@ -4,174 +4,186 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>The Mirabae Lab</title>
-  <meta name="description" content="Three Mirabae formulas are finished and with our suppliers. Tell us which one you want first: Brainelle, Anima or Miralemon." />
+  <meta name="description" content="Three Mirabae formulas are finished. One goes first. Help us choose: Brainelle, Anima or Miralemon." />
   <meta name="theme-color" content="#C8216F" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.css" />
   <style>
     :root {
       --fuchsia: #C8216F; --fuchsia-ink: #B5115A; --pink-on-dark: #F06AA6;
       --aubergine: #2A0B3B; --plum: #3B0D45;
-      --blush: #F9DCE9; --petal: #FFC3DD; --lemon: #FFF1A8;
+      --blush: #F9DCE9; --petal: #FFC3DD; --lemon: #FFF1A8; --cream: #FBF6EE;
+      --gold: #C9A46A;
       --serif: 'Bodoni Moda', 'Didot', Georgia, serif;
       --sans: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --gutter: clamp(20px, 5vw, 72px);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       background: var(--blush); color: var(--plum);
       font-family: var(--sans); font-size: 17px; line-height: 1.55;
-      -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; overflow-x: hidden;
     }
     ::selection { background: var(--fuchsia); color: #fff; }
     :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
     a { color: inherit; }
     button, input { font: inherit; color: inherit; }
     button { background: none; border: 0; cursor: pointer; }
-    h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; text-wrap: balance; }
+    img { display: block; max-width: 100%; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; }
     em { font-style: italic; }
-    p { text-wrap: pretty; }
-    .eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
+    .eyebrow { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 58px; padding: 0 30px;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+      transition: transform 160ms var(--ease-out), background-color 200ms ease, color 200ms ease;
+    }
+    .btn:active { transform: scale(0.97); }
 
-    /* ═══ HERO: the fizz ═══ */
+    /* ═══ HERO ═══ */
     .hero {
       position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; isolation: isolate;
       background: var(--fuchsia); color: #fff;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 96px var(--gutter) 72px;
+      display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center;
+      gap: clamp(24px, 4vw, 64px); padding: 110px var(--gutter) 64px;
     }
-    .topbar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 22px var(--gutter); z-index: 2; }
+    .topbar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 22px var(--gutter); z-index: 3; }
     .wordmark { font-family: var(--serif); font-size: 1.35rem; letter-spacing: 0.02em; text-decoration: none; }
-    .back { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; opacity: 0.85; }
+    .back { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; opacity: 0.85; }
     .hero .eyebrow { color: var(--petal); }
-    .hero h1 { font-size: clamp(3.4rem, 11vw, 9.5rem); line-height: 0.92; margin: 20px 0 32px; max-width: 12ch; }
-    .hero h1 em { color: var(--lemon); }
-    .hero p { max-width: 34rem; font-size: clamp(1.05rem, 1.6vw, 1.3rem); color: #FFE3EF; }
-    .hero p + p { margin-top: 10px; }
-    .hero .cta { margin-top: 36px; display: inline-flex; align-items: center; gap: 12px; align-self: flex-start;
-      min-height: 58px; padding: 0 30px; background: var(--aubergine); color: var(--petal); text-decoration: none;
-      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-      transition: transform 160ms var(--ease-out); }
-    .hero .cta:active { transform: scale(0.97); }
+    .hero h1 { font-size: clamp(3.1rem, 8.4vw, 8rem); line-height: 0.95; margin: 18px 0 18px; font-kerning: none; }
+    .hero h1 .l2 { display: block; }
+    .hero .sub { font-family: var(--serif); font-style: italic; font-size: clamp(1.9rem, 4vw, 3.2rem); color: var(--lemon); line-height: 1; }
+    .hero p.lede { margin-top: 22px; max-width: 30rem; font-size: clamp(1.02rem, 1.4vw, 1.2rem); color: #FFE3EF; }
+    .hero .btn { margin-top: 32px; background: var(--aubergine); color: var(--petal); }
 
     .bubbles { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
     .bubbles span {
       position: absolute; bottom: -40px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.55); background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.45), rgba(255,255,255,0.05) 60%);
+      border: 1.5px solid rgba(255,255,255,0.5); background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.42), rgba(255,255,255,0.04) 60%);
       animation: rise var(--d, 9s) linear var(--delay, 0s) infinite;
     }
     @keyframes rise {
-      0%   { transform: translate3d(0, 0, 0); opacity: 0; }
-      10%  { opacity: 1; }
+      0% { transform: translate3d(0, 0, 0); opacity: 0; }
+      10% { opacity: 1; }
       100% { transform: translate3d(var(--sway, 20px), -115vh, 0); opacity: 0; }
     }
-    .pop { position: absolute; z-index: 3; pointer-events: none; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; border: 2px solid #fff; }
 
-    /* ═══ THE THREE ═══ */
-    .three { padding: clamp(72px, 10vw, 140px) var(--gutter); }
-    .three-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(36px, 5vw, 64px); }
-    .three-head h2 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1; }
-    .three-head h2 em { color: var(--fuchsia-ink); }
-    .three-head p { max-width: 26rem; color: #573062; }
-    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
-    .card {
-      position: relative; overflow: hidden; display: flex; flex-direction: column; min-height: 560px;
-      padding: clamp(26px, 3vw, 40px); text-align: left;
-      transition: transform 300ms var(--ease-out), box-shadow 300ms var(--ease-out);
+    /* ═══ PRISM ═══ */
+    .stage { position: relative; display: grid; justify-items: center; gap: 22px; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab; }
+    .stage.dragging { cursor: grabbing; }
+    .view { perspective: 1500px; width: var(--w); height: calc(var(--w) * 1.371); --w: clamp(220px, min(26vw, 40vh), 340px); }
+    .prism { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
+    .face {
+      position: absolute; inset: 0; padding: 2px; border-radius: 6px;
+      background: linear-gradient(150deg, #F4F4F6, #B9BCC4 30%, #E9D3A4 55%, #FFFFFF 70%, #A8ABB4);
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      box-shadow: 0 40px 80px -30px rgba(42,11,59,0.55);
     }
-    .card .stage { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.85; }
-    .card .num { font-family: var(--serif); font-size: clamp(4rem, 7vw, 6rem); line-height: 1; margin: 18px 0 auto; opacity: 0.22; }
-    .card h3 { font-size: clamp(2.4rem, 4vw, 3.4rem); line-height: 1; margin-top: 40px; }
-    .card .kind { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 10px; }
-    .card .desc { margin-top: 18px; font-size: 1.02rem; }
-    .card .spec { margin-top: 10px; font-size: 0.92rem; font-weight: 600; }
-    .card .price { margin-top: 22px; padding-top: 16px; border-top: 1px solid currentColor; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
-    .card .price b { font-family: var(--serif); font-size: 1.7rem; font-weight: 600; }
-    .card .price span { font-size: 0.85rem; opacity: 0.85; }
-    .card .pick {
-      margin-top: 22px; min-height: 52px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-      border: 1.5px solid currentColor; transition: background-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out);
-    }
-    .card .pick:active { transform: scale(0.97); }
-    .card .pick .tick { width: 16px; height: 16px; border: 1.5px solid currentColor; border-radius: 50%; display: grid; place-items: center; }
-    .card .pick .tick::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; transform: scale(0); transition: transform 220ms var(--ease-out); }
-    .card[data-on="true"] .pick .tick::after { transform: scale(1); }
+    .face img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; pointer-events: none; }
+    .face .shine { position: absolute; inset: 2px; border-radius: 4px; pointer-events: none; background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.28) 50%, transparent 60%); background-size: 250% 100%; background-position: var(--shine, 120%) 0; }
+    .prism-label { display: flex; gap: 10px; align-items: center; }
+    .prism-label button { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 12px; color: rgba(255,255,255,0.65); transition: color 200ms ease; }
+    .prism-label button[aria-current="true"] { color: #fff; }
+    .hint { font-size: 0.8rem; color: rgba(255,227,239,0.75); }
 
-    .c-brainelle { background: var(--aubergine); color: #fff; }
-    .c-brainelle h3 em, .c-brainelle .kind { color: var(--pink-on-dark); }
-    .c-brainelle[data-on="true"] .pick { background: var(--pink-on-dark); color: var(--aubergine); border-color: var(--pink-on-dark); }
-    .c-anima { background: #fff; color: var(--plum); box-shadow: inset 0 0 0 1.5px rgba(42,11,59,0.12); }
-    .c-anima .kind { color: var(--fuchsia-ink); }
-    .c-anima[data-on="true"] .pick { background: var(--aubergine); color: var(--petal); border-color: var(--aubergine); }
-    .c-mira { background: var(--lemon); color: var(--aubergine); }
-    .c-mira .kind { color: var(--fuchsia-ink); }
-    .c-mira[data-on="true"] .pick { background: var(--fuchsia); color: #fff; border-color: var(--fuchsia); }
-    .c-mira .fizz { position: absolute; inset: 0; pointer-events: none; }
-    .c-mira .fizz i { position: absolute; bottom: -20px; border-radius: 50%; border: 1.5px solid rgba(200,33,111,0.45); animation: rise var(--d, 7s) linear var(--delay, 0s) infinite; }
-    .card > *:not(.fizz) { position: relative; }
-    @media (hover: hover) and (pointer: fine) {
-      .card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(42,11,59,0.45); }
-      .c-anima:hover { box-shadow: inset 0 0 0 1.5px rgba(42,11,59,0.12), 0 30px 60px -30px rgba(42,11,59,0.45); }
-      .hero .cta:hover { background: #3B0D45; }
-    }
+    /* ═══ RITUALS ═══ */
+    .rituals-head { padding: clamp(80px, 11vw, 150px) var(--gutter) clamp(36px, 5vw, 64px); }
+    .rituals-head h2 { font-size: clamp(2.3rem, 5.6vw, 4.6rem); line-height: 1; max-width: 14ch; }
+    .rituals-head h2 em { color: var(--fuchsia-ink); }
+    .rituals-head p { margin-top: 18px; max-width: 30rem; color: #573062; }
 
-    /* ═══ FORM ═══ */
-    .join { background: var(--aubergine); color: #fff; padding: clamp(72px, 10vw, 140px) var(--gutter); }
-    .join-inner { max-width: 760px; margin: 0 auto; }
-    .join h2 { font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1; }
-    .join h2 em { color: var(--pink-on-dark); }
+    .ritual { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 80px); align-items: center; padding: clamp(56px, 8vw, 110px) var(--gutter); }
+    .ritual .pic { overflow: hidden; border-radius: 6px; aspect-ratio: 802 / 1100; max-height: 82vh; }
+    .ritual .pic img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); }
+    .ritual .num { font-family: var(--serif); font-size: 1rem; letter-spacing: 0.1em; opacity: 0.6; }
+    .ritual h3 { font-size: clamp(2.6rem, 5.6vw, 4.8rem); line-height: 0.95; margin-top: 10px; }
+    .ritual .mech { display: inline-block; margin-top: 12px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+    .ritual .before { margin-top: 26px; font-family: var(--serif); font-style: italic; font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.3; }
+    .ritual .after { margin-top: 18px; font-size: 1.1rem; font-weight: 600; }
+    .ritual ul { list-style: none; margin-top: 22px; display: grid; gap: 10px; }
+    .ritual li { padding-left: 22px; position: relative; font-size: 0.98rem; }
+    .ritual li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid currentColor; }
+    .ritual .how { margin-top: 18px; font-size: 0.98rem; }
+    .ritual .price { margin-top: 26px; padding-top: 18px; border-top: 1px solid currentColor; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+    .ritual .price b { font-family: var(--serif); font-size: 1.9rem; font-weight: 600; }
+    .ritual .price span { font-size: 0.88rem; opacity: 0.85; }
+    .ritual .btn { margin-top: 26px; }
+
+    .r-brainelle { background: var(--aubergine); color: #fff; }
+    .r-brainelle .mech, .r-brainelle .num { color: var(--pink-on-dark); }
+    .r-brainelle .btn { background: var(--pink-on-dark); color: var(--aubergine); }
+    .r-anima { background: #fff; color: var(--plum); }
+    .r-anima .mech { color: var(--fuchsia-ink); }
+    .r-anima .btn { background: var(--aubergine); color: var(--petal); }
+    .r-anima .pic { order: 2; }
+    .r-mira { position: relative; overflow: hidden; background: var(--lemon); color: var(--aubergine); }
+    .r-mira .mech { color: var(--fuchsia-ink); }
+    .r-mira .btn { background: var(--fuchsia); color: #fff; }
+    .r-mira .fizz { position: absolute; inset: 0; pointer-events: none; }
+    .r-mira .fizz i { position: absolute; bottom: -20px; border-radius: 50%; border: 1.5px solid rgba(200,33,111,0.4); animation: rise var(--d, 7s) linear var(--delay, 0s) infinite; }
+    .r-mira > *:not(.fizz) { position: relative; }
+
+    /* ═══ VOTE ═══ */
+    .vote { background: var(--aubergine); color: #fff; padding: clamp(80px, 11vw, 150px) var(--gutter); }
+    .vote-inner { max-width: 780px; margin: 0 auto; }
+    .vote h2 { font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1; }
+    .vote h2 em { color: var(--pink-on-dark); }
     .field { margin-top: 40px; }
-    .field > label, .field > .label { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--petal); margin-bottom: 14px; }
+    .label { display: block; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--petal); margin-bottom: 14px; }
     .chips { display: flex; flex-wrap: wrap; gap: 10px; }
     .chip {
-      min-height: 52px; padding: 0 22px; border: 1.5px solid rgba(255,255,255,0.6);
-      font-weight: 600; transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 160ms var(--ease-out);
+      position: relative; min-height: 52px; padding: 0 22px; border: 1.5px solid rgba(255,255,255,0.55); font-weight: 600;
+      transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 160ms var(--ease-out);
     }
     .chip:active { transform: scale(0.97); }
-    .chip[aria-pressed="true"] { background: var(--pink-on-dark); border-color: var(--pink-on-dark); color: var(--aubergine); }
-    .email {
-      width: 100%; min-height: 60px; padding: 0 4px; background: transparent; border: 0; border-bottom: 1.5px solid rgba(255,255,255,0.6);
-      font-size: 1.25rem; color: #fff; border-radius: 0;
-    }
-    .email::placeholder { color: rgba(255,227,239,0.5); }
+    .chip[aria-checked="true"], .chip[aria-pressed="true"] { background: var(--pink-on-dark); border-color: var(--pink-on-dark); color: var(--aubergine); }
+    .chip:disabled { opacity: 0.35; cursor: default; }
+    .email { width: 100%; min-height: 60px; padding: 0 4px; background: transparent; border: 0; border-bottom: 1.5px solid rgba(255,255,255,0.55); font-size: 1.25rem; color: #fff; border-radius: 0; }
+    .email::placeholder { color: rgba(255,227,239,0.45); }
     .email:focus { outline: none; border-bottom-color: var(--pink-on-dark); }
-    .submit {
-      margin-top: 44px; min-height: 60px; padding: 0 34px; background: var(--fuchsia); color: #fff;
-      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-      transition: transform 160ms var(--ease-out), background-color 200ms ease, opacity 200ms ease;
-    }
-    .submit:active { transform: scale(0.97); }
+    .submit { margin-top: 44px; background: var(--fuchsia); color: #fff; min-height: 60px; }
     .submit:disabled { opacity: 0.6; cursor: default; }
-    .fine { margin-top: 16px; font-size: 0.9rem; color: rgba(255,227,239,0.75); }
     .msg { margin-top: 16px; font-weight: 600; color: var(--pink-on-dark); min-height: 1.5em; }
+    .fine { margin-top: 10px; font-size: 0.92rem; color: rgba(255,227,239,0.8); }
+    .fine + .fine { margin-top: 6px; }
     .done { display: none; }
     .done h2 { font-size: clamp(2.4rem, 6vw, 4.6rem); }
     .done p { margin-top: 18px; font-size: 1.15rem; color: #FFE3EF; max-width: 34rem; }
-    .done a { display: inline-block; margin-top: 30px; color: var(--petal); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.82rem; }
-    .join.is-done form { display: none; }
-    .join.is-done .done { display: block; }
-    @media (hover: hover) and (pointer: fine) {
-      .chip:hover { border-color: #fff; }
-      .submit:hover { background: #D93A82; }
-    }
+    .done .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .done .share { background: var(--pink-on-dark); color: var(--aubergine); }
+    .done .quiz { border: 1.5px solid rgba(255,255,255,0.6); color: #fff; }
+    .vote.is-done form { display: none; }
+    .vote.is-done .done { display: block; }
 
-    footer { background: var(--aubergine); color: rgba(255,227,239,0.6); padding: 28px var(--gutter) 40px; font-size: 0.85rem; border-top: 1px solid rgba(255,195,221,0.2); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .spark { position: fixed; z-index: 50; width: 2px; height: 12px; border-radius: 2px; pointer-events: none; background: var(--lemon); }
+
+    .legal { background: var(--aubergine); color: rgba(255,227,239,0.6); padding: 0 var(--gutter) 28px; font-size: 0.8rem; }
+    .legal p { max-width: 780px; margin: 0 auto; }
+    footer { background: var(--aubergine); color: rgba(255,227,239,0.6); padding: 26px var(--gutter) 40px; font-size: 0.85rem; border-top: 1px solid rgba(255,195,221,0.2); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     footer a { text-decoration: none; }
 
+    @media (hover: hover) and (pointer: fine) {
+      .hero .btn:hover { background: var(--plum); }
+      .chip:hover:not(:disabled) { border-color: #fff; }
+      .submit:hover { background: #D93A82; }
+      .prism-label button:hover { color: #fff; }
+    }
     @media (max-width: 900px) {
-      .cards { grid-template-columns: 1fr; }
-      .card { min-height: 0; }
-      .card .num { margin-bottom: 0; }
-      .card h3 { margin-top: 24px; }
+      .hero { grid-template-columns: 1fr; padding-top: 96px; gap: 40px; text-align: left; }
+      .view { --w: min(58vw, 34svh); }
+      .ritual { grid-template-columns: 1fr; }
+      .r-anima .pic { order: 0; }
+      .ritual .pic { max-height: 62vh; width: min(100%, 420px); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .bubbles span, .c-mira .fizz i { animation: none; opacity: 0.5; }
-      .card, .chip, .submit, .card .pick { transition: none; }
+      .bubbles span, .r-mira .fizz i { animation: none; opacity: 0.45; }
+      .chip, .btn, .submit { transition: none; }
+      .ritual .pic img { transform: none; }
     }
   </style>
 </head>
@@ -184,96 +196,152 @@
       <a class="back" href="/">All links</a>
     </div>
     <div class="bubbles" id="bubbles" aria-hidden="true"></div>
-    <span class="eyebrow">The Mirabae Lab</span>
-    <h1>What we're making <em>next.</em></h1>
-    <p>Three formulas are finished and with our suppliers. None of them has a launch date yet.</p>
-    <p>Tell us which one you want first. You hear before anyone else.</p>
-    <a class="cta" href="#join">Tell me first</a>
+
+    <div class="hero-copy">
+      <span class="eyebrow">The Mirabae Lab</span>
+      <h1 id="heroTitle">Three formulas. <span class="l2">One goes first.</span></h1>
+      <p class="sub">Help us choose.</p>
+      <p class="lede">Brainelle, Anima and Miralemon are finished and with our suppliers. Your vote shapes which one we make first.</p>
+      <a class="btn" href="#vote" data-scroll>Cast your vote</a>
+    </div>
+
+    <div class="stage" id="stage" tabindex="0" aria-label="The three formulas. Drag or use the arrow keys to turn.">
+      <div class="view">
+        <div class="prism" id="prism">
+          <div class="face" data-i="0"><img src="img/lab/brainelle.jpg" alt="Brainelle powder tub, deep aubergine with gold type" /><span class="shine"></span></div>
+          <div class="face" data-i="1"><img src="img/lab/anima.jpg" alt="Anima box and sachet, white to pink with gold type" /><span class="shine"></span></div>
+          <div class="face" data-i="2"><img src="img/lab/miralemon.jpg" alt="Miralemon can, lemon yellow to pink with a black cat illustration" /><span class="shine"></span></div>
+        </div>
+      </div>
+      <div class="prism-label" role="group" aria-label="Show a formula">
+        <button type="button" data-go="0" aria-current="true">Brainelle</button>
+        <button type="button" data-go="1" aria-current="false">Anima</button>
+        <button type="button" data-go="2" aria-current="false">Miralemon</button>
+      </div>
+      <span class="hint" aria-hidden="true">Drag to turn</span>
+    </div>
   </header>
 
-  <!-- ═════════ THE THREE ═════════ -->
   <main>
-    <section class="three" aria-labelledby="three-title">
-      <div class="three-head">
-        <h2 id="three-title">Three formulas. <em>One waitlist.</em></h2>
-        <p>Pick one, two or all three. No payment. We only write when one of them is ready.</p>
-      </div>
+    <section class="rituals-head" aria-labelledby="rituals-title">
+      <h2 id="rituals-title" class="reveal">Three rituals. <em>Which should we make first?</em></h2>
+      <p class="reveal">Read what each one is for. Then vote for the one you would want in your day.</p>
+    </section>
 
-      <div class="cards">
-        <article class="card c-brainelle" data-product="brainelle" data-on="false">
-          <span class="stage">Formula finished · With our suppliers</span>
-          <span class="num" aria-hidden="true">01</span>
-          <h3>Brainelle</h3>
-          <span class="kind">Brain &amp; Beauty Elixir</span>
-          <p class="desc">One elegant liquid ritual for calm clarity and a natural glow.</p>
-          <div class="price"><b>$157</b><span>at launch</span><span>$127 founding price for the waitlist</span></div>
-          <button class="pick" type="button" aria-pressed="false"><span class="tick" aria-hidden="true"></span><span class="pick-label">I want this</span></button>
-        </article>
-
-        <article class="card c-anima" data-product="anima" data-on="false">
-          <span class="stage">Formula finished · With our suppliers</span>
-          <span class="num" aria-hidden="true">02</span>
-          <h3>Anima</h3>
-          <span class="kind">Kefir Fibre Powder</span>
-          <p class="desc">The gut is the brain's other half. Anima supports calm regulation from the inside out.</p>
-          <div class="price"><b>$129</b><span>at launch</span><span>$97 founding price for the waitlist</span></div>
-          <button class="pick" type="button" aria-pressed="false"><span class="tick" aria-hidden="true"></span><span class="pick-label">I want this</span></button>
-        </article>
-
-        <article class="card c-mira" data-product="miralemon" data-on="false">
-          <div class="fizz" id="fizz" aria-hidden="true"></div>
-          <span class="stage">Formula finished · With our suppliers</span>
-          <span class="num" aria-hidden="true">03</span>
-          <h3>Miralemon</h3>
-          <span class="kind">Sparkling Lemon &amp; Coconut</span>
-          <p class="desc">Lemon, coconut water and prickly pear, with a fizz that pops.</p>
-          <p class="spec">150 mg L-theanine. 28 mg saffron. No caffeine. 35 calories.</p>
-          <div class="price"><b>$3.99</b><span>per can at launch</span><span>$3.49 founding price for the waitlist</span></div>
-          <button class="pick" type="button" aria-pressed="false"><span class="tick" aria-hidden="true"></span><span class="pick-label">I want this</span></button>
-        </article>
+    <!-- 01 BRAINELLE -->
+    <section class="ritual r-brainelle" id="brainelle" aria-labelledby="t-brainelle">
+      <div class="pic reveal"><img src="img/lab/brainelle-ritual.jpg" alt="Brainelle tub beside a glass of the morning drink and a gold scoop" loading="lazy" /></div>
+      <div class="copy">
+        <span class="num reveal">01</span>
+        <h3 id="t-brainelle" class="reveal">Brainelle</h3>
+        <span class="mech reveal">The Green Tea Morning</span>
+        <p class="before reveal">A strong coffee for your head. A collagen powder for your skin. Two rituals, and one of them leaves you wired instead of clear.</p>
+        <p class="after reveal">Brainelle is the green tea way to start the day: support for focus in the morning ahead, and for skin elasticity from within.*</p>
+        <ul class="reveal">
+          <li>200 mg L-theanine with 70 mg caffeine from green tea, the pairing green tea is known for.</li>
+          <li>250 mg citicoline to support focus and memory.*</li>
+          <li>2.5 g Verisol collagen peptides to support skin elasticity.*</li>
+        </ul>
+        <p class="how reveal">One scoop in water, for your focus ritual and your beauty supplement in one.</p>
+        <div class="price reveal"><b>$5.23</b><span>a day, estimated</span><span>$4.23 founding price for voters</span></div>
+        <button class="btn reveal" type="button" data-vote="brainelle">Vote for Brainelle</button>
       </div>
     </section>
 
-    <!-- ═════════ JOIN ═════════ -->
-    <section class="join" id="join" aria-labelledby="join-title">
-      <div class="join-inner">
-        <form id="labForm" novalidate>
-          <h2 id="join-title">Which one do you want <em>first?</em></h2>
+    <!-- 02 ANIMA -->
+    <section class="ritual r-anima" id="anima" aria-labelledby="t-anima">
+      <div class="pic reveal"><img src="img/lab/anima.jpg" alt="Anima box and daily sachet" loading="lazy" /></div>
+      <div class="copy">
+        <span class="num reveal">02</span>
+        <h3 id="t-anima" class="reveal">Anima</h3>
+        <span class="mech reveal">The Kefir Ritual</span>
+        <p class="before reveal">Your gut does more for your mood and your skin than most women were ever told. Most days, it gets the least attention.</p>
+        <p class="after reveal">Anima is made for your daily kefir: the fiber feeds the good bacteria, the kefir brings more of them. Researchers call this pairing a synbiotic.</p>
+        <ul class="reveal">
+          <li>Feeds the good bacteria in your gut and supports regularity.*</li>
+          <li>An 8 g fiber blend of Sunfiber PHGG, acacia and resistant starch.</li>
+        </ul>
+        <p class="how reveal">One sachet stirred into your kefir.</p>
+        <div class="price reveal"><b>$4.30</b><span>a day, estimated</span><span>$3.23 founding price for voters</span></div>
+        <button class="btn reveal" type="button" data-vote="anima">Vote for Anima</button>
+      </div>
+    </section>
+
+    <!-- 03 MIRALEMON -->
+    <section class="ritual r-mira" id="miralemon" aria-labelledby="t-mira">
+      <div class="fizz" id="fizz" aria-hidden="true"></div>
+      <div class="pic reveal"><img src="img/lab/miralemon.jpg" alt="Miralemon can with a black cat and lemon branch illustration" loading="lazy" /></div>
+      <div class="copy">
+        <span class="num reveal">03</span>
+        <h3 id="t-mira" class="reveal">Miralemon</h3>
+        <span class="mech reveal">Your 3 PM, upgraded</span>
+        <p class="before reveal">3 PM. You want something cold and bright. Not another coffee, not something sweet.</p>
+        <p class="after reveal">Miralemon is the third option: lemon, coconut water and prickly pear, sparkling and cold. No caffeine. 35 calories.</p>
+        <ul class="reveal">
+          <li>150 mg L-theanine, 28 mg saffron and 75 mg magnesium in every can.</li>
+        </ul>
+        <div class="price reveal"><b>$3.99</b><span>a can, estimated</span><span>$3.49 founding price for voters</span></div>
+        <button class="btn reveal" type="button" data-vote="miralemon">Vote for Miralemon</button>
+      </div>
+    </section>
+
+    <!-- ═════════ VOTE ═════════ -->
+    <section class="vote" id="vote" aria-labelledby="vote-title">
+      <div class="vote-inner">
+        <form id="voteForm" novalidate>
+          <h2 id="vote-title">Which one <em>first?</em></h2>
 
           <div class="field">
-            <span class="label" id="pickLabel">Pick one or more</span>
-            <div class="chips" role="group" aria-labelledby="pickLabel">
-              <button type="button" class="chip" data-product="brainelle" aria-pressed="false">Brainelle</button>
-              <button type="button" class="chip" data-product="anima" aria-pressed="false">Anima</button>
-              <button type="button" class="chip" data-product="miralemon" aria-pressed="false">Miralemon</button>
+            <span class="label" id="firstLabel">Your vote</span>
+            <div class="chips" role="radiogroup" aria-labelledby="firstLabel" id="firstChips">
+              <button type="button" class="chip" role="radio" aria-checked="false" data-first="brainelle">Brainelle</button>
+              <button type="button" class="chip" role="radio" aria-checked="false" data-first="anima">Anima</button>
+              <button type="button" class="chip" role="radio" aria-checked="false" data-first="miralemon">Miralemon</button>
             </div>
           </div>
 
           <div class="field">
-            <label for="email">Your email</label>
+            <span class="label" id="alsoLabel">Also curious about (optional)</span>
+            <div class="chips" role="group" aria-labelledby="alsoLabel" id="alsoChips">
+              <button type="button" class="chip" aria-pressed="false" data-also="brainelle">Brainelle</button>
+              <button type="button" class="chip" aria-pressed="false" data-also="anima">Anima</button>
+              <button type="button" class="chip" aria-pressed="false" data-also="miralemon">Miralemon</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="email">Your email</label>
             <input class="email" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required />
           </div>
 
           <div class="field">
-            <span class="label" id="orderLabel">Would you order it at launch?</span>
-            <div class="chips" role="radiogroup" aria-labelledby="orderLabel">
-              <button type="button" class="chip" role="radio" data-order="yes" aria-checked="false" aria-pressed="false">Yes</button>
-              <button type="button" class="chip" role="radio" data-order="maybe" aria-checked="false" aria-pressed="false">Maybe</button>
+            <span class="label" id="orderLabel">Would you order it at this price?</span>
+            <div class="chips" role="radiogroup" aria-labelledby="orderLabel" id="orderChips">
+              <button type="button" class="chip" role="radio" aria-checked="false" data-order="yes">Yes</button>
+              <button type="button" class="chip" role="radio" aria-checked="false" data-order="maybe">Maybe</button>
+              <button type="button" class="chip" role="radio" aria-checked="false" data-order="no">No</button>
             </div>
           </div>
 
-          <button class="submit" type="submit" id="submitBtn">Tell me first</button>
+          <button class="btn submit" type="submit" id="submitBtn">Cast my vote</button>
           <p class="msg" id="msg" role="status" aria-live="polite"></p>
-          <p class="fine">No payment. One email when it's ready. Nothing else.</p>
+          <p class="fine">No payment. We count the votes on 31 January 2027 and tell you which one won.</p>
+          <p class="fine">Founding price: for everyone who votes, on their first order at launch.</p>
+          <p class="fine">How we decide: your votes, plus what our suppliers can make well and at a fair price.</p>
         </form>
 
         <div class="done" id="done" tabindex="-1">
-          <h2>You're on the <em>list.</em></h2>
-          <p>We will write to you once, the day it is ready. Until then, the quiz shows you what your food noise is made of.</p>
-          <a href="https://quiz.mirabae.com">Take the free quiz</a>
+          <h2>Your vote <em>is in.</em></h2>
+          <p>We count on 31 January 2027 and write to you once with the result. Know someone who should vote too?</p>
+          <div class="row">
+            <button class="btn share" type="button" id="shareBtn">Send it to a friend</button>
+            <a class="btn quiz" href="https://quiz.mirabae.com">Take the free quiz</a>
+          </div>
         </div>
       </div>
     </section>
+
+    <div class="legal"><p>*Brainelle and Anima: These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease. All three products are in development; prices are estimates.</p></div>
   </main>
 
   <footer>
@@ -281,11 +349,17 @@
     <a href="/">All links</a>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
   <script>
   (() => {
+    const hasGsap = typeof gsap !== 'undefined';
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    // Bubbles in the hero and on the Miralemon card
+    // ── Bubbles ──
     const fill = (el, n, tag, maxSize) => {
       if (!el) return;
       for (let i = 0; i < n; i++) {
@@ -294,78 +368,154 @@
         el.appendChild(b);
       }
     };
-    fill(document.getElementById('bubbles'), innerWidth < 700 ? 18 : 34, 'span', 46);
-    fill(document.getElementById('fizz'), 14, 'i', 18);
+    fill(document.getElementById('bubbles'), innerWidth < 700 ? 16 : 30, 'span', 44);
+    fill(document.getElementById('fizz'), 16, 'i', 20);
 
-    // Tap the hero: a bubble pops where you tap
-    const hero = document.querySelector('.hero');
-    if (!reduce) hero.addEventListener('pointerdown', e => {
-      if (e.target.closest('a')) return;
-      const p = document.createElement('span'); p.className = 'pop';
-      const r = hero.getBoundingClientRect();
-      p.style.left = (e.clientX - r.left) + 'px'; p.style.top = (e.clientY - r.top) + 'px';
-      hero.appendChild(p);
-      p.animate([{ transform: 'scale(0.4)', opacity: 1 }, { transform: 'scale(5)', opacity: 0 }], { duration: 520, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }).onfinish = () => p.remove();
-    });
-
-    // One source of truth for the picks: cards and chips stay in sync
-    const picks = new Set();
-    const cards = [...document.querySelectorAll('.card')];
-    const chips = [...document.querySelectorAll('.chip[data-product]')];
-    function render() {
-      cards.forEach(c => {
-        const on = picks.has(c.dataset.product);
-        c.dataset.on = on; const b = c.querySelector('.pick');
-        b.setAttribute('aria-pressed', on); b.querySelector('.pick-label').textContent = on ? 'On your list' : 'I want this';
-      });
-      chips.forEach(c => c.setAttribute('aria-pressed', picks.has(c.dataset.product)));
+    // ── Smooth scroll (desktop only) ──
+    let lenis = null;
+    if (hasGsap) gsap.registerPlugin(ScrollTrigger, SplitText);
+    if (!reduce && fine && typeof Lenis !== 'undefined' && hasGsap) {
+      lenis = new Lenis({ lerp: 0.1 });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
     }
-    const toggle = id => { picks.has(id) ? picks.delete(id) : picks.add(id); render(); };
-    cards.forEach(c => c.querySelector('.pick').addEventListener('click', () => toggle(c.dataset.product)));
-    chips.forEach(c => c.addEventListener('click', () => toggle(c.dataset.product)));
+    const scrollToEl = el => lenis ? lenis.scrollTo(el, { offset: -10 }) : el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollToEl(document.querySelector(a.getAttribute('href'))); }));
 
-    let order = '';
-    const orderChips = [...document.querySelectorAll('.chip[data-order]')];
-    orderChips.forEach(c => c.addEventListener('click', () => {
-      order = order === c.dataset.order ? '' : c.dataset.order;
-      orderChips.forEach(o => { const on = o.dataset.order === order; o.setAttribute('aria-pressed', on); o.setAttribute('aria-checked', on); });
+    // ── Prism: three faces, auto turn, drag, snap ──
+    const prism = document.getElementById('prism'), stage = document.getElementById('stage');
+    const faces = [...prism.querySelectorAll('.face')];
+    const labels = [...document.querySelectorAll('[data-go]')];
+    const state = { ry: 0, rx: -4 };
+    function layout() {
+      const w = prism.offsetWidth, z = w / (2 * Math.tan(Math.PI / 3)) + 1;
+      faces.forEach((f, i) => f.style.transform = `rotateY(${i * 120}deg) translateZ(${z}px)`);
+      prism.style.transformOrigin = `50% 50% ${-0}px`;
+    }
+    function render() {
+      prism.style.transform = `rotateX(${state.rx}deg) rotateY(${-state.ry}deg)`;
+      const idx = ((Math.round(state.ry / 120) % 3) + 3) % 3;
+      labels.forEach((b, i) => b.setAttribute('aria-current', i === idx));
+      const shine = 120 - ((((state.ry % 120) + 120) % 120) / 120) * 140;
+      faces.forEach(f => f.style.setProperty('--shine', shine + '%'));
+    }
+    layout(); render(); addEventListener('resize', () => { layout(); render(); });
+
+    let auto = !reduce, dragging = false, startX = 0, startRy = 0, idleTimer;
+    const snap = () => {
+      const target = Math.round(state.ry / 120) * 120;
+      if (hasGsap) gsap.to(state, { ry: target, duration: 0.9, ease: 'power3.out', onUpdate: render });
+      else { state.ry = target; render(); }
+    };
+    const pause = () => { auto = false; clearTimeout(idleTimer); idleTimer = setTimeout(() => { if (!reduce) auto = true; }, 4000); };
+    if (hasGsap) gsap.ticker.add(() => { if (auto && !dragging) { state.ry += 0.12; render(); } });
+
+    stage.addEventListener('pointerdown', e => {
+      if (e.target.closest('button')) return;
+      dragging = true; pause(); startX = e.clientX; startRy = state.ry; stage.classList.add('dragging');
+      stage.setPointerCapture(e.pointerId);
+      if (hasGsap) gsap.killTweensOf(state);
+    });
+    stage.addEventListener('pointermove', e => {
+      if (dragging) { state.ry = startRy - (e.clientX - startX) * 0.45; render(); }
+      else if (fine && !reduce) { const r = stage.getBoundingClientRect(); state.rx = -4 - ((e.clientY - r.top) / r.height - 0.5) * 10; render(); }
+    });
+    const end = () => { if (!dragging) return; dragging = false; stage.classList.remove('dragging'); snap(); };
+    stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
+    labels.forEach((b, i) => b.addEventListener('click', () => {
+      pause();
+      const cur = state.ry, base = Math.round(cur / 360) * 360;
+      let target = base + i * 120; if (target - cur > 180) target -= 360; if (cur - target > 180) target += 360;
+      if (hasGsap) gsap.to(state, { ry: target, duration: 1, ease: 'power3.inOut', onUpdate: render }); else { state.ry = target; render(); }
+    }));
+    stage.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { pause(); state.ry += e.key === 'ArrowRight' ? 120 : -120; snap(); } });
+
+    // ── Text and section reveals ──
+    if (hasGsap) {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 800))]).then(() => {
+          SplitText.create('#heroTitle', { type: 'words, chars', mask: 'chars', onSplit(self) {
+            return gsap.from(self.chars, { yPercent: 110, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.025 });
+          } });
+          gsap.from('.hero .sub, .hero .lede, .hero .btn, .hero .eyebrow', { y: 24, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, delay: 0.5 });
+          gsap.from('.stage', { y: 40, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.35 });
+        });
+        gsap.utils.toArray('.reveal').forEach(el => {
+          gsap.from(el, { y: 36, opacity: 0, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+        });
+        gsap.utils.toArray('.ritual .pic img').forEach(img => {
+          gsap.to(img, { scale: 1, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+        });
+      });
+    }
+
+    // ── Click spark ──
+    function spark(el) {
+      if (reduce || !hasGsap) return;
+      const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      for (let i = 0; i < 10; i++) {
+        const s = document.createElement('span'); s.className = 'spark'; document.body.appendChild(s);
+        const a = (i / 10) * Math.PI * 2, d = 46 + Math.random() * 22;
+        gsap.set(s, { left: cx, top: cy, rotation: a * 180 / Math.PI + 90, xPercent: -50, yPercent: -50 });
+        gsap.to(s, { x: Math.cos(a) * d, y: Math.sin(a) * d, opacity: 0, scaleY: 0.3, duration: 0.6, ease: 'power3.out', onComplete: () => s.remove() });
+      }
+    }
+
+    // ── Vote state ──
+    let first = '', order = '';
+    const also = new Set();
+    const firstChips = [...document.querySelectorAll('[data-first]')];
+    const alsoChips = [...document.querySelectorAll('[data-also]')];
+    const orderChips = [...document.querySelectorAll('[data-order]')];
+    function renderVote() {
+      firstChips.forEach(c => c.setAttribute('aria-checked', c.dataset.first === first));
+      alsoChips.forEach(c => { const off = c.dataset.also === first; c.disabled = off; if (off) also.delete(c.dataset.also); c.setAttribute('aria-pressed', also.has(c.dataset.also)); });
+      orderChips.forEach(c => c.setAttribute('aria-checked', c.dataset.order === order));
+    }
+    firstChips.forEach(c => c.addEventListener('click', () => { first = c.dataset.first; spark(c); renderVote(); }));
+    alsoChips.forEach(c => c.addEventListener('click', () => { const id = c.dataset.also; also.has(id) ? also.delete(id) : also.add(id); renderVote(); }));
+    orderChips.forEach(c => c.addEventListener('click', () => { order = order === c.dataset.order ? '' : c.dataset.order; renderVote(); }));
+    document.querySelectorAll('[data-vote]').forEach(b => b.addEventListener('click', () => {
+      first = b.dataset.vote; spark(b); renderVote();
+      setTimeout(() => scrollToEl(document.getElementById('vote')), reduce ? 0 : 280);
     }));
 
-    // Klaviyo lists, one per product (public list IDs, same mechanism as anima.mirabae.com)
+    // ── Klaviyo: one public list per product (same mechanism as anima.mirabae.com) ──
     const LISTS = { brainelle: 'TCGeRD', anima: 'TGRgd4', miralemon: 'WdVJcj' };
-    const form = document.getElementById('labForm'), email = document.getElementById('email');
-    const msg = document.getElementById('msg'), btn = document.getElementById('submitBtn');
-    const join = document.getElementById('join');
-
+    const form = document.getElementById('voteForm'), email = document.getElementById('email');
+    const msg = document.getElementById('msg'), btn = document.getElementById('submitBtn'), vote = document.getElementById('vote');
     form.addEventListener('submit', async e => {
       e.preventDefault(); msg.textContent = '';
       const value = email.value.trim();
-      if (!picks.size) { msg.textContent = 'Pick at least one.'; return; }
+      if (!first) { msg.textContent = 'Pick the one you want first.'; return; }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) { msg.textContent = 'Please check your email.'; email.focus(); return; }
       btn.disabled = true; btn.textContent = 'Saving';
-      const chosen = [...picks];
+      const ids = [first, ...also];
       try {
-        const results = await Promise.all(chosen.map(id => {
+        const ok = await Promise.all(ids.map(id => {
           const fd = new FormData();
-          fd.append('g', LISTS[id]);
-          fd.append('email', value);
-          fd.append('$fields', 'lab_products,lab_would_order,lab_signed_up_at');
-          fd.append('lab_products', chosen.join(','));
+          fd.append('g', LISTS[id]); fd.append('email', value);
+          fd.append('$fields', 'lab_first_choice,lab_also_curious,lab_would_order,lab_voted_at');
+          fd.append('lab_first_choice', first);
+          fd.append('lab_also_curious', [...also].join(',') || 'none');
           fd.append('lab_would_order', order || 'not answered');
-          fd.append('lab_signed_up_at', new Date().toISOString());
+          fd.append('lab_voted_at', new Date().toISOString());
           fd.append('$source', 'The Mirabae Lab');
           return fetch('https://manage.kmail-lists.com/ajax/subscriptions/subscribe', { method: 'POST', body: fd, headers: { Accept: 'application/json' } })
             .then(r => r.json()).then(d => !!(d.success || d.data)).catch(() => false);
         }));
-        if (results.every(Boolean)) {
-          join.classList.add('is-done'); document.getElementById('done').focus();
-        } else {
-          msg.textContent = 'Something did not go through. Please try again in a moment.';
-        }
-      } catch {
-        msg.textContent = 'Something did not go through. Please try again in a moment.';
-      }
-      btn.disabled = false; btn.textContent = 'Tell me first';
+        if (ok.every(Boolean)) { vote.classList.add('is-done'); spark(btn); document.getElementById('done').focus(); }
+        else msg.textContent = 'Something did not go through. Please try again in a moment.';
+      } catch { msg.textContent = 'Something did not go through. Please try again in a moment.'; }
+      btn.disabled = false; btn.textContent = 'Cast my vote';
+    });
+
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const data = { title: 'The Mirabae Lab', text: 'Three Mirabae formulas. One goes first. Help choose.', url: 'https://links.mirabae.com/lab' };
+      if (navigator.share) { try { await navigator.share(data); } catch {} }
+      else { try { await navigator.clipboard.writeText(data.url); document.getElementById('shareBtn').textContent = 'Link copied'; } catch {} }
     });
   })();
   </script>
