@@ -93,28 +93,26 @@
     /* ═══ PRISM ═══ */
     .stage { position: relative; display: grid; justify-items: center; gap: 22px; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab; }
     .stage.dragging { cursor: grabbing; }
-    .view { perspective: 1500px; width: var(--w); height: calc(var(--w) * 1.371); --w: clamp(220px, min(26vw, 40vh), 340px); }
-    .prism { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
+    .view { width: var(--w); height: calc(var(--w) * 1.371); --w: clamp(220px, min(26vw, 40vh), 340px); }
+    /* drawn at 2x, shown at 1x: the browser rasterizes the 3D layer at double resolution, so the packs stay sharp */
+    .hires { width: 200%; height: 200%; transform: scale(0.5); transform-origin: 0 0; perspective: 3000px; }
+    .prism { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
     .face {
-      position: absolute; inset: 0; border-radius: 10px; overflow: hidden;
+      position: absolute; inset: 0; border-radius: 20px; overflow: hidden;
       display: grid; place-items: center;
       background: linear-gradient(160deg, rgba(255,255,255,0.30), rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.16));
-      -webkit-backdrop-filter: blur(6px) saturate(140%); backdrop-filter: blur(6px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%);
       backface-visibility: hidden; -webkit-backface-visibility: hidden;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -18px 40px rgba(42,11,59,0.12);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.55), inset 0 2px 0 rgba(255,255,255,0.9), inset 0 -36px 80px rgba(42,11,59,0.12);
     }
     .face::before {
-      content: ''; position: absolute; inset: 0; border-radius: 10px; padding: 1.5px; pointer-events: none;
+      content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 3px; pointer-events: none;
       background: linear-gradient(150deg, #FFFFFF, #B9BCC4 28%, #F1DCAE 52%, #FFFFFF 66%, #A8ABB4);
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
     }
-    .face img { position: absolute; inset: 0; margin: auto; width: 80%; height: 80%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 18px 22px rgba(42,11,59,0.35)); }
+    .face img { position: absolute; inset: 0; margin: auto; width: 80%; height: 80%; object-fit: contain; pointer-events: none; image-rendering: high-quality; }
     .face .shine { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(112deg, transparent 38%, rgba(255,255,255,0.45) 48%, rgba(255,255,255,0.12) 52%, transparent 62%); background-size: 260% 100%; background-position: var(--shine, 120%) 0; mix-blend-mode: screen; }
     .floor { width: calc(var(--w) * 1.25); height: 26px; margin-top: -8px; border-radius: 50%; background: radial-gradient(closest-side, rgba(42,11,59,0.45), rgba(42,11,59,0)); filter: blur(4px); }
-    .gl { display: none; width: var(--w3d); height: calc(var(--w3d) * 1.15); --w3d: clamp(300px, min(40vw, 62vh), 560px); }
-    .gl canvas { width: 100% !important; height: 100% !important; display: block; }
-    .v-3d .gl { display: block; }
-    .v-3d .view, .v-3d .floor { display: none; }
     .prism-label { display: flex; gap: 10px; align-items: center; }
     .prism-label button { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 12px; color: rgba(255,255,255,0.65); transition: color 200ms ease; }
     .prism-label button[aria-current="true"] { color: #fff; }
@@ -206,7 +204,6 @@
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; padding-top: 96px; gap: 40px; text-align: left; }
       .view { --w: min(58vw, 34svh); }
-      .gl { --w3d: min(92vw, 52svh); }
       .ritual { grid-template-columns: 1fr; }
       .r-anima .pic { order: 0; }
       .ritual .pic { max-height: 62vh; width: min(100%, 420px); }
@@ -238,15 +235,14 @@
     </div>
 
     <div class="stage" id="stage" tabindex="0" aria-label="The three formulas. Drag or use the arrow keys to turn.">
-      <div class="view">
+      <div class="view"><div class="hires">
         <div class="prism" id="prism">
           <div class="face" data-i="0"><img src="img/lab/cut/brainelle.webp" alt="Brainelle powder tub, deep aubergine with gold type" /><span class="shine"></span></div>
           <div class="face" data-i="1"><img src="img/lab/cut/anima.webp" alt="Anima box, white to pink with gold type" /><span class="shine"></span></div>
           <div class="face" data-i="2"><img src="img/lab/cut/miralemon.webp" alt="Miralemon can, lemon yellow to pink with Keanu the golden cat" /><span class="shine"></span></div>
         </div>
-      </div>
+      </div></div>
       <div class="floor" aria-hidden="true"></div>
-      <div class="gl" id="gl" aria-hidden="true"></div>
       <div class="prism-label" role="group" aria-label="Show a formula">
         <button type="button" data-go="0" aria-current="true">Brainelle</button>
         <button type="button" data-go="1" aria-current="false">Anima</button>
@@ -430,8 +426,7 @@
       prism.style.transformOrigin = `50% 50% ${-0}px`;
     }
     function render() {
-      if (window.__prism3d) window.__prism3d(state);
-      else prism.style.transform = `rotateX(${state.rx}deg) rotateY(${-state.ry}deg)`;
+      prism.style.transform = `rotateX(${state.rx}deg) rotateY(${-state.ry}deg)`;
       const idx = ((Math.round(state.ry / 120) % 3) + 3) % 3;
       labels.forEach((b, i) => b.setAttribute('aria-current', i === idx));
       const shine = 120 - ((((state.ry % 120) + 120) % 120) / 120) * 140;
@@ -440,7 +435,6 @@
     layout(); render(); addEventListener('resize', () => { layout(); render(); });
 
     let auto = !reduce, dragging = false, startX = 0, startRy = 0, idleTimer, lastX = 0, lastT = 0, vel = 0;
-    window.__prismRender = render;
     const snap = (v = 0) => {
       // carry the flick: project the velocity forward, then settle on the nearest face
       const projected = state.ry + Math.max(-260, Math.min(260, v * 0.35));
@@ -566,72 +560,5 @@
   })();
   </script>
 
-  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }</script>
-  <script type="module">
-    // Variant ?v=3d: a real glass prism with the three packs floating inside
-    if (new URLSearchParams(location.search).get('v') === '3d' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      try {
-        const THREE = await import('three');
-        const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
-        const host = document.getElementById('gl');
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-        if (!renderer.getContext()) throw new Error('no webgl');
-        document.documentElement.classList.add('v-3d');
-        renderer.setPixelRatio(Math.min(devicePixelRatio, 2.5));
-        renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        host.appendChild(renderer.domElement);
-        const scene = new THREE.Scene();
-        const pmrem = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-        const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-        camera.position.set(0, 0.35, 8.2); camera.lookAt(0, 0, 0);
-        const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(3, 4, 5); scene.add(key);
-        const rim = new THREE.DirectionalLight(0xffd9f0, 1.4); rim.position.set(-4, 2, -3); scene.add(rim);
-
-        const group = new THREE.Group(); scene.add(group);
-        const H = 3.1, R = 1.55;
-        // thin reflective glass: crisp packs behind it (no refraction blur), reflections and iridescence on the surface
-        const geo = new THREE.CylinderGeometry(R, R, H, 3, 1, false, -Math.PI / 3);
-        const glassMat = (side, opacity) => new THREE.MeshPhysicalMaterial({ side, transparent: true, opacity, depthWrite: false, roughness: 0.06, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.03, iridescence: 0.7, iridescenceIOR: 1.35, iridescenceThicknessRange: [180, 520], envMapIntensity: 1.1, color: new THREE.Color('#ffffff') });
-        const back = new THREE.Mesh(geo, glassMat(THREE.BackSide, 0.05)); back.renderOrder = 1;
-        const glass = new THREE.Mesh(geo, glassMat(THREE.FrontSide, 0.045)); glass.renderOrder = 3;
-        group.add(back); group.add(glass);
-        const edges = new THREE.LineSegments(new THREE.EdgesGeometry(glass.geometry), new THREE.LineBasicMaterial({ color: 0xf1dcae, transparent: true, opacity: 0.85 }));
-        group.add(edges);
-
-        const loader = new THREE.TextureLoader();
-        const packs = ['brainelle', 'anima', 'miralemon'];
-        const inr = R * 0.5;
-        await Promise.all(packs.map((p, i) => new Promise(res => loader.load(`img/lab/cut/${p}.webp`, tex => {
-          tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter; tex.magFilter = THREE.LinearFilter;
-          const ar = tex.image.width / tex.image.height, h = H * 0.78;
-          const m = new THREE.Mesh(new THREE.PlaneGeometry(h * ar, h), new THREE.MeshBasicMaterial({ map: tex, alphaTest: 0.5, side: THREE.FrontSide, toneMapped: false }));
-          m.renderOrder = 2;
-          const a = i * (2 * Math.PI / 3);
-          m.position.set(Math.sin(a) * inr * 0.55, -0.05, Math.cos(a) * inr * 0.55);
-          m.rotation.y = a;
-          group.add(m); res();
-        }, undefined, () => res()))));
-
-        const shadow = new THREE.Mesh(new THREE.CircleGeometry(1.9, 48), new THREE.MeshBasicMaterial({ color: 0x2a0b3b, transparent: true, opacity: 0.14, depthWrite: false }));
-        shadow.rotation.x = -Math.PI / 2; shadow.position.y = -H / 2 - 0.02; shadow.scale.set(0.8, 0.4, 1); scene.add(shadow);
-
-        const size = () => { const r = host.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); };
-        size(); addEventListener('resize', size);
-        let st = { ry: 0, rx: -4 };
-        window.__prism3d = s => { st = s; };
-        renderer.setAnimationLoop(() => {
-          group.rotation.y = THREE.MathUtils.degToRad(-st.ry);
-          group.rotation.x = THREE.MathUtils.degToRad(-(st.rx + 4) * 0.6);
-          renderer.render(scene, camera);
-        });
-        if (window.__prismRender) window.__prismRender();
-      } catch (err) {
-        document.documentElement.classList.remove('v-3d');
-        window.__prism3d = null;
-      }
-    }
-  </script>
 </body>
 </html>
