@@ -173,6 +173,7 @@
     .email { width: 100%; min-height: 60px; padding: 0 4px; background: transparent; border: 0; border-bottom: 1.5px solid rgba(255,255,255,0.55); font-size: 1.25rem; color: #fff; border-radius: 0; }
     .email::placeholder { color: rgba(255,227,239,0.45); }
     .email:focus { outline: none; border-bottom-color: var(--pink-on-dark); }
+    .feedback { min-height: 92px; padding: 14px 4px; font-size: 1.1rem; line-height: 1.5; resize: vertical; font-family: var(--sans); }
     .submit { margin-top: 44px; background: var(--fuchsia); color: #fff; min-height: 60px; }
     .submit:disabled { opacity: 0.6; cursor: default; }
     .msg { margin-top: 16px; font-weight: 600; color: var(--pink-on-dark); min-height: 1.5em; }
@@ -353,6 +354,12 @@
             </div>
           </div>
 
+          <div class="field">
+            <label class="label" for="feedback">Anything you would love in it? (optional)</label>
+            <textarea class="email feedback" id="feedback" name="feedback" rows="2" maxlength="300" placeholder="An ingredient, a flavour, a wish."></textarea>
+            <p class="fine">We read every one.</p>
+          </div>
+
           <button class="btn submit" type="submit" id="submitBtn">Cast my vote</button>
           <p class="msg" id="msg" role="status" aria-live="polite"></p>
           <p class="fine">No payment. We count the votes on 31 January 2027 and tell you which one won.</p>
@@ -415,61 +422,84 @@
     const scrollToEl = el => lenis ? lenis.scrollTo(el, { offset: -10 }) : el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollToEl(document.querySelector(a.getAttribute('href'))); }));
 
-    // ── Prism: three faces, auto turn, drag, snap ──
+    // ── Prism: turn, pause on each pack (shown flat and razor sharp), turn on ──
     const prism = document.getElementById('prism'), stage = document.getElementById('stage');
     const faces = [...prism.querySelectorAll('.face')];
     const labels = [...document.querySelectorAll('[data-go]')];
     const state = { ry: 0, rx: -4 };
+    const PERSPECTIVE = 3000;
+    let zDepth = 0, resting = false;
+    const faceIndex = () => ((Math.round(state.ry / 120) % 3) + 3) % 3;
     function layout() {
-      const w = prism.offsetWidth, z = w / (2 * Math.tan(Math.PI / 3)) + 1;
-      faces.forEach((f, i) => f.style.transform = `rotateY(${i * 120}deg) translateZ(${z}px)`);
-      prism.style.transformOrigin = `50% 50% ${-0}px`;
+      zDepth = prism.offsetWidth / (2 * Math.tan(Math.PI / 3)) + 1;
+      if (!resting) faces.forEach((f, i) => f.style.transform = `rotateY(${i * 120}deg) translateZ(${zDepth}px)`);
     }
     function render() {
+      if (resting) return;
       prism.style.transform = `rotateX(${state.rx}deg) rotateY(${-state.ry}deg)`;
-      const idx = ((Math.round(state.ry / 120) % 3) + 3) % 3;
+      const idx = faceIndex();
       labels.forEach((b, i) => b.setAttribute('aria-current', i === idx));
       const shine = 120 - ((((state.ry % 120) + 120) % 120) / 120) * 140;
       faces.forEach(f => f.style.setProperty('--shine', shine + '%'));
     }
-    layout(); render(); addEventListener('resize', () => { layout(); render(); });
+    // At rest the front face leaves 3D space: same size on screen, but drawn as a flat image
+    function enterRest() {
+      if (resting) return;
+      state.ry = Math.round(state.ry / 120) * 120; state.rx = 0;
+      const idx = faceIndex(), k = PERSPECTIVE / (PERSPECTIVE - zDepth);
+      resting = true;
+      prism.style.transform = 'none';
+      faces.forEach((f, i) => { f.style.transform = i === idx ? `scale(${k})` : 'none'; f.style.visibility = i === idx ? 'visible' : 'hidden'; f.style.setProperty('--shine', '120%'); });
+      labels.forEach((b, i) => b.setAttribute('aria-current', i === idx));
+    }
+    function leaveRest() {
+      if (!resting) return;
+      resting = false;
+      faces.forEach(f => f.style.visibility = '');
+      layout(); render();
+    }
+    layout(); render(); addEventListener('resize', () => { const r = resting; leaveRest(); layout(); render(); if (r) enterRest(); });
 
-    let auto = !reduce, dragging = false, startX = 0, startRy = 0, idleTimer, lastX = 0, lastT = 0, vel = 0;
+    let dragging = false, startX = 0, startRy = 0, lastX = 0, lastT = 0, vel = 0, holdTimer;
+    const HOLD = 3000, IDLE = 5000;
+    // move to a target angle, then rest there and schedule the next turn
+    function go(target, duration, ease, delayNext = HOLD) {
+      clearTimeout(holdTimer); leaveRest();
+      if (!hasGsap) { state.ry = target; render(); enterRest(); return; }
+      gsap.killTweensOf(state);
+      gsap.to(state, { ry: target, rx: -4, duration, ease, onUpdate: render, onComplete: () => { enterRest(); if (!reduce) holdTimer = setTimeout(next, delayNext); } });
+    }
+    const next = () => go(Math.round(state.ry / 120) * 120 + 120, 1.5, 'power2.inOut');
     const snap = (v = 0) => {
       // carry the flick: project the velocity forward, then settle on the nearest face
       const projected = state.ry + Math.max(-260, Math.min(260, v * 0.35));
       const target = Math.round(projected / 120) * 120;
-      const dist = Math.abs(target - state.ry);
-      if (hasGsap) gsap.to(state, { ry: target, duration: Math.min(1.6, 0.6 + dist / 260), ease: 'power3.out', onUpdate: render });
-      else { state.ry = target; render(); }
+      go(target, Math.min(1.6, 0.6 + Math.abs(target - state.ry) / 260), 'power3.out', IDLE);
     };
-    const pause = () => { auto = false; clearTimeout(idleTimer); idleTimer = setTimeout(() => { if (!reduce) auto = true; }, 4000); };
-    if (hasGsap) gsap.ticker.add(() => { if (auto && !dragging) { state.ry += 0.12; render(); } });
+    enterRest();
+    if (!reduce) holdTimer = setTimeout(next, HOLD);
 
     stage.addEventListener('pointerdown', e => {
       if (e.target.closest('button')) return;
-      dragging = true; pause(); startX = lastX = e.clientX; lastT = performance.now(); vel = 0; startRy = state.ry; stage.classList.add('dragging');
+      clearTimeout(holdTimer); if (hasGsap) gsap.killTweensOf(state); leaveRest();
+      dragging = true; startX = lastX = e.clientX; lastT = performance.now(); vel = 0; startRy = state.ry; stage.classList.add('dragging');
       stage.setPointerCapture(e.pointerId);
-      if (hasGsap) gsap.killTweensOf(state);
     });
     stage.addEventListener('pointermove', e => {
-      if (dragging) {
-        const now = performance.now(), dt = Math.max(1, now - lastT);
-        vel = 0.8 * vel + 0.2 * (-(e.clientX - lastX) * 0.45 / dt * 1000);
-        lastX = e.clientX; lastT = now;
-        state.ry = startRy - (e.clientX - startX) * 0.45; render();
-      }
-      else if (fine && !reduce) { const r = stage.getBoundingClientRect(); state.rx = -4 - ((e.clientY - r.top) / r.height - 0.5) * 10; render(); }
+      if (!dragging) return;
+      const now = performance.now(), dt = Math.max(1, now - lastT);
+      vel = 0.8 * vel + 0.2 * (-(e.clientX - lastX) * 0.45 / dt * 1000);
+      lastX = e.clientX; lastT = now;
+      state.ry = startRy - (e.clientX - startX) * 0.45; render();
     });
     const end = () => { if (!dragging) return; dragging = false; stage.classList.remove('dragging'); snap(performance.now() - lastT > 120 ? 0 : vel); };
     stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
     labels.forEach((b, i) => b.addEventListener('click', () => {
-      pause();
       const cur = state.ry, base = Math.round(cur / 360) * 360;
       let target = base + i * 120; if (target - cur > 180) target -= 360; if (cur - target > 180) target += 360;
-      if (hasGsap) gsap.to(state, { ry: target, duration: 1, ease: 'power3.inOut', onUpdate: render }); else { state.ry = target; render(); }
+      go(target, 1.1, 'power3.inOut', IDLE);
     }));
-    stage.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { pause(); state.ry += e.key === 'ArrowRight' ? 120 : -120; snap(); } });
+    stage.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') go(Math.round(state.ry / 120) * 120 + (e.key === 'ArrowRight' ? 120 : -120), 0.9, 'power3.out', IDLE); });
 
     // ── Text and section reveals ──
     if (hasGsap) {
@@ -537,7 +567,8 @@
         const ok = await Promise.all(ids.map(id => {
           const fd = new FormData();
           fd.append('g', LISTS[id]); fd.append('email', value);
-          fd.append('$fields', 'lab_first_choice,lab_also_curious,lab_would_order,lab_voted_at');
+          fd.append('$fields', 'lab_first_choice,lab_also_curious,lab_would_order,lab_voted_at,lab_feedback');
+          fd.append('lab_feedback', (document.getElementById('feedback').value || '').trim().slice(0, 300) || 'none');
           fd.append('lab_first_choice', first);
           fd.append('lab_also_curious', [...also].join(',') || 'none');
           fd.append('lab_would_order', order || 'not answered');
